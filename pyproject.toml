@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dicoco"
+version = "0.1.0"
+description = "an api using multiple filters to search for words in French"
+authors = ["Topinambour493 <corentin.jezierski@gmail.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.0"
+flask-restful = "^0.3.10"
+flask-swagger = "^0.2.14"
+flask-swagger-ui = "^4.11.1"
+flask-cors = "^4.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
