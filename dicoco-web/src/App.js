@@ -1,7 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
+import React from "react";
+
+
+const baseURL = "http://127.0.0.1:5000/";
 
 function App() {
+  const [dico, setDico] = React.useState(null);
+  const [milan, setMilan] = React.useState(null);
+  React.useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      console.log(JSON.parse(response.data.variable2))
+      setDico(response.data);
+      setMilan(JSON.parse(response.data.variable2));
+    });
+  }, []);
+  if (!dico) return null;
+
   return (
     <div className="App">
       <header className="App-header">
@@ -9,6 +25,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
           Coucou Corentin c'est Milan.
+          {dico.message}, {milan.nom}
         </p>
         <a
           className="App-link"
