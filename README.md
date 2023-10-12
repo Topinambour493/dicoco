@@ -8,6 +8,7 @@ Ouvrir le fichier Lexique383.xlsb dans excel puis Cliquer sur Fichier -> Enregis
 ![image](https://github.com/Topinambour493/dicoco/assets/92278752/4f00e3d4-e439-436c-bc1d-2c250c9211cb)
 
 Utiliser le format CSV
+
 ![image](https://github.com/Topinambour493/dicoco/assets/92278752/35d07111-1ef3-4451-90e5-7dd01e8895dd)
 
 Mettre les memes parametres qu'indiqués ci dessus puis sauvegarder
