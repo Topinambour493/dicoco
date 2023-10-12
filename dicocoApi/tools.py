@@ -1,4 +1,6 @@
 import csv
+import json
+
 dico=list(csv.reader(open("Dico.csv")))
 index_dico={'a': [1,12194], 'à': [1,12194], 'â': [1,12194], 'b': [12194,19327], 'c': [19327,35020], 'ç': [19327,35020], 'd': [35020,46955], 'e': [46955,59656], 'é': [46955,59656], 'è': [46955,59656], 'ê': [46955,59656], 'f': [59656,65543], 'g': [65543,70136], 'h': [70136,72770], 'i': [72770,78914], 'î': [72770,78914], 'j': [78914,80086], 'k': [80086,80419], 'l': [80419,83715], 'm': [83715,91425], 'n': [91425,93588], 'o': [93588,96169], 'ô': [93588,96169], 'p': [96169,108785], 'q': [108785,109367], 'r': [109367,122191], 's': [122191,131643], 't': [131643,138402], 'u': [138402,138891], 'ù': [138402,138891], 'v': [138891,142215], 'w': [142215,142315], 'x': [142315,142338], 'y': [142338,142430], 'z': [142430,142688]}
 
@@ -318,5 +320,12 @@ def positions(pos_début_str1,pos_début_str2,str1,str2):
     return pos_début
 
 
-
-affiche(commence_phon("kwa"))
+def transform_in_json(tab=dico[1:]):
+    list_index = ['ortho', 'phon', 'lemme', 'cgram', 'genre', 'nombre', 'freqlemfilms2', 'freqlemlivres', 'freqfilms2', 'freqlivres', 'infover', 'nbhomogr', 'nbhomoph', 'islem', 'nblettres', 'nbphons', 'cvcv', 'p_cvcv', 'voisorth', 'voisphon', 'puorth', 'puphon', 'syll', 'nbsyll', 'cv-cv', 'orthrenv', 'phonrenv', 'orthosyll', 'cgramortho', 'deflem', 'defobs', 'old20', 'pld20', 'morphoder', 'nbmorph']
+    tab_dico =  []
+    for i in range (len(tab)):
+        dict = {}
+        for j in range (len(list_index)):
+            dict[list_index[j]] = tab[i][j]
+        tab_dico.append(dict)
+    return  json.dumps(tab_dico)
