@@ -19,7 +19,7 @@ Il faut installer poetry puis depuis la racine du projet:
 ```
 cd dicocoApi
 poetry install
-poetry run main.py
+poetry run python app.py
 ```
 
 ## Installation frontend
