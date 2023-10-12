@@ -2,9 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import React from "react";
+import DataTable from 'react-data-table-component';
 
 
 const baseURL = "http://127.0.0.1:5000/";
+
+const columns = [
+    {
+        name: 'Ortographe',
+        selector: row => row.ortho,
+        sortable: true,
+    },
+    {
+        name: 'Phonétique',
+        selector: row => row.phon,
+        sortable: true,
+    }
+];
 
 function App() {
   const [dico, setDico] = React.useState(null);
@@ -14,6 +28,8 @@ function App() {
       setDico(JSON.parse(response.data.dict));
     });
   }, []);
+
+
   if (!dico) return null;
 
   return (
@@ -33,29 +49,8 @@ function App() {
           Learn React
         </a>
       </header>
-      <table id="myTable" class="display">
-        <thead>
-            <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Row 1 Data 1</td>
-                <td>Row 1 Data 2</td>
-            </tr>
-            <tr>
-                <td>Row 2 Data 1</td>
-                <td>Row 2 Data 2</td>
-            </tr>
-        </tbody>
-      </table>
-      <script>
-      let table = new DataTable('#myTable', {
-    // options
-      });
-      </script>
+        <DataTable title="YourBlogCoach" columns={columns} data={dico}>
+        </DataTable>
     </div>
   
   );
