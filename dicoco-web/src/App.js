@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import React from "react";
@@ -11,6 +10,7 @@ const columns = [
     {
         name: 'Nom',
         selector: row => row.ortho,
+        cell:  row => <h3>{row.ortho}</h3>,
         sortable: true,
         center : true,
         style : {
@@ -120,6 +120,7 @@ const columns = [
 
 function App() {
   const [dico, setDico] = React.useState(null);
+
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       console.log(JSON.parse(response.data.dict))
@@ -132,22 +133,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-          Coucou Corentin c'est Milan.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <DataTable
+            title="dicoco"
+            columns={columns}
+            data={dico}
+            pagination
+            striped
+            highlightOnHover
         >
-          Learn React
-        </a>
-      </header>
-        <DataTable title="YourBlogCoach" columns={columns} data={dico} pagination>
         </DataTable>
     </div>
   
