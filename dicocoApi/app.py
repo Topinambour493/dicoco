@@ -12,7 +12,7 @@ CORS(app)
 @app.route('/', methods=['GET'])
 def hello():
     dico=list(csv.reader(open("Dico.csv")))
-    return make_response(jsonify(message="hello world", code="200", dict=transform_in_json(dico[1:10]) ), 200)
+    return make_response(jsonify(message="hello world", code="200", dict=transform_in_json(dico[1:]) ), 200)
 
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.json'
