@@ -1,4 +1,5 @@
 import './App.css';
+import "./test.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
@@ -9,6 +10,7 @@ const baseURL = "http://127.0.0.1:5000/";
 const columns = [
     {
         name: 'Nom',
+        id: "Nom",
         selector: row => row.ortho,
         cell:  row => <h3>{row.ortho}</h3>,
         sortable: true,
@@ -47,6 +49,7 @@ const columns = [
     {
         name: 'Lemme',
         selector: row => row.lemme,
+        cell:  row => <div>{row.lemme}</div>,
         sortable: true,
         center : true,
         style : {
@@ -56,6 +59,7 @@ const columns = [
     {
         name: 'Nombre de lettres',
         selector: row =>  parseInt(row.nblettres),
+        cell:  row => <div>{row.nblettres}</div>,
         sortable: true,
         center : true,
         style : {
@@ -74,6 +78,7 @@ const columns = [
     {
         name: 'Forme orthographique syllabée',
         selector: row => row.orthosyll,
+        cell:  row => <div>{row.orthosyll}</div>,
         sortable: true,
         center : true,
         style : {
@@ -83,6 +88,7 @@ const columns = [
     {
         name: 'Phonétique',
         selector: row => row.phon,
+        cell:  row => <div>{row.phon}</div>,
         sortable: true,
         center : true,
         style : {
@@ -110,6 +116,7 @@ const columns = [
     {
         name: "Inverse",
         selector: row => row.orthrenv,
+        cell:  row => <div>{row.orthrenv}</div>,
         sortable: true,
         center : true,
         style : {

@@ -1,0 +1,7 @@
+[data-column-id="Nom"].rdt_TableCol {
+    background-color: green;
+}
+
+[data-column-id="director"].rdt_TableCol {
+    background-color: orange;
+}
