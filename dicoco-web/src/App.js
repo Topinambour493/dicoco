@@ -55,7 +55,7 @@ const columns = [
     },
     {
         name: 'Nombre de lettres',
-        selector: row => row.nblettres,
+        selector: row =>  parseInt(row.nblettres),
         sortable: true,
         center : true,
         style : {
@@ -64,7 +64,7 @@ const columns = [
     },
     {
         name: 'Nombre de syllabes',
-        selector: row => row.nbsyll,
+        selector: row => parseInt(row.nbsyll),
         sortable: true,
         center : true,
         style : {
@@ -91,7 +91,7 @@ const columns = [
     },
     {
         name: 'Unicité orthographique',
-        selector: row => row.puorth,
+        selector: row => parseInt(row.puorth),
         sortable: true,
         center : true,
         style : {
@@ -100,7 +100,7 @@ const columns = [
     },
     {
         name: "Nombre d'homophones",
-        selector: row => row.nbhomoph,
+        selector: row => parseInt(row.nbhomoph),
         sortable: true,
         center : true,
         style : {
@@ -129,6 +129,19 @@ function App() {
   }, []);
 
 
+    const customSort = (rows, selector, direction) => {
+        return rows.sort((rowA, rowB) => {
+            // use the selector function to resolve your field names by passing the sort comparitors
+            const aField = selector(rowA)
+            const bField = selector(rowB)
+
+            let comparison = new Intl.Collator().compare(aField,bField)
+
+            return  direction === 'desc' ? comparison * -1 : comparison;
+        });
+    };
+
+
   if (!dico) return null;
 
   return (
@@ -140,6 +153,7 @@ function App() {
             pagination
             striped
             highlightOnHover
+            sortFunction={customSort}
         >
         </DataTable>
     </div>
