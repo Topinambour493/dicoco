@@ -14,7 +14,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -23,7 +23,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center'
+            minWidth: 'auto'
         }
     },
     {
@@ -32,7 +32,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -41,7 +41,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -50,7 +50,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -59,7 +59,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -68,7 +68,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -77,7 +77,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-            justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -86,7 +86,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-          justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -95,7 +95,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-          justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -104,7 +104,7 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-          justifyContent: 'center' 
+            minWidth: 'auto'
         }
     },
     {
@@ -113,36 +113,53 @@ const columns = [
         sortable: true,
         center : true,
         style : {
-          justifyContent: 'center' 
+            minWidth: 'auto'
         }
     }
 ];
 
 function App() {
-  const [dico, setDico] = React.useState(null);
-
+  const [dico, setDico] = React.useState([]);
   React.useEffect(() => {
+
     axios.get(baseURL).then((response) => {
-      console.log(JSON.parse(response.data.dict))
       setDico(JSON.parse(response.data.dict));
+
     });
   }, []);
 
 
     const customSort = (rows, selector, direction) => {
-        return rows.sort((rowA, rowB) => {
-            // use the selector function to resolve your field names by passing the sort comparitors
-            const aField = selector(rowA)
-            const bField = selector(rowB)
+        if (typeof (selector(rows[0])) === "string") {
+            return rows.sort((rowA, rowB) => {
+                // use the selector function to resolve your field names by passing the sort comparitors
+                const aField = selector(rowA)
+                const bField = selector(rowB)
 
-            let comparison = new Intl.Collator().compare(aField,bField)
+                let comparison = new Intl.Collator("fr").compare(aField, bField)
 
-            return  direction === 'desc' ? comparison * -1 : comparison;
-        });
+                return direction === 'desc' ? comparison * -1 : comparison;
+            });
+        } else {
+            return rows.sort((rowA, rowB) => {
+                // use the selector function to resolve your field names by passing the sort comparitors
+                const aField = selector(rowA)
+                const bField = selector(rowB)
+
+                let comparison = 0;
+
+                if (aField > bField) {
+                    comparison = 1;
+                } else if (aField < bField) {
+                    comparison = -1;
+                }
+
+                return direction === 'desc' ? comparison * -1 : comparison;
+            });
+        }
     };
 
 
-  if (!dico) return null;
 
   return (
     <div className="App">
@@ -154,6 +171,7 @@ function App() {
             striped
             highlightOnHover
             sortFunction={customSort}
+            noDataComponent={<img src="loader.gif"></img>}
         >
         </DataTable>
     </div>
