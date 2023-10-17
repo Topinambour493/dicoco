@@ -23,6 +23,7 @@ const columns = [
     {
         name: 'Genre',
         selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+        cell:  row => get_genre(row.genre),
         sortable: true,
         center : true,
         style : {
@@ -125,6 +126,15 @@ const columns = [
         }
     }
 ];
+
+function  get_genre(genre){
+    if (genre === "m")
+        return "Masculin"
+    else if (genre === "f")
+        return "Féminin"
+    else
+        return "Neutre"
+}
 
 function App() {
   const [dico, setDico] = React.useState([]);
