@@ -2,3 +2,12 @@
     min-width: 230px;
 }
 
+#green-button {
+    background-color: rgb(7, 220, 7);
+    
+
+}
+
+.red-button {
+    background-color: red;
+}

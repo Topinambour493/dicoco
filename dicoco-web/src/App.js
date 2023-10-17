@@ -136,6 +136,20 @@ function  get_genre(genre){
         return "Neutre"
 }
 
+
+function addRedButton() {
+    const button = document.createElement('button')
+    button.innerText = 'Salut'
+    button.classList.add('red-button')
+    button.onclick = function (e){
+        e.target.remove()
+    }
+    const app = document.getElementsByClassName("App")[0];
+    app.insertBefore(button, app.firstChild);
+    
+  }
+
+
 function App() {
   const [dico, setDico] = React.useState([]);
   React.useEffect(() => {
@@ -148,6 +162,8 @@ function App() {
 
   return (
     <div className="App">
+        
+        <button onClick={()=>addRedButton()} id="green-button">Default</button>;
         <DataTable
             title="dicoco"
             columns={columns}
