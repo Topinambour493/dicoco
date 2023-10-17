@@ -11,17 +11,18 @@ const columns = [
     {
         name: 'Nom',
         id: "Nom",
-        selector: row => row.ortho,
+        selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         cell:  row => <h3>{row.ortho}</h3>,
         sortable: true,
         center : true,
         style : {
+            wordWrap: 'break-word',
             minWidth: 'auto'
         }
     },
     {
         name: 'Genre',
-        selector: row => row.genre,
+        selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         sortable: true,
         center : true,
         style : {
@@ -30,7 +31,7 @@ const columns = [
     },
     {
         name: 'Nombre',
-        selector: row => row.nombre,
+        selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         sortable: true,
         center : true,
         style : {
@@ -39,7 +40,7 @@ const columns = [
     },
     {
         name: 'Catégorie grammaticale',
-        selector: row => row.cgram,
+        selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         sortable: true,
         center : true,
         style : {
@@ -48,7 +49,7 @@ const columns = [
     },
     {
         name: 'Lemme',
-        selector: row => row.lemme,
+        selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         cell:  row => <div>{row.lemme}</div>,
         sortable: true,
         center : true,
@@ -77,7 +78,7 @@ const columns = [
     },
     {
         name: 'Forme orthographique syllabée',
-        selector: row => row.orthosyll,
+        selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         cell:  row => <div>{row.orthosyll}</div>,
         sortable: true,
         center : true,
@@ -87,7 +88,7 @@ const columns = [
     },
     {
         name: 'Phonétique',
-        selector: row => row.phon,
+        selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         cell:  row => <div>{row.phon}</div>,
         sortable: true,
         center : true,
@@ -115,7 +116,7 @@ const columns = [
     },
     {
         name: "Inverse",
-        selector: row => row.orthrenv,
+        selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         cell:  row => <div>{row.orthrenv}</div>,
         sortable: true,
         center : true,
@@ -135,39 +136,6 @@ function App() {
     });
   }, []);
 
-
-    const customSort = (rows, selector, direction) => {
-        if (typeof (selector(rows[0])) === "string") {
-            return rows.sort((rowA, rowB) => {
-                // use the selector function to resolve your field names by passing the sort comparitors
-                const aField = selector(rowA)
-                const bField = selector(rowB)
-
-                let comparison = new Intl.Collator("fr").compare(aField, bField)
-
-                return direction === 'desc' ? comparison * -1 : comparison;
-            });
-        } else {
-            return rows.sort((rowA, rowB) => {
-                // use the selector function to resolve your field names by passing the sort comparitors
-                const aField = selector(rowA)
-                const bField = selector(rowB)
-
-                let comparison = 0;
-
-                if (aField > bField) {
-                    comparison = 1;
-                } else if (aField < bField) {
-                    comparison = -1;
-                }
-
-                return direction === 'desc' ? comparison * -1 : comparison;
-            });
-        }
-    };
-
-
-
   return (
     <div className="App">
         <DataTable
@@ -177,7 +145,6 @@ function App() {
             pagination
             striped
             highlightOnHover
-            sortFunction={customSort}
             noDataComponent={<img src="loader.gif"></img>}
         >
         </DataTable>
