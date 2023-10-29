@@ -92,22 +92,28 @@ def inverse_mot(str):
 
 def commence(str,tab=dico[1:]):
     """renvoie tous les mots qui commencent par la/les lettres demandés par l'utilisateur"""
+    if(str ==""):
+        return tab
     liste=[]
     for ligne_mot in tab:
         mot=ligne_mot[0]
         if len(mot)>=len(str):
             if str==mot[:len(str)]:
                 liste.append(ligne_mot)
+    print(liste[:5])
     return liste
 
 def finit(str,tab=dico[1:]):
     """revoie tous les mots qui finnisent par la/les lettres demandés par l'utilisateur"""
+    if(str ==""):
+        return tab
     liste=[]
     for ligne_mot in tab:
         mot=ligne_mot[0]
         if len(mot)>=len(str):
             if str==mot[-len(str):]:
                 liste.append(ligne_mot)
+    print(liste[:5])
     return liste
 
 def contient_suite(str,tab=dico[1:]):
@@ -329,3 +335,10 @@ def transform_in_json(tab=dico[1:]):
             dict[list_index[j]] = tab[i][j]
         tab_dico.append(dict)
     return  json.dumps(tab_dico)
+
+def filter_head_dico(args):
+    dico_filter_head = commence(args.get("startsWith",""))
+    dico_filter_head =finit(args.get("endedWith",""), dico_filter_head)
+    print(args.get("startsWith",""))
+
+    return transform_in_json(dico_filter_head)

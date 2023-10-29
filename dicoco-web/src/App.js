@@ -3,7 +3,7 @@ import "./test.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
-
+import { useForm } from 'react-hook-form';
 
 const baseURL = "http://127.0.0.1:5000/";
 
@@ -136,7 +136,6 @@ function  get_genre(genre){
         return "Neutre"
 }
 
-
 function addRedButton() {
     const button = document.createElement('button')
     button.innerText = 'Salut'
@@ -146,24 +145,57 @@ function addRedButton() {
     }
     const app = document.getElementsByClassName("App")[0];
     app.insertBefore(button, app.firstChild);
-    
   }
 
+function printText(){
+    alert("test")
+}
 
 function App() {
-  const [dico, setDico] = React.useState([]);
-  React.useEffect(() => {
+    const [pending, setPending] = React.useState(true);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+    const [dico, setDico] = React.useState([]);
+    React.useEffect(() => {
 
     axios.get(baseURL).then((response) => {
-      setDico(JSON.parse(response.data.dict));
+        setDico(JSON.parse(response.data.dict));
+        setPending(false);
 
     });
-  }, []);
+    }, []);
+
+    function filterHead(data){
+        console.log(data)
+        axios.get(baseURL, {params : data}).then((response) => {
+            setDico(JSON.parse(response.data.dict));
+
+        });
+    }
 
   return (
     <div className="App">
         
-        <button onClick={()=>addRedButton()} id="green-button">Default</button>;
+        <button onClick={()=>addRedButton()} id="green-button">Default</button>
+        <form onSubmit={handleSubmit((data) => filterHead(data))}>
+            <div>
+                <label>Commence par :</label>
+                <input {...register('startsWith')} />
+            </div>
+            <div>
+                <label>Finit par :</label>
+                <input {...register('endedWith')} />
+            </div>
+            <input type="submit" />
+        </form>
+        <form>    
+            <label htmlFor="test1"> test: </label>
+            <input type="text" id="test1" name="test1"/>
+            <button type="submit" onClick={()=>printText()}>Envoyer le message</button>
+        </form>
         <DataTable
             title="dicoco"
             columns={columns}
@@ -171,7 +203,9 @@ function App() {
             pagination
             striped
             highlightOnHover
-            noDataComponent={<img src="loader.gif"></img>}
+            progressPending={pending}
+            progressComponent={<img src="loader.gif"></img>}
+            noDataComponent={<div>Pas de données</div>}
         >
         </DataTable>
     </div>
