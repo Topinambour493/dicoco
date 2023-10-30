@@ -1,9 +1,10 @@
-import './App.css';
 import "./test.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 
 const baseURL = "http://127.0.0.1:5000/";
 
@@ -151,13 +152,23 @@ function printText(){
     alert("test")
 }
 
+const schema = yup.object({
+    startsWith: yup.string(),
+    startsWithPhoetically: yup.string(),
+    endedWith:  yup.string(),
+    endedWithPhoetically: yup.string(),
+    contains: yup.string(),
+    containsFollowing: yup.string(),
+    anagram: yup.string(),
+    minimumNumberSyllables: yup.number().positive().integer(),
+    maximumNumberSyllables: yup.number().positive().integer(),
+});
 function App() {
+
     const [pending, setPending] = React.useState(true);
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
+    const { register, handleSubmit, formState:{ errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
     const [dico, setDico] = React.useState([]);
     React.useEffect(() => {
 
@@ -181,15 +192,54 @@ function App() {
         
         <button onClick={()=>addRedButton()} id="green-button">Default</button>
         <form onSubmit={handleSubmit((data) => filterHead(data))}>
-            <div>
-                <label>Commence par :</label>
-                <input {...register('startsWith')} />
+            <div className={"form-container"}>
+                <div className={"form-child"}>
+                    <label>Commence par :</label>
+                    <input {...register('startsWith')} />
+                    <p className={"message-error"}>{errors.startsWith?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Commence phonétiquement par :</label>
+                    <input {...register('startsWithPhoetically')} />
+                    <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Finit par :</label>
+                    <input {...register('endedWith')} />
+                    <p className={"message-error"}>{errors.endedWith?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Finit phonétiquement par :</label>
+                    <input {...register('endedWithPhoetically')} />
+                    <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Contient :</label>
+                    <input {...register('contains')} />
+                    <p className={"message-error"}>{errors.contains?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Contient à la suite :</label>
+                    <input {...register('containsFollowing')} />
+                    <p className={"message-error"}>{errors.containsFollowing?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Anagramme :</label>
+                    <input {...register('anagram')} />
+                    <p className={"message-error"}>{errors.anagram?.message}</p>
+                </div>
+                <div className={"form-child"}>
+                    <label>Nombre de syllabes minimum :</label>
+                    <input type="number"  {...register('minimumNumberSyllables', { min: 0})} />
+                    <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
             </div>
-            <div>
-                <label>Finit par :</label>
-                <input {...register('endedWith')} />
+                <div className={"form-child"}>
+                    <label>Nombre de syllabes maximum :</label>
+                    <input type="number"  {...register('maximumNumberSyllables', { min: 0})} />
+                    <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
+                </div>
+                <input type="submit" />
             </div>
-            <input type="submit" />
         </form>
         <form>    
             <label htmlFor="test1"> test: </label>
