@@ -28,21 +28,59 @@ form {
 
 .form-container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 850px;
 }
 
 .form-child {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
     text-align: start;
     align-content: center;
+    padding: 5px 10px;
 }
 
 input {
     max-width: 200px;
 }
 
+
 .message-error{
     color: red;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.send {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    position: relative;
+    display: block;
+    width: 200px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: blue;
+    border: solid 1px transparent;
+    color: black;
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    &:hover {
+        background-color: transparent;
+        border-color: blue;
+        transition: all .1s ease-in-out;
+        color: black;
+    }
+}
+
+#submit{
+    justify-content: center;
 }

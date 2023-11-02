@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
 import { useForm } from 'react-hook-form';
+import { GooeyCircleLoader } from "react-loaders-kit";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
@@ -16,10 +17,11 @@ const columns = [
         cell:  row => <h3>{row.ortho}</h3>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             wordWrap: 'break-word',
             minWidth: 'auto'
-        }
+        },
     },
     {
         name: 'Genre',
@@ -27,6 +29,7 @@ const columns = [
         cell:  row => get_genre(row.genre),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -36,6 +39,7 @@ const columns = [
         selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -45,6 +49,7 @@ const columns = [
         selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -55,6 +60,7 @@ const columns = [
         cell:  row => <div>{row.lemme}</div>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -65,6 +71,7 @@ const columns = [
         cell:  row => <div>{row.nblettres}</div>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -74,6 +81,7 @@ const columns = [
         selector: row => parseInt(row.nbsyll),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -84,6 +92,7 @@ const columns = [
         cell:  row => <div>{row.orthosyll}</div>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -94,6 +103,7 @@ const columns = [
         cell:  row => <div>{row.phon}</div>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -103,6 +113,7 @@ const columns = [
         selector: row => parseInt(row.puorth),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -112,6 +123,7 @@ const columns = [
         selector: row => parseInt(row.nbhomoph),
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -122,6 +134,7 @@ const columns = [
         cell:  row => <div>{row.orthrenv}</div>,
         sortable: true,
         center : true,
+        reorder: true,
         style : {
             minWidth: 'auto'
         }
@@ -137,61 +150,71 @@ function  get_genre(genre){
         return "Neutre"
 }
 
-function addRedButton() {
-    const button = document.createElement('button')
-    button.innerText = 'Salut'
-    button.classList.add('red-button')
-    button.onclick = function (e){
-        e.target.remove()
-    }
-    const app = document.getElementsByClassName("App")[0];
-    app.insertBefore(button, app.firstChild);
-  }
+yup.setLocale({
+    mixed: {
+        required: 'champ requis',
+        default: 'Non valide',
+    },
+    number: {
+        default: "doit être un nombre",
+        integer: "doit être un entier",
+        positive: "doit être positif",
+        typeError: "doit être un nombre"
+    },
+});
 
-function printText(){
-    alert("test")
-}
-
-const schema = yup.object({
+let schema = yup.object().shape({
     startsWith: yup.string(),
     startsWithPhoetically: yup.string(),
-    endedWith:  yup.string(),
+    endedWith: yup.string(),
     endedWithPhoetically: yup.string(),
     contains: yup.string(),
     containsFollowing: yup.string(),
     anagram: yup.string(),
-    minimumNumberSyllables: yup.number().positive().integer(),
-    maximumNumberSyllables: yup.number().positive().integer(),
-});
+    minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
+    maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
+})
+
 function App() {
 
     const [pending, setPending] = React.useState(true);
     const { register, handleSubmit, formState:{ errors } } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        defaultValues: {
+            minimumNumberSyllables: 1,
+            maximumNumberSyllables: 10
+        }
     });
     const [dico, setDico] = React.useState([]);
+
+    const loaderProps = {
+        loading: true,
+        size: 275,
+        duration: 2,
+        colors: ["#99fffe", "#f42e00", "#042549"],
+    };
+
     React.useEffect(() => {
-
-    axios.get(baseURL).then((response) => {
-        setDico(JSON.parse(response.data.dict));
-        setPending(false);
-
-    });
-    }, []);
-
-    function filterHead(data){
-        console.log(data)
-        axios.get(baseURL, {params : data}).then((response) => {
+        axios.get(baseURL).then((response) => {
             setDico(JSON.parse(response.data.dict));
+            setPending(false);
 
         });
+    }, []);
+
+
+
+    function filterHead(data){
+        console.log(data);
+        axios.get(baseURL, {params : data}).then((response) => {
+            setDico(JSON.parse(response.data.dict));
+        });
+
+
     }
 
-  return (
-    <div className="App">
-        
-        <button onClick={()=>addRedButton()} id="green-button">Default</button>
-        <form onSubmit={handleSubmit((data) => filterHead(data))}>
+    let div = <div className="App">
+        <form id="form-fiter_head" onSubmit={handleSubmit((data) => filterHead(data))}>
             <div className={"form-container"}>
                 <div className={"form-child"}>
                     <label>Commence par :</label>
@@ -230,37 +253,34 @@ function App() {
                 </div>
                 <div className={"form-child"}>
                     <label>Nombre de syllabes minimum :</label>
-                    <input type="number"  {...register('minimumNumberSyllables', { min: 0})} />
+                    <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
                     <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
-            </div>
+                </div>
                 <div className={"form-child"}>
                     <label>Nombre de syllabes maximum :</label>
-                    <input type="number"  {...register('maximumNumberSyllables', { min: 0})} />
+                    <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
                     <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
                 </div>
-                <input type="submit" />
+                <div className={"form-child"} id={"submit"}>
+                    <button type="submit" className="button">Send</button>
+                </div>
             </div>
+
         </form>
-        <form>    
-            <label htmlFor="test1"> test: </label>
-            <input type="text" id="test1" name="test1"/>
-            <button type="submit" onClick={()=>printText()}>Envoyer le message</button>
-        </form>
-        <DataTable
-            title="dicoco"
-            columns={columns}
-            data={dico}
-            pagination
-            striped
-            highlightOnHover
-            progressPending={pending}
-            progressComponent={<img src="loader.gif"></img>}
-            noDataComponent={<div>Pas de données</div>}
-        >
-        </DataTable>
-    </div>
-  
-  );
+            <DataTable
+                columns={columns}
+                data={dico}
+                pagination
+                striped
+                highlightOnHover
+                progressPending={pending}
+                progressComponent={<GooeyCircleLoader {...loaderProps} />}
+                noDataComponent={<div>Pas de données</div>}
+                useSortBy
+            >
+            </DataTable>
+    </div>;
+    return div;
 }
 
 export default App;
