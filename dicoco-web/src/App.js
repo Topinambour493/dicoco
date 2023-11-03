@@ -173,6 +173,8 @@ let schema = yup.object().shape({
     anagram: yup.string(),
     minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
+    minimumNumberLetters: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
+    maximumNumberLetters: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberLetters'),() => `doit être supérieur à la valeur minimum`),
 })
 
 function App() {
@@ -182,7 +184,9 @@ function App() {
         resolver: yupResolver(schema),
         defaultValues: {
             minimumNumberSyllables: 1,
-            maximumNumberSyllables: 10
+            maximumNumberSyllables: 10,
+            minimumNumberLetters: 1,
+            maximumNumberLetters: 25
         }
     });
     const [dico, setDico] = React.useState([]);
@@ -216,51 +220,67 @@ function App() {
     let div = <div className="App">
         <form id="form-fiter_head" onSubmit={handleSubmit((data) => filterHead(data))}>
             <div className={"form-container"}>
-                <div className={"form-child"}>
-                    <label>Commence par :</label>
-                    <input {...register('startsWith')} />
-                    <p className={"message-error"}>{errors.startsWith?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Commence phonétiquement par :</label>
-                    <input {...register('startsWithPhoetically')} />
-                    <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Finit par :</label>
-                    <input {...register('endedWith')} />
-                    <p className={"message-error"}>{errors.endedWith?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Finit phonétiquement par :</label>
-                    <input {...register('endedWithPhoetically')} />
-                    <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Contient :</label>
-                    <input {...register('contains')} />
-                    <p className={"message-error"}>{errors.contains?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Contient à la suite :</label>
-                    <input {...register('containsFollowing')} />
-                    <p className={"message-error"}>{errors.containsFollowing?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Anagramme :</label>
-                    <input {...register('anagram')} />
-                    <p className={"message-error"}>{errors.anagram?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Nombre de syllabes minimum :</label>
-                    <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
-                    <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
-                </div>
-                <div className={"form-child"}>
-                    <label>Nombre de syllabes maximum :</label>
-                    <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
-                    <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
-                </div>
+                <fieldset>
+                    <legend>Alphabétique:</legend>
+                    <div className={"form-child"}>
+                        <label>Commence par :</label>
+                        <input {...register('startsWith')} />
+                        <p className={"message-error"}>{errors.startsWith?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Commence phonétiquement par :</label>
+                        <input {...register('startsWithPhoetically')} />
+                        <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Finit par :</label>
+                        <input {...register('endedWith')} />
+                        <p className={"message-error"}>{errors.endedWith?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Finit phonétiquement par :</label>
+                        <input {...register('endedWithPhoetically')} />
+                        <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Contient :</label>
+                        <input {...register('contains')} />
+                        <p className={"message-error"}>{errors.contains?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Contient à la suite :</label>
+                        <input {...register('containsFollowing')} />
+                        <p className={"message-error"}>{errors.containsFollowing?.message}</p>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Phonétique:</legend>
+                    <div className={"form-child"}>
+                        <label>Anagramme :</label>
+                        <input {...register('anagram')} />
+                        <p className={"message-error"}>{errors.anagram?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de syllabes minimum :</label>
+                        <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
+                        <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de syllabes maximum :</label>
+                        <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
+                        <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de lettres minimum :</label>
+                        <input type="number" required {...register('minimumNumberLetters', {min: 0})} />
+                        <p className={"message-error"}>{errors.minimumNumberLetterss?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de lettres maximum :</label>
+                        <input type="number" required {...register('maximumNumberLetters', {min: 0})} />
+                        <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
+                    </div>
+                </fieldset>
                 <div className={"form-child"} id={"submit"}>
                     <button type="submit" className="button">Send</button>
                 </div>

@@ -84,3 +84,10 @@ input {
 #submit{
     justify-content: center;
 }
+
+fieldset{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3px 6px;
+}
+
