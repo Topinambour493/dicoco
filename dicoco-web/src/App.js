@@ -9,138 +9,6 @@ import * as yup from "yup";
 
 const baseURL = "http://127.0.0.1:5000/";
 
-const columns = [
-    {
-        name: 'Nom',
-        id: "Nom",
-        selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => <h3>{row.ortho}</h3>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            wordWrap: 'break-word',
-            minWidth: 'auto'
-        },
-    },
-    {
-        name: 'Genre',
-        selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => get_genre(row.genre),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Nombre',
-        selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Catégorie grammaticale',
-        selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Lemme',
-        selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => <div>{row.lemme}</div>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Nombre de lettres',
-        selector: row =>  parseInt(row.nbletters),
-        cell:  row => <div>{row.nbletters}</div>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Nombre de syllabes',
-        selector: row => parseInt(row.nbsyll),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Forme orthographique syllabée',
-        selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => <div>{row.orthosyll}</div>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Phonétique',
-        selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => <div>{row.phon}</div>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: 'Unicité orthographique',
-        selector: row => parseInt(row.puorth),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: "Nombre d'homophones",
-        selector: row => parseInt(row.nbhomoph),
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    },
-    {
-        name: "Inverse",
-        selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-        cell:  row => <div>{row.orthrenv}</div>,
-        sortable: true,
-        center : true,
-        reorder: true,
-        style : {
-            minWidth: 'auto'
-        }
-    }
-];
-
 function  get_genre(genre){
     if (genre === "m")
         return "Masculin"
@@ -171,39 +39,17 @@ let schema = yup.object().shape({
     contains: yup.string(),
     containsFollowing: yup.string(),
     anagram: yup.string(),
-    containsPhoetically: yup.string(),
-    containsFollowingPhoetically: yup.string(),
-    anagramPhoetically: yup.string(),
     minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
     minimumNumberLetters: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberLetters: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberLetters'),() => `doit être supérieur à la valeur minimum`),
 })
 
-const customStyles = {
-    rows: {
-        style: {
-            minHeight: '72px', // override the row height
-        },
-    },
-    headCells: {
-        style: {
-            paddingLeft: '8px', // override the cell padding for head cells
-            paddingRight: '8px',
-        },
-    },
-    cells: {
-        style: {
-            paddingLeft: '8px', // override the cell padding for data cells
-            paddingRight: '8px',
-        },
-    },
-};
-
-
-
 function App() {
-
+    const [displays, setDisplays] =  React.useState({
+        displayName: true,
+        displayGender: true
+    })
     const [pending, setPending] = React.useState(true);
     const { register, handleSubmit, formState:{ errors } } = useForm({
         resolver: yupResolver(schema),
@@ -216,12 +62,68 @@ function App() {
     });
     const [dico, setDico] = React.useState([]);
 
+    // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+
+    const handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        setDisplays({
+            ...displays,
+            [name]: value
+        });
+    }
+
     const loaderProps = {
         loading: true,
         size: 275,
         duration: 2,
         colors: ["#99fffe", "#f42e00", "#042549"],
     };
+
+
+    function downloadCSV() {
+        const link = document.createElement('a');
+        let csv = convertArrayOfObjectsToCSV(dico);
+        if (csv == null) return;
+
+        const filename = 'export.csv';
+
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = `data:text/csv;charset=utf-8,${csv}`;
+        }
+
+        link.setAttribute('href', encodeURI(csv));
+        link.setAttribute('download', filename);
+        link.click();
+    }
+
+    function convertArrayOfObjectsToCSV(array) {
+        let result;
+
+        const columnDelimiter = ',';
+        const lineDelimiter = '\n';
+        const keys = Object.keys(dico[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        array.forEach(item => {
+            let ctr = 0;
+            keys.forEach(key => {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+                // eslint-disable-next-line no-plusplus
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
 
     React.useEffect(() => {
         axios.get(baseURL).then((response) => {
@@ -231,7 +133,142 @@ function App() {
         });
     }, []);
 
-
+    const columns = React.useMemo(
+        () => [
+        {
+            name: 'Nom',
+            id: "Nom",
+            omit: !displays.displayName,
+            selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <h3>{row.ortho}</h3>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                wordWrap: 'break-word',
+                minWidth: 'auto'
+            },
+        },
+        {
+            name: 'Genre',
+            omit: !displays.displayGender,
+            selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => get_genre(row.genre),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Nombre',
+            selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Catégorie grammaticale',
+            selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Lemme',
+            selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.lemme}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Nombre de lettres',
+            selector: row =>  parseInt(row.nbletters),
+            cell:  row => <div>{row.nbletters}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Nombre de syllabes',
+            selector: row => parseInt(row.nbsyll),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Forme orthographique syllabée',
+            selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.orthosyll}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Phonétique',
+            selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.phon}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Unicité orthographique',
+            selector: row => parseInt(row.puorth),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: "Nombre d'homophones",
+            selector: row => parseInt(row.nbhomoph),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: "Inverse",
+            selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.orthrenv}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        }
+    ],
+    [displays.displayName, displays.displayGender],
+    );
 
     function filterHead(data){
         console.log(data);
@@ -323,14 +360,37 @@ function App() {
                 </fieldset>
                 <div className={"form-child"} id={"submit"}>
                     <button type="submit" className="button">Send</button>
+                    <button onClick={() => downloadCSV()}>Export</button>
                 </div>
+                <fieldset className={"affichage"}>
+                    <legend>Affichage:</legend>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayName"
+                            name="displayName"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayName}
+                        />
+                        <label htmlFor="displayName">Nom</label>
+                    </div>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayGender"
+                            name="displayGender"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayGender}
+                        />
+                        <label htmlFor="displayGender">Genre</label>
+                    </div>
+                </fieldset>
             </div>
 
         </form>
-        
+
         <DataTable
             columns={columns}
-            customStyles={customStyles}
             data={dico}
             pagination
             striped
@@ -338,10 +398,9 @@ function App() {
             progressPending={pending}
             progressComponent={<GooeyCircleLoader {...loaderProps} />}
             noDataComponent={<div>Pas de données</div>}
-            useSortBy    
+            useSortBy
         >
         </DataTable>
-            
     </div>;
     return div;
 }
