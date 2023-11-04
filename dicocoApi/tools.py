@@ -90,12 +90,12 @@ def anagram(str,line):
     """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
     if str== "":
         return True
-    world = line[0]
+    world = list(line[0])
     if len(world)!=len(str):
         return False
-    for letter in world:
+    for letter in str:
         if letter in world:
-            mot.remove(letter)
+            world.remove(letter)
         else:
             return False
     return True
@@ -164,15 +164,16 @@ def anagram_phon(str,line):
     """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
     if str== "":
         return True
-    world = line[1]
+    world = list(line[1])
     if len(world)!=len(str):
         return False
-    for letter in world:
+    for letter in str:
         if letter in world:
-            mot.remove(letter)
+            world.remove(letter)
         else:
             return False
     return True
+
 
 
 def transform_in_json(tab=dico[1:]):
