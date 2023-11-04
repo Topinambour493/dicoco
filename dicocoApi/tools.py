@@ -41,94 +41,85 @@ def start(str,line):
     """renvoie tous les worlds qui startnt par la/les letters demandés par l'utilisateur"""
     if(str ==""):
         return True
-    res=False
     world=line[0]
     if len(world)>=len(str):
         if str==world[:len(str)]:
-            res = True
-    return res
+            return True
+    return False
 
 def end(str,line):
     """revoie tous les worlds qui finnisent par la/les letters demandés par l'utilisateur"""
     if(str ==""):
         return True
-    res = False
     world=line[0]
     if len(world)>=len(str):
         if str==world[-len(str):]:
-            res = True    
-    return res
+            return True
+    return False
 
 def include_sequence(str,line):
     """cette fonction renvoie tous les worlds qui contiennes la suite de letters dans l'ordre et a la suite."""
     if str== "":
         return True
-    res = False
     world=line[0]
-    if len(world)>=len(str):
-        for i in range (len(world)-len(str)+1):
-                if str==world[i:i+len(str)]:  
-                    res = True
-    return res
+    if len(world)<len(str):
+        return False
+    for i in range (len(world)-len(str)+1):
+            if str==world[i:i+len(str)]:
+                return True
+    return False
 
 def include(str,line):
     """renvoie tous les worlds qui contiennent dans l'ordre mais pas forcément à la suite la/les letters demandés par l'utilisateur"""
     if str== "":
         return True
-    res= False
     world=line[0]
-    if len(world)>=len(str):
-        i=0
-        this_world="valid"
-        while len(str)>i and this_world=="valid":
-            if str[i] in world:
-                i += 1
-            else:
-                this_world="unvalid"
-                res = False
-                break
-            if this_world=="valid":
-                res = True
-    return res
+    if len(world)<len(str):
+        return False
+    for i in range (len(str)):
+        if str[i] in world:
+            world= world[world.index(str[i])+1:]
+        else:
+            return False
+    return True
+
+
+
 
 def anagram(str,line):
     """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
-    world = line[0]
     if str== "":
         return True
-    res = False
-    if len(world)==len(str):
-        res = True
-        for i in str:
-                if i in world:
-                    continue
-                else:
-                    res = False
-                    break
-    return res
+    world = line[0]
+    if len(world)!=len(str):
+        return False
+    for letter in world:
+        if letter in world:
+            mot.remove(letter)
+        else:
+            return False
+    return True
 
 def start_phon(str,line):
     """revoie tous les worlds qui startnt par le/les sons demandés par l'utilisateur"""
-    if str== "":
+    if(str ==""):
         return True
-    res = False
-    phon=line[1]
-    if len(phon)>=len(str):
-        if str==phon[:len(str)]:
-                res = True
-    return res
+    world=line[1]
+    if len(world)>=len(str):
+        if str==world[:len(str)]:
+            return True
+    return False
 
 
 def end_phon(str,line):
     """revoie tous les worlds qui finissent par le/les sons demandés par l'utilisateur"""
-    if str== "":
+    if(str ==""):
         return True
-    res = False
-    phon=line[1]
-    if len(phon)>=len(str):
-        if str==phon[-len(str):]:
-                res = True
-    return res
+    world=line[1]
+    if len(world)>=len(str):
+        if str==world[-len(str):]:
+            return True
+    return False
 
 def nb_letters(min,max,line):
     """renvoie un tab contenant les line de tout les worlds ayant le nombre de syllables demandés
@@ -146,49 +137,42 @@ def include_phon(str,line):
     """renvoie tous les worlds qui contiennent dans l'ordre mais pas forcément à la suite la/les letters demandés par l'utilisateur"""
     if str== "":
         return True
-    res= False
-    world_phon=line[1]
-    if len(world_phon)>=len(str):
-        i=0
-        this_world="valid"
-        while len(str)>i and this_world=="valid":
-            if str[i] in world_phon:
-                i += 1
-            else:
-                this_world="unvalid"
-                res = False
-                break
-            if this_world=="valid":
-                res = True
-    return res
+    world=line[1]
+    if len(world)<len(str):
+        return False
+    for i in range (len(str)):
+        if str[i] in world:
+            world= world[world.index(str[i])+1:]
+        else:
+            return False
+    return True
+
 
 def include_sequence_phon(str,line):
     """cette fonction renvoie tous les worlds qui contiennes la suite de letters dans l'ordre et a la suite."""
     if str== "":
         return True
-    res = False
-    world_phon=line[1]
-    if len(world_phon)>=len(str):
-        for i in range (len(world_phon)-len(str)+1):
-                if str==world_phon[i:i+len(str)]:  
-                    res = True
-    return res
+    world=line[1]
+    if len(world)<len(str):
+        return False
+    for i in range (len(world)-len(str)+1):
+            if str==world[i:i+len(str)]:
+                return True
+    return False
 
 def anagram_phon(str,line):
     """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
-    world_phon = line[1]
     if str== "":
         return True
-    res = False
-    if len(world_phon)==len(str):
-        res = True
-        for i in str:
-                if i in world_phon:
-                    continue
-                else:
-                    res = False
-                    break
-    return res
+    world = line[1]
+    if len(world)!=len(str):
+        return False
+    for letter in world:
+        if letter in world:
+            mot.remove(letter)
+        else:
+            return False
+    return True
 
 
 def transform_in_json(tab=dico[1:]):
