@@ -67,8 +67,8 @@ const columns = [
     },
     {
         name: 'Nombre de lettres',
-        selector: row =>  parseInt(row.nblettres),
-        cell:  row => <div>{row.nblettres}</div>,
+        selector: row =>  parseInt(row.nbletters),
+        cell:  row => <div>{row.nbletters}</div>,
         sortable: true,
         center : true,
         reorder: true,
@@ -171,11 +171,36 @@ let schema = yup.object().shape({
     contains: yup.string(),
     containsFollowing: yup.string(),
     anagram: yup.string(),
+    containsPhoetically: yup.string(),
+    containsFollowingPhoetically: yup.string(),
+    anagramPhoetically: yup.string(),
     minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
     minimumNumberLetters: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberLetters: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberLetters'),() => `doit être supérieur à la valeur minimum`),
 })
+
+const customStyles = {
+    rows: {
+        style: {
+            minHeight: '72px', // override the row height
+        },
+    },
+    headCells: {
+        style: {
+            paddingLeft: '8px', // override the cell padding for head cells
+            paddingRight: '8px',
+        },
+    },
+    cells: {
+        style: {
+            paddingLeft: '8px', // override the cell padding for data cells
+            paddingRight: '8px',
+        },
+    },
+};
+
+
 
 function App() {
 
@@ -228,19 +253,9 @@ function App() {
                         <p className={"message-error"}>{errors.startsWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Commence phonétiquement par :</label>
-                        <input {...register('startsWithPhoetically')} />
-                        <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
-                    </div>
-                    <div className={"form-child"}>
                         <label>Finit par :</label>
                         <input {...register('endedWith')} />
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
-                    </div>
-                    <div className={"form-child"}>
-                        <label>Finit phonétiquement par :</label>
-                        <input {...register('endedWithPhoetically')} />
-                        <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient :</label>
@@ -252,23 +267,10 @@ function App() {
                         <input {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Phonétique:</legend>
                     <div className={"form-child"}>
                         <label>Anagramme :</label>
                         <input {...register('anagram')} />
                         <p className={"message-error"}>{errors.anagram?.message}</p>
-                    </div>
-                    <div className={"form-child"}>
-                        <label>Nombre de syllabes minimum :</label>
-                        <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
-                        <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
-                    </div>
-                    <div className={"form-child"}>
-                        <label>Nombre de syllabes maximum :</label>
-                        <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
-                        <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de lettres minimum :</label>
@@ -280,6 +282,44 @@ function App() {
                         <input type="number" required {...register('maximumNumberLetters', {min: 0})} />
                         <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
                     </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de syllabes minimum :</label>
+                        <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
+                        <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Nombre de syllabes maximum :</label>
+                        <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
+                        <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Phonétique:</legend>
+                    <div className={"form-child"}>
+                        <label>Commence par :</label>
+                        <input {...register('startsWithPhoetically')} />
+                        <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Finit par :</label>
+                        <input {...register('endedWithPhoetically')} />
+                        <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Contient :</label>
+                        <input {...register('containsPhoetically')} />
+                        <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Contient à la suite :</label>
+                        <input {...register('containsFollowingPhoetically')} />
+                        <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Anagramme :</label>
+                        <input {...register('anagramPhoetically')} />
+                        <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
+                    </div>
                 </fieldset>
                 <div className={"form-child"} id={"submit"}>
                     <button type="submit" className="button">Send</button>
@@ -287,18 +327,21 @@ function App() {
             </div>
 
         </form>
-            <DataTable
-                columns={columns}
-                data={dico}
-                pagination
-                striped
-                highlightOnHover
-                progressPending={pending}
-                progressComponent={<GooeyCircleLoader {...loaderProps} />}
-                noDataComponent={<div>Pas de données</div>}
-                useSortBy
-            >
-            </DataTable>
+        
+        <DataTable
+            columns={columns}
+            customStyles={customStyles}
+            data={dico}
+            pagination
+            striped
+            highlightOnHover
+            progressPending={pending}
+            progressComponent={<GooeyCircleLoader {...loaderProps} />}
+            noDataComponent={<div>Pas de données</div>}
+            useSortBy    
+        >
+        </DataTable>
+            
     </div>;
     return div;
 }

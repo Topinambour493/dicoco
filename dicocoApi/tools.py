@@ -8,16 +8,33 @@ index_dico={'a': [1,12194], 'à': [1,12194], 'â': [1,12194], 'b': [12194,19327]
 # '20_voisphon', '21_puorth', '22_puphon', '23_syll', '24_nbsyll', '25_cv-cv', '26_orthrenv', '27_phonrenv', '28_orthosyll', '29_cgramortho', 
 # '30_deflem', '31_defobs', '32_old20', '33_pld20', '34_morphoder', '35_nbmorph']
 
-def nb_syllables(min,max,line):
+#['NOM', 'AUX', 'VER', 'ADV', 'PRE', 'ADJ', 'ONO', 'CON', 'ART:def', 'ADJ:ind', 'PRO:ind', 'PRO:int',
+#  'PRO:rel', 'ADJ:num', 'PRO:dem', 'ADJ:dem', 'PRO:per', 'ART:ind', 'LIA', 'PRO:pos', 'ADJ:pos', '', 'ADJ:int']
+
+
+#{'NOM': ['a', 'a priori', 'aa', 'abaca', 'abaisse'], 'AUX': ['a', 'ai', 'aie', 'aient', 'aies'], 
+# 'VER': ['a', 'abaissa', 'abaissai', 'abaissaient', 'abaissait'], 'ADV': ['a capella', 'a cappella', 'a contrario', 'a fortiori', 'a giorno'], 
+# 'PRE': ["a l'instar", 'afin d', 'afin de', 'après', 'au-dessus'], 'ADJ': ['abaissant', 'abaissante', 'abaissé', 'abaissée', 'abaissées'], 
+# 'ONO': ['acré', 'adieu', 'ah', 'alerte', 'allo'], 'CON': ['afin qu', 'afin que', 'ains', 'because', 'car'], 
+# 'ART:def': ['au', 'aux', 'de', 'du', 'l'], 'ADJ:ind': ['aucun', 'aucune', 'aucunes', 'aucuns', 'certain'], 
+# 'PRO:ind': ['aucun', 'aucune', 'autre', 'autrefois', 'autres'], 'PRO:int': ['auquel', 'auxquelles', 'auxquels', 'desquelles', 'desquels'], 
+# 'PRO:rel': ['auquel', 'auxquelles', 'auxquels', 'desquelles', 'desquels'], 'ADJ:num': ['autres', 'c', 'cent', 'centaines', 'centenaires'], 
+# 'PRO:dem': ['c', 'ce', 'ceci', 'cela', 'celle'], 'ADJ:dem': ['ce', 'ces', 'cet', 'cette'], 
+# 'PRO:per': ['con', 'elle', 'elle-même', 'elles', 'elles-mêmes'], 'ART:ind': ['des', 'pa', 'un', 'une'], 
+# 'LIA': ["l'"], 'PRO:pos': ['leur', 'leurs', 'mes', 'mien', 'mienne'], 'ADJ:pos': ['leurs', 'ma', 'mes', 'mien', 'mienne'], 
+# '': ['o', 'team', 'à brûle-pourpoint', 'à cloche-pied', 'à rebrousse-poil'], 'ADJ:int': ['quel', 'quelle', 'quelles', 'quels']}
+
+def nb_syllables(minimum,maximum,line):
     """renvoie un tab contenant les line de tout les worlds ayant le nombre de syllables demandés
     parmi ceux dans le tab en entrée
     min et max représente la fourchette de syllables voulues, nb_syllables([3,5]) renverra les worlds contenant entre 3 et 5 syllables
     Le tab en entrée doit être constitués de line du dico """
-    
-    if max<min:
+    minimum=int(minimum)
+    maximum=int(maximum)
+    if minimum>maximum:
         raise ValueError("le nombre min ne peut pas être plus grand que le nombre max")
     nb_syllables=int(line[23])
-    return min<=nb_syllables<=max
+    return minimum<=nb_syllables<=maximum
 
 
 def start(str,line):
@@ -118,11 +135,61 @@ def nb_letters(min,max,line):
     parmi ceux dans le tab en entrée
     min et max représente la fourchette de syllables voulues, nb_syllables([3,5]) renverra les worlds contenant entre 3 et 5 syllables
     Le tab en entrée doit être constitués de line du dico """
-    
+    min = int(min)
+    max = int(max)
     if max<min:
         raise ValueError("le nombre min ne peut pas être plus grand que le nombre max")
     nb_syllables=int(line[14])
     return min<=nb_syllables<=max
+
+def include_phon(str,line):
+    """renvoie tous les worlds qui contiennent dans l'ordre mais pas forcément à la suite la/les letters demandés par l'utilisateur"""
+    if str== "":
+        return True
+    res= False
+    world_phon=line[1]
+    if len(world_phon)>=len(str):
+        i=0
+        this_world="valid"
+        while len(str)>i and this_world=="valid":
+            if str[i] in world_phon:
+                i += 1
+            else:
+                this_world="unvalid"
+                res = False
+                break
+            if this_world=="valid":
+                res = True
+    return res
+
+def include_sequence_phon(str,line):
+    """cette fonction renvoie tous les worlds qui contiennes la suite de letters dans l'ordre et a la suite."""
+    if str== "":
+        return True
+    res = False
+    world_phon=line[1]
+    if len(world_phon)>=len(str):
+        for i in range (len(world_phon)-len(str)+1):
+                if str==world_phon[i:i+len(str)]:  
+                    res = True
+    return res
+
+def anagram_phon(str,line):
+    """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
+    world_phon = line[1]
+    if str== "":
+        return True
+    res = False
+    if len(world_phon)==len(str):
+        res = True
+        for i in str:
+                if i in world_phon:
+                    continue
+                else:
+                    res = False
+                    break
+    return res
+
 
 def transform_in_json(tab=dico[1:]):
     list_index = ['ortho', 'phon', 'lemme', 'cgram', 'genre', 'nombre', 'freqlemfilms2', 'freqlemlivres', 'freqfilms2', 'freqlivres', 'infover', 'nbhomogr', 'nbhomoph', 'islem', 'nbletters', 'nbphons', 'cvcv', 'p_cvcv', 'voisorth', 'voisphon', 'puorth', 'puphon', 'syll', 'nbsyll', 'cv-cv', 'orthrenv', 'phonrenv', 'orthosyll', 'cgramortho', 'deflem', 'defobs', 'old20', 'pld20', 'morphoder', 'nbmorph']
@@ -144,6 +211,11 @@ def filter_head_dico(args):
             and include(args.get("contains",""),line) \
             and anagram(args.get("anagram",""),line) \
             and start_phon(args.get("startsWithPhoetically",""),line) \
-            and end_phon(args.get("endedWithPhoetically",""),line) :
+            and end_phon(args.get("endedWithPhoetically",""),line) \
+            and nb_syllables(args.get("minimumNumberSyllables",0),args.get("maximumNumberSyllables", 10),line) \
+            and nb_letters(args.get("minimumNumberLetters",0),args.get("maximumNumberLetters", 25),line) \
+            and include_phon(args.get("containsPhoetically",""),line) \
+            and include_sequence_phon(args.get("containsFollowingPhoetically",""),line) \
+            and anagram_phon(args.get("anagramPhoetically",""),line) :
                 dico_filter_head.append(line)
     return transform_in_json(dico_filter_head)
