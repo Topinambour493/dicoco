@@ -100,6 +100,36 @@ def anagram(str,line):
             return False
     return True
 
+def anagram_plus(str, line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    if str== "":
+        return True
+    world = list(line[0])
+    if len(world)<len(str):
+        return False
+    for letter in str:
+        if letter in world:
+            world.remove(letter)
+        else:
+            return False
+    return True
+
+def anagram_minus(str,line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    if str == "":
+        return True
+    str = list(str)
+    world = list(line[0])
+    if len(world)>len(str):
+        return False
+    for letter in world:
+        if letter in str:
+            str.remove(letter)
+        else:
+            return False
+    return True
+
+
 def start_phon(str,line):
     """revoie tous les worlds qui startnt par le/les sons demandés par l'utilisateur"""
     if(str ==""):
@@ -195,6 +225,8 @@ def filter_head_dico(args):
             and include_sequence(args.get("containsFollowing",""),line) \
             and include(args.get("contains",""),line) \
             and anagram(args.get("anagram",""),line) \
+            and anagram_minus(args.get("anagramMinus",""),line) \
+            and anagram_plus(args.get("anagramPlus",""),line) \
             and start_phon(args.get("startsWithPhoetically",""),line) \
             and end_phon(args.get("endedWithPhoetically",""),line) \
             and nb_syllables(args.get("minimumNumberSyllables",0),args.get("maximumNumberSyllables", 10),line) \
