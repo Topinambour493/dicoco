@@ -44,6 +44,8 @@ let schema = yup.object().shape({
     anagramPhoetically: yup.string(),
     anagramMinus: yup.string(),
     anagramPlus: yup.string(),
+    anagramMinusPhoetically: yup.string(),
+    anagramPlusPhoetically: yup.string(),
     minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
     minimumNumberLetters: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
@@ -371,6 +373,16 @@ function App() {
                         <label>Anagramme :</label>
                         <input {...register('anagramPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Anagramme moins:</label>
+                        <input {...register('anagramMinusPhoetically')} />
+                        <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
+                    </div>
+                    <div className={"form-child"}>
+                        <label>Anagramme plus:</label>
+                        <input {...register('anagramPlusPhoetically')} />
+                        <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
                 <div className={"form-child"} id={"submit"}>

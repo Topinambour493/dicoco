@@ -204,7 +204,34 @@ def anagram_phon(str,line):
             return False
     return True
 
+def anagram_plus_phon(str, line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    if str== "":
+        return True
+    world = list(line[1])
+    if len(world)<len(str):
+        return False
+    for letter in str:
+        if letter in world:
+            world.remove(letter)
+        else:
+            return False
+    return True
 
+def anagram_minus_phon(str,line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    if str == "":
+        return True
+    str = list(str)
+    world = list(line[1])
+    if len(world)>len(str):
+        return False
+    for letter in world:
+        if letter in str:
+            str.remove(letter)
+        else:
+            return False
+    return True
 
 def transform_in_json(tab=dico[1:]):
     list_index = ['ortho', 'phon', 'lemme', 'cgram', 'genre', 'nombre', 'freqlemfilms2', 'freqlemlivres', 'freqfilms2', 'freqlivres', 'infover', 'nbhomogr', 'nbhomoph', 'islem', 'nbletters', 'nbphons', 'cvcv', 'p_cvcv', 'voisorth', 'voisphon', 'puorth', 'puphon', 'syll', 'nbsyll', 'cv-cv', 'orthrenv', 'phonrenv', 'orthosyll', 'cgramortho', 'deflem', 'defobs', 'old20', 'pld20', 'morphoder', 'nbmorph']
@@ -233,6 +260,8 @@ def filter_head_dico(args):
             and nb_letters(args.get("minimumNumberLetters",0),args.get("maximumNumberLetters", 25),line) \
             and include_phon(args.get("containsPhoetically",""),line) \
             and include_sequence_phon(args.get("containsFollowingPhoetically",""),line) \
-            and anagram_phon(args.get("anagramPhoetically",""),line) :
+            and anagram_phon(args.get("anagramPhoetically",""),line) \
+            and anagram_minus_phon(args.get("anagramMinus",""),line) \
+            and anagram_plus_phon(args.get("anagramPlus",""),line) :
                 dico_filter_head.append(line)
     return transform_in_json(dico_filter_head)
