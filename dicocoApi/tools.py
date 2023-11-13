@@ -233,6 +233,13 @@ def anagram_minus_phon(str,line):
             return False
     return True
 
+def grammatical_category(arrayStringify, line):
+    array = json.loads(arrayStringify)
+    if array == []:
+        return True
+    return line[3] in array
+
+
 def transform_in_json(tab=dico[1:]):
     list_index = ['ortho', 'phon', 'lemme', 'cgram', 'genre', 'nombre', 'freqlemfilms2', 'freqlemlivres', 'freqfilms2', 'freqlivres', 'infover', 'nbhomogr', 'nbhomoph', 'islem', 'nbletters', 'nbphons', 'cvcv', 'p_cvcv', 'voisorth', 'voisphon', 'puorth', 'puphon', 'syll', 'nbsyll', 'cv-cv', 'orthrenv', 'phonrenv', 'orthosyll', 'cgramortho', 'deflem', 'defobs', 'old20', 'pld20', 'morphoder', 'nbmorph']
     tab_dico =  []
@@ -245,6 +252,9 @@ def transform_in_json(tab=dico[1:]):
 
 
 def filter_head_dico(args):
+
+
+    print(json.loads(args.get("grammatical","[]")), "oui")
     dico_filter_head=[]
     for line in dico[1:] :
         if start(args.get("startsWith",""),line) \
@@ -261,7 +271,8 @@ def filter_head_dico(args):
             and include_phon(args.get("containsPhoetically",""),line) \
             and include_sequence_phon(args.get("containsFollowingPhoetically",""),line) \
             and anagram_phon(args.get("anagramPhoetically",""),line) \
-            and anagram_minus_phon(args.get("anagramMinus",""),line) \
-            and anagram_plus_phon(args.get("anagramPlus",""),line) :
+            and anagram_minus_phon(args.get("anagramMinusPhoetically",""),line) \
+            and anagram_plus_phon(args.get("anagramPlusPhoetically",""),line) \
+            and grammatical_category(args.get("grammatical","[]"),line):
                 dico_filter_head.append(line)
     return transform_in_json(dico_filter_head)

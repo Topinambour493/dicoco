@@ -2,10 +2,12 @@ import "./test.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { GooeyCircleLoader } from "react-loaders-kit";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import Select from 'react-select';
+
 
 const baseURL = "http://127.0.0.1:5000/";
 
@@ -16,6 +18,78 @@ function  get_genre(genre){
         return "Féminin"
     else
         return "Neutre"
+}
+
+const options = [
+    { label: "Nom", value: "NOM" },
+    { label: "Auxiliaire", value: "AUX" },
+    { label: "Verbe", value: "VER"},
+    { label: "Autre", value: ""},
+    { label: "Nom", value: "NOM" },
+    { label: "Auxiliaire", value: "AUX" },
+    { label: "Verbe", value: "VER"},
+    { label: "Autre", value: ""},
+    { label: "Nom", value: "NOM" },
+    { label: "Auxiliaire", value: "AUX" },
+    { label: "Verbe", value: "VER"},
+    { label: "Autre", value: ""},
+];
+function  get_nombre(nombre){
+    if (nombre === "s")
+        return "Singulier"
+    else if (nombre === "p")
+        return "Pluriel"
+    else
+        return ""
+}
+
+function get_grammatical_category(grammatical_category){
+    if (grammatical_category === "NOM")
+        return "Nom"
+    else if (grammatical_category === "AUX")
+        return "Auxiliaire"
+    else if (grammatical_category === "VER")
+        return "Verbe"
+    else if (grammatical_category === "ADV")
+        return "Adverbe"
+    else if (grammatical_category === "PRE")
+        return "Préposition"
+    else if (grammatical_category === "ADJ")
+        return "Adjectif"
+    else if (grammatical_category === "ONO")
+        return "Interjection"
+    else if (grammatical_category === "CON")
+        return "Conjonction"
+    else if (grammatical_category === "ART:def")
+        return "Article défini"
+    else if (grammatical_category === "ADJ:ind")
+        return "Adjéctif indéfini"
+    else if (grammatical_category === "PRO:ind")
+        return "Pronom indéfini"
+    else if (grammatical_category === "PRO:int")
+        return "Pronom interrogatif"
+    else if (grammatical_category === "PRO:rel")
+        return "Pronom relatif"
+    else if (grammatical_category === "ADJ:num")
+        return "Adjectif numérique"
+    else if (grammatical_category === "PRO:per")
+        return "Pronom personnel"
+    else if (grammatical_category === "ART:ind")
+        return "Article indéfini"
+    else if (grammatical_category === "LIA")
+        return "Liaison"
+    else if (grammatical_category === "PRO:pos")
+        return "Pronom possessif"
+    else if (grammatical_category === "PRO:dem")
+        return "Pronom démonstratif"
+    else if (grammatical_category === "ADJ:dem")
+        return "Adjectif démonstratif"
+    else if (grammatical_category === "ADJ:pos")
+        return "Adjectif possessif"
+    else if (grammatical_category === "ADJ:int")
+        return "Adjectif interrogatif"
+    else
+        return "Autre"
 }
 
 yup.setLocale({
@@ -58,13 +132,14 @@ function App() {
         displayGender: true
     })
     const [pending, setPending] = React.useState(true);
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const { register, handleSubmit, formState:{ errors }, control } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             minimumNumberSyllables: 1,
             maximumNumberSyllables: 10,
             minimumNumberLetters: 1,
-            maximumNumberLetters: 25
+            maximumNumberLetters: 25,
+            grammatical_category: []
         }
     });
     const [dico, setDico] = React.useState([]);
@@ -171,6 +246,7 @@ function App() {
         {
             name: 'Nombre',
             selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => get_nombre(row.nombre),
             sortable: true,
             center : true,
             reorder: true,
@@ -181,6 +257,7 @@ function App() {
         {
             name: 'Catégorie grammaticale',
             selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell: row => get_grammatical_category(row.cgram),
             sortable: true,
             center : true,
             reorder: true,
@@ -278,6 +355,9 @@ function App() {
     );
 
     function filterHead(data){
+        if (data.grammatical_category)
+            data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
+
         console.log(data);
         axios.get(baseURL, {params : data}).then((response) => {
             setDico(JSON.parse(response.data.dict));
@@ -412,6 +492,26 @@ function App() {
                         <label htmlFor="displayGender">Genre</label>
                     </div>
                 </fieldset>
+                <fieldset className={"Divers"}>
+                    <legend>Autres:</legend>
+                    <div className={"form-child"}>
+                        <label>Catégorie grammaticale</label>
+                        <Controller
+                            control={control}
+                            name="grammatical_category"
+                            render={({ field: { onChange, onBlur, value, ref } }) => (
+                                <Select
+                                    value={value}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    selected={value}
+                                    options={options}
+                                    isMulti
+                                />
+                            )}
+                        />
+                    </div>
+                </fieldset>
             </div>
 
         </form>
@@ -423,7 +523,7 @@ function App() {
             striped
             highlightOnHover
             progressPending={pending}
-            progressComponent={<GooeyCircleLoader {...loaderProps} />}
+            progressComponent={<div id="loader"><GooeyCircleLoader {...loaderProps} /></div>}
             noDataComponent={<div>Pas de données</div>}
             useSortBy
         >
