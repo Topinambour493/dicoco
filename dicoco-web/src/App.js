@@ -25,15 +25,26 @@ const options = [
     { label: "Auxiliaire", value: "AUX" },
     { label: "Verbe", value: "VER"},
     { label: "Autre", value: ""},
-    { label: "Nom", value: "NOM" },
-    { label: "Auxiliaire", value: "AUX" },
-    { label: "Verbe", value: "VER"},
-    { label: "Autre", value: ""},
-    { label: "Nom", value: "NOM" },
-    { label: "Auxiliaire", value: "AUX" },
-    { label: "Verbe", value: "VER"},
-    { label: "Autre", value: ""},
+    { label: "Préposition", value: "PRE" },
+    { label: "Adjectif", value: "ADJ" },
+    { label: "Interjection", value: "ONO"},
+    { label: "Conjonction", value: "CON"},
+    { label: "Article défini", value: "ART:def" },
+    { label: "Article indéfini", value: "ADJ:ind" },
+    { label: "Pronom indéfini", value: "PRO:ind"},
+    { label: "Pronom interrogatif", value: "PRO:int"},
+    { label: "Pronom relatif", value: "PRO:rel" },
+    { label: "Adjectif numérique", value: "ADJ:num" },
+    { label: "Pronom personnel", value: "PRO:per"},
+    { label: "Article indéfini", value: "ART:ind"},
+    { label: "Liaison", value: "LIA" },
+    { label: "Pronom possessif", value: "PRO:pos"},
+    { label: "Pronom démonstratif", value: "PRO:dem"},
+    { label: "Adjectif démonstratif", value: "ADJ:dem" },
+    { label: "Adjectif possessif", value: "ADJ:pos" },
+    { label: "Adjectif interrogatif", value: "ADJ:int"}
 ];
+
 function  get_nombre(nombre){
     if (nombre === "s")
         return "Singulier"
