@@ -9,7 +9,7 @@ import * as yup from "yup";
 import Select from 'react-select';
 
 
-const baseURL = "http://127.0.0.1:5000/";
+const baseURL = process.env.BASE_URL;
 
 function  get_genre(genre){
     if (genre === "m")
@@ -142,7 +142,7 @@ function App() {
         displayName: true,
         displayGender: true
     })
-    const [pending, setPending] = React.useState(true);
+    const [pending, setPending] = React.useState(false);
     const { register, handleSubmit, formState:{ errors }, control } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -217,14 +217,6 @@ function App() {
 
         return result;
     }
-
-    React.useEffect(() => {
-        axios.get(baseURL).then((response) => {
-            setDico(JSON.parse(response.data.dict));
-            setPending(false);
-
-        });
-    }, []);
 
     const columns = React.useMemo(
         () => [
@@ -369,9 +361,10 @@ function App() {
         if (data.grammatical_category)
             data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
 
-        console.log(data);
+        setPending(true);
         axios.get(baseURL, {params : data}).then((response) => {
             setDico(JSON.parse(response.data.dict));
+            setPending(false);
         });
 
 
@@ -384,57 +377,72 @@ function App() {
                     <legend>Alphabétique:</legend>
                     <div className={"form-child"}>
                         <label>Commence par :</label>
-                        <input {...register('startsWith')} />
+                        <input autoCapitalize="none" {...register('startsWith')} />
                         <p className={"message-error"}>{errors.startsWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par :</label>
-                        <input {...register('endedWith')} />
+                        <input autoCapitalize="none" {...register('endedWith')} />
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient :</label>
-                        <input {...register('contains')} />
+                        <input autoCapitalize="none" {...register('contains')} />
                         <p className={"message-error"}>{errors.contains?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient à la suite :</label>
-                        <input {...register('containsFollowing')} />
+                        <input autoCapitalize="none" {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme :</label>
-                        <input {...register('anagram')} />
+                        <input autoCapitalize="none" {...register('anagram')} />
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme moins:</label>
-                        <input {...register('anagramMinus')} />
+                        <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme plus:</label>
-                        <input {...register('anagramPlus')} />
+                        <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de lettres minimum :</label>
-                        <input type="number" required {...register('minimumNumberLetters', {min: 0})} />
+                        <input
+                            type="number"
+                            required
+                            {...register('minimumNumberLetters', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.minimumNumberLetterss?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de lettres maximum :</label>
-                        <input type="number" required {...register('maximumNumberLetters', {min: 0})} />
+                        <input
+                                type="number"
+                                required
+                                {...register('maximumNumberLetters', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de syllabes minimum :</label>
-                        <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
+                        <input
+                            type="number"
+                            required {...register('minimumNumberSyllables', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de syllabes maximum :</label>
-                        <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
+                        <input
+                            type="number"
+                            required
+                            {...register('maximumNumberSyllables', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
                     </div>
                 </fieldset>
@@ -442,37 +450,58 @@ function App() {
                     <legend>Phonétique:</legend>
                     <div className={"form-child"}>
                         <label>Commence par :</label>
-                        <input {...register('startsWithPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('startsWithPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par :</label>
-                        <input {...register('endedWithPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('endedWithPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient :</label>
-                        <input {...register('containsPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('containsPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient à la suite :</label>
-                        <input {...register('containsFollowingPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('containsFollowingPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme :</label>
-                        <input {...register('anagramPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('anagramPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme moins:</label>
-                        <input {...register('anagramMinusPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('anagramMinusPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme plus:</label>
-                        <input {...register('anagramPlusPhoetically')} />
+                        <input
+                            autoCapitalize="none"
+                            {...register('anagramPlusPhoetically')}
+                        />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
@@ -484,6 +513,7 @@ function App() {
                     <legend>Affichage:</legend>
                     <div className={"ckeckbox-display"}>
                         <input
+                            autoCapitalize="none"
                             type="checkbox"
                             id="displayName"
                             name="displayName"
@@ -494,6 +524,7 @@ function App() {
                     </div>
                     <div className={"ckeckbox-display"}>
                         <input
+                            autoCapitalize="none"
                             type="checkbox"
                             id="displayGender"
                             name="displayGender"
