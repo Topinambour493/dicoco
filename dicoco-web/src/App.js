@@ -1,4 +1,4 @@
-import "./test.css";
+import "./dicoco.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
@@ -450,58 +450,37 @@ function App() {
                     <legend>Phonétique:</legend>
                     <div className={"form-child"}>
                         <label>Commence par :</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('startsWithPhoetically')}
-                        />
+                        <input {...register('startsWithPhoetically')} />
                         <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par :</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('endedWithPhoetically')}
-                        />
+                        <input {...register('endedWithPhoetically')} />
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient :</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('containsPhoetically')}
-                        />
+                        <input {...register('containsPhoetically')} />
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient à la suite :</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('containsFollowingPhoetically')}
-                        />
+                        <input {...register('containsFollowingPhoetically')} />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme :</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('anagramPhoetically')}
-                        />
+                        <input {...register('anagramPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme moins:</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('anagramMinusPhoetically')}
-                        />
+                        <input {...register('anagramMinusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme plus:</label>
-                        <input
-                            autoCapitalize="none"
-                            {...register('anagramPlusPhoetically')}
-                        />
+                        <input {...register('anagramPlusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
@@ -513,7 +492,6 @@ function App() {
                     <legend>Affichage:</legend>
                     <div className={"ckeckbox-display"}>
                         <input
-                            autoCapitalize="none"
                             type="checkbox"
                             id="displayName"
                             name="displayName"
@@ -524,7 +502,6 @@ function App() {
                     </div>
                     <div className={"ckeckbox-display"}>
                         <input
-                            autoCapitalize="none"
                             type="checkbox"
                             id="displayGender"
                             name="displayGender"
