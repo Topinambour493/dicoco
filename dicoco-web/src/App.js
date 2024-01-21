@@ -1,13 +1,15 @@
-import "./test.css";
+import "./dicoco.css";
 import axios from "axios";
 import React from "react";
 import DataTable from 'react-data-table-component';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { GooeyCircleLoader } from "react-loaders-kit";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import Select from 'react-select';
 
-const baseURL = "http://127.0.0.1:5000/";
+
+const baseURL = process.env.BASE_URL;
 
 function  get_genre(genre){
     if (genre === "m")
@@ -16,6 +18,89 @@ function  get_genre(genre){
         return "Féminin"
     else
         return "Neutre"
+}
+
+const options = [
+    { label: "Nom", value: "NOM" },
+    { label: "Auxiliaire", value: "AUX" },
+    { label: "Verbe", value: "VER"},
+    { label: "Autre", value: ""},
+    { label: "Préposition", value: "PRE" },
+    { label: "Adjectif", value: "ADJ" },
+    { label: "Interjection", value: "ONO"},
+    { label: "Conjonction", value: "CON"},
+    { label: "Article défini", value: "ART:def" },
+    { label: "Article indéfini", value: "ADJ:ind" },
+    { label: "Pronom indéfini", value: "PRO:ind"},
+    { label: "Pronom interrogatif", value: "PRO:int"},
+    { label: "Pronom relatif", value: "PRO:rel" },
+    { label: "Adjectif numérique", value: "ADJ:num" },
+    { label: "Pronom personnel", value: "PRO:per"},
+    { label: "Article indéfini", value: "ART:ind"},
+    { label: "Liaison", value: "LIA" },
+    { label: "Pronom possessif", value: "PRO:pos"},
+    { label: "Pronom démonstratif", value: "PRO:dem"},
+    { label: "Adjectif démonstratif", value: "ADJ:dem" },
+    { label: "Adjectif possessif", value: "ADJ:pos" },
+    { label: "Adjectif interrogatif", value: "ADJ:int"}
+];
+
+function  get_nombre(nombre){
+    if (nombre === "s")
+        return "Singulier"
+    else if (nombre === "p")
+        return "Pluriel"
+    else
+        return ""
+}
+
+function get_grammatical_category(grammatical_category){
+    if (grammatical_category === "NOM")
+        return "Nom"
+    else if (grammatical_category === "AUX")
+        return "Auxiliaire"
+    else if (grammatical_category === "VER")
+        return "Verbe"
+    else if (grammatical_category === "ADV")
+        return "Adverbe"
+    else if (grammatical_category === "PRE")
+        return "Préposition"
+    else if (grammatical_category === "ADJ")
+        return "Adjectif"
+    else if (grammatical_category === "ONO")
+        return "Interjection"
+    else if (grammatical_category === "CON")
+        return "Conjonction"
+    else if (grammatical_category === "ART:def")
+        return "Article défini"
+    else if (grammatical_category === "ADJ:ind")
+        return "Adjéctif indéfini"
+    else if (grammatical_category === "PRO:ind")
+        return "Pronom indéfini"
+    else if (grammatical_category === "PRO:int")
+        return "Pronom interrogatif"
+    else if (grammatical_category === "PRO:rel")
+        return "Pronom relatif"
+    else if (grammatical_category === "ADJ:num")
+        return "Adjectif numérique"
+    else if (grammatical_category === "PRO:per")
+        return "Pronom personnel"
+    else if (grammatical_category === "ART:ind")
+        return "Article indéfini"
+    else if (grammatical_category === "LIA")
+        return "Liaison"
+    else if (grammatical_category === "PRO:pos")
+        return "Pronom possessif"
+    else if (grammatical_category === "PRO:dem")
+        return "Pronom démonstratif"
+    else if (grammatical_category === "ADJ:dem")
+        return "Adjectif démonstratif"
+    else if (grammatical_category === "ADJ:pos")
+        return "Adjectif possessif"
+    else if (grammatical_category === "ADJ:int")
+        return "Adjectif interrogatif"
+    else
+        return "Autre"
 }
 
 yup.setLocale({
@@ -57,14 +142,15 @@ function App() {
         displayName: true,
         displayGender: true
     })
-    const [pending, setPending] = React.useState(true);
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const [pending, setPending] = React.useState(false);
+    const { register, handleSubmit, formState:{ errors }, control } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             minimumNumberSyllables: 1,
             maximumNumberSyllables: 10,
             minimumNumberLetters: 1,
-            maximumNumberLetters: 25
+            maximumNumberLetters: 25,
+            grammatical_category: []
         }
     });
     const [dico, setDico] = React.useState([]);
@@ -132,14 +218,6 @@ function App() {
         return result;
     }
 
-    React.useEffect(() => {
-        axios.get(baseURL).then((response) => {
-            setDico(JSON.parse(response.data.dict));
-            setPending(false);
-
-        });
-    }, []);
-
     const columns = React.useMemo(
         () => [
         {
@@ -171,6 +249,7 @@ function App() {
         {
             name: 'Nombre',
             selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => get_nombre(row.nombre),
             sortable: true,
             center : true,
             reorder: true,
@@ -181,6 +260,7 @@ function App() {
         {
             name: 'Catégorie grammaticale',
             selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell: row => get_grammatical_category(row.cgram),
             sortable: true,
             center : true,
             reorder: true,
@@ -278,9 +358,13 @@ function App() {
     );
 
     function filterHead(data){
-        console.log(data);
+        if (data.grammatical_category)
+            data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
+
+        setPending(true);
         axios.get(baseURL, {params : data}).then((response) => {
             setDico(JSON.parse(response.data.dict));
+            setPending(false);
         });
 
 
@@ -293,57 +377,72 @@ function App() {
                     <legend>Alphabétique:</legend>
                     <div className={"form-child"}>
                         <label>Commence par :</label>
-                        <input {...register('startsWith')} />
+                        <input autoCapitalize="none" {...register('startsWith')} />
                         <p className={"message-error"}>{errors.startsWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par :</label>
-                        <input {...register('endedWith')} />
+                        <input autoCapitalize="none" {...register('endedWith')} />
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient :</label>
-                        <input {...register('contains')} />
+                        <input autoCapitalize="none" {...register('contains')} />
                         <p className={"message-error"}>{errors.contains?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient à la suite :</label>
-                        <input {...register('containsFollowing')} />
+                        <input autoCapitalize="none" {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme :</label>
-                        <input {...register('anagram')} />
+                        <input autoCapitalize="none" {...register('anagram')} />
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme moins:</label>
-                        <input {...register('anagramMinus')} />
+                        <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme plus:</label>
-                        <input {...register('anagramPlus')} />
+                        <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de lettres minimum :</label>
-                        <input type="number" required {...register('minimumNumberLetters', {min: 0})} />
+                        <input
+                            type="number"
+                            required
+                            {...register('minimumNumberLetters', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.minimumNumberLetterss?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de lettres maximum :</label>
-                        <input type="number" required {...register('maximumNumberLetters', {min: 0})} />
+                        <input
+                                type="number"
+                                required
+                                {...register('maximumNumberLetters', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de syllabes minimum :</label>
-                        <input type="number" required {...register('minimumNumberSyllables', {min: 0})} />
+                        <input
+                            type="number"
+                            required {...register('minimumNumberSyllables', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Nombre de syllabes maximum :</label>
-                        <input type="number" required {...register('maximumNumberSyllables', {min: 0})} />
+                        <input
+                            type="number"
+                            required
+                            {...register('maximumNumberSyllables', {min: 0})}
+                        />
                         <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
                     </div>
                 </fieldset>
@@ -412,6 +511,26 @@ function App() {
                         <label htmlFor="displayGender">Genre</label>
                     </div>
                 </fieldset>
+                <fieldset className={"Divers"}>
+                    <legend>Autres:</legend>
+                    <div className={"form-child"}>
+                        <label>Catégorie grammaticale</label>
+                        <Controller
+                            control={control}
+                            name="grammatical_category"
+                            render={({ field: { onChange, onBlur, value, ref } }) => (
+                                <Select
+                                    value={value}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    selected={value}
+                                    options={options}
+                                    isMulti
+                                />
+                            )}
+                        />
+                    </div>
+                </fieldset>
             </div>
 
         </form>
@@ -423,7 +542,7 @@ function App() {
             striped
             highlightOnHover
             progressPending={pending}
-            progressComponent={<GooeyCircleLoader {...loaderProps} />}
+            progressComponent={<div id="loader"><GooeyCircleLoader {...loaderProps} /></div>}
             noDataComponent={<div>Pas de données</div>}
             useSortBy
         >
