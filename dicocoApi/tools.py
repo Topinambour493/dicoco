@@ -254,7 +254,7 @@ def transform_in_json(tab=dico[1:]):
 def filter_head_dico(args):
 
 
-    print(json.loads(args.get("grammatical","[]")), "oui")
+    print(json.loads(args.get("grammatical","[]")))
     dico_filter_head=[]
     for line in dico[1:] :
         if start(args.get("startsWith",""),line) \

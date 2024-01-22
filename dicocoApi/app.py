@@ -11,7 +11,6 @@ CORS(app)
 
 @app.route('/', methods=['GET'])
 def hello():
-    print(request.args.to_dict(), "coqa clocoz")
     return make_response(jsonify(message="hello world", code="200", dict=filter_head_dico(request.args)), 200)
 
 SWAGGER_URL = '/swagger'

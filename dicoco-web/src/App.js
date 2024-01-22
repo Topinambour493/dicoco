@@ -9,7 +9,7 @@ import * as yup from "yup";
 import Select from 'react-select';
 
 
-const baseURL = process.env.BASE_URL;
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 function  get_genre(genre){
     if (genre === "m")
@@ -360,9 +360,10 @@ function App() {
     function filterHead(data){
         if (data.grammatical_category)
             data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
-
+        console.log(baseURL)
         setPending(true);
         axios.get(baseURL, {params : data}).then((response) => {
+            console.log(response);
             setDico(JSON.parse(response.data.dict));
             setPending(false);
         });
@@ -370,8 +371,8 @@ function App() {
 
     }
 
-    let div = <div className="App">
-        <form id="form-fiter_head" onSubmit={handleSubmit((data) => filterHead(data))}>
+    let diva = <div className="App">
+        <form id="form-fiter_head" onSubmit={handleSubmit((data) => {filterHead(data)})}>
             <div className={"form-container"}>
                 <fieldset>
                     <legend>Alphabétique:</legend>
@@ -548,7 +549,7 @@ function App() {
         >
         </DataTable>
     </div>;
-    return div;
+    return diva;
 }
 
 export default App;
