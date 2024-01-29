@@ -371,48 +371,48 @@ function App() {
 
     }
 
-    let diva = <div className="App">
+    let div = <div className="App">
         <form id="form-fiter_head" onSubmit={handleSubmit((data) => {filterHead(data)})}>
             <div className={"form-container"}>
                 <fieldset>
-                    <legend>Alphabétique:</legend>
+                    <legend>Alphabétique</legend>
                     <div className={"form-child"}>
-                        <label>Commence par :</label>
+                        <label>Commence par </label>
                         <input autoCapitalize="none" {...register('startsWith')} />
                         <p className={"message-error"}>{errors.startsWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Finit par :</label>
+                        <label>Finit par </label>
                         <input autoCapitalize="none" {...register('endedWith')} />
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient :</label>
+                        <label>Contient </label>
                         <input autoCapitalize="none" {...register('contains')} />
                         <p className={"message-error"}>{errors.contains?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite :</label>
+                        <label>Contient à la suite </label>
                         <input autoCapitalize="none" {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme :</label>
+                        <label>Anagramme </label>
                         <input autoCapitalize="none" {...register('anagram')} />
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins:</label>
+                        <label>Anagramme moins</label>
                         <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus:</label>
+                        <label>Anagramme plus</label>
                         <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Nombre de lettres minimum :</label>
+                        <label>Nombre de lettres minimum *</label>
                         <input
                             type="number"
                             required
@@ -421,7 +421,7 @@ function App() {
                         <p className={"message-error"}>{errors.minimumNumberLetterss?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Nombre de lettres maximum :</label>
+                        <label>Nombre de lettres maximum *</label>
                         <input
                                 type="number"
                                 required
@@ -430,7 +430,7 @@ function App() {
                         <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Nombre de syllabes minimum :</label>
+                        <label>Nombre de syllabes minimum *</label>
                         <input
                             type="number"
                             required {...register('minimumNumberSyllables', {min: 0})}
@@ -438,7 +438,7 @@ function App() {
                         <p className={"message-error"}>{errors.minimumNumberSyllables?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Nombre de syllabes maximum :</label>
+                        <label>Nombre de syllabes maximum *</label>
                         <input
                             type="number"
                             required
@@ -448,39 +448,39 @@ function App() {
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>Phonétique:</legend>
+                    <legend>Phonétique</legend>
                     <div className={"form-child"}>
-                        <label>Commence par :</label>
+                        <label>Commence par </label>
                         <input {...register('startsWithPhoetically')} />
                         <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Finit par :</label>
+                        <label>Finit par </label>
                         <input {...register('endedWithPhoetically')} />
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient :</label>
+                        <label>Contient </label>
                         <input {...register('containsPhoetically')} />
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite :</label>
+                        <label>Contient à la suite </label>
                         <input {...register('containsFollowingPhoetically')} />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme :</label>
+                        <label>Anagramme </label>
                         <input {...register('anagramPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins:</label>
+                        <label>Anagramme moins</label>
                         <input {...register('anagramMinusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus:</label>
+                        <label>Anagramme plus</label>
                         <input {...register('anagramPlusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
@@ -490,7 +490,7 @@ function App() {
                     <button onClick={() => downloadCSV()}>Export</button>
                 </div>
                 <fieldset className={"affichage"}>
-                    <legend>Affichage:</legend>
+                    <legend>Affichage</legend>
                     <div className={"ckeckbox-display"}>
                         <input
                             type="checkbox"
@@ -513,13 +513,13 @@ function App() {
                     </div>
                 </fieldset>
                 <fieldset className={"Divers"}>
-                    <legend>Autres:</legend>
+                    <legend>Autres</legend>
                     <div className={"form-child"}>
                         <label>Catégorie grammaticale</label>
                         <Controller
                             control={control}
                             name="grammatical_category"
-                            render={({ field: { onChange, onBlur, value, ref } }) => (
+                            render={({ field: { onChange, onBlur, value } }) => (
                                 <Select
                                     value={value}
                                     onChange={onChange}
