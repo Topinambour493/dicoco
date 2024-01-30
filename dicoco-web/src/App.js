@@ -402,12 +402,20 @@ function App() {
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins</label>
+                        <label className={"pre-wrap"}>
+                            Anagramme moins
+                            <p className={"subtile"}>Renvoit tous les mots contenant uniquement</p>
+                            <p className={"subtile"}>tout ou en partie les lettres données</p>
+                        </label>
                         <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus</label>
+                        <label>
+                            Anagramme plus
+                            <p className={"subtile"}>Renvoit tous les mots contenant</p>
+                            <p className={"subtile"}>au minimum toutes les lettres données</p>
+                        </label>
                         <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
                     </div>
@@ -451,37 +459,37 @@ function App() {
                     <legend>Phonétique</legend>
                     <div className={"form-child"}>
                         <label>Commence par </label>
-                        <input {...register('startsWithPhoetically')} />
+                        <input autoCapitalize="none" {...register('startsWithPhoetically')} />
                         <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par </label>
-                        <input {...register('endedWithPhoetically')} />
+                        <input autoCapitalize="none" {...register('endedWithPhoetically')} />
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient </label>
-                        <input {...register('containsPhoetically')} />
+                        <input autoCapitalize="none" {...register('containsPhoetically')} />
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Contient à la suite </label>
-                        <input {...register('containsFollowingPhoetically')} />
+                        <input autoCapitalize="none" {...register('containsFollowingPhoetically')} />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme </label>
-                        <input {...register('anagramPhoetically')} />
+                        <input autoCapitalize="none" {...register('anagramPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme moins</label>
-                        <input {...register('anagramMinusPhoetically')} />
+                        <input autoCapitalize="none" {...register('anagramMinusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme plus</label>
-                        <input {...register('anagramPlusPhoetically')} />
+                        <input autoCapitalize="none" {...register('anagramPlusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
