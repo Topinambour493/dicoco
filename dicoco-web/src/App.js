@@ -18,6 +18,15 @@ function  get_genre(genre){
         return "Neutre"
 }
 
+function get_nombre(nombre){
+    if (nombre === "s")
+        return "Singulier"
+    else if (nombre === "p")
+        return "Pluriel"
+    else
+        return "Neutre"
+}
+
 yup.setLocale({
     mixed: {
         required: 'champ requis',
@@ -55,7 +64,11 @@ let schema = yup.object().shape({
 function App() {
     const [displays, setDisplays] =  React.useState({
         displayName: true,
-        displayGender: true
+        displayGender: true,
+        displayNumber: true,
+        displayCgram: true,
+        displayLemme: true,
+        displayNumberofLetters : true
     })
     const [pending, setPending] = React.useState(true);
     const { register, handleSubmit, formState:{ errors } } = useForm({
@@ -170,7 +183,9 @@ function App() {
         },
         {
             name: 'Nombre',
+            omit: !displays.displayNumber,
             selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell : row => get_nombre(row.nombre),
             sortable: true,
             center : true,
             reorder: true,
@@ -180,7 +195,9 @@ function App() {
         },
         {
             name: 'Catégorie grammaticale',
+            omit: !displays.displayCgram,
             selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell : row => <div>{row.cgram}</div>,
             sortable: true,
             center : true,
             reorder: true,
@@ -190,6 +207,7 @@ function App() {
         },
         {
             name: 'Lemme',
+            omit : !displays.displayLemme,
             selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => <div>{row.lemme}</div>,
             sortable: true,
@@ -201,6 +219,7 @@ function App() {
         },
         {
             name: 'Nombre de lettres',
+            omit: !displays.displayNumberofLetters,
             selector: row =>  parseInt(row.nbletters),
             cell:  row => <div>{row.nbletters}</div>,
             sortable: true,
@@ -274,7 +293,7 @@ function App() {
             }
         }
     ],
-    [displays.displayName, displays.displayGender],
+    [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram, displays.displayLemme, displays.displayNumberofLetters],
     );
 
     function filterHead(data){
@@ -399,7 +418,7 @@ function App() {
                             onChange={e => handleInputChange(e)}
                             checked={displays.displayName}
                         />
-                        <label htmlFor="displayName">Nom</label>
+                        <label htmlFor="displayName"> Nom</label>
                     </div>
                     <div className={"ckeckbox-display"}>
                         <input
@@ -409,7 +428,47 @@ function App() {
                             onChange={e => handleInputChange(e)}
                             checked={displays.displayGender}
                         />
-                        <label htmlFor="displayGender">Genre</label>
+                        <label htmlFor="displayGender"> Genre</label>
+                    </div>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNumber"
+                            name="displayNumber"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNumber}
+                        />
+                        <label htmlFor="displayNumber"> Nombre</label>
+                    </div>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayCgram"
+                            name="displayCgram"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayCgram}
+                        />
+                        <label htmlFor="displayCgram"> Catégorie grammaticale</label>
+                    </div>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayLemme"
+                            name="displayLemme"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayLemme}
+                        />
+                        <label htmlFor="displayLemme"> Lemme</label>
+                    </div>
+                    <div className={"ckeckbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNumberofLetters"
+                            name="displayNumberofLetters"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNumberofLetters}
+                        />
+                        <label htmlFor="displayNumberofLetters"> Nombre de lettres</label>
                     </div>
                 </fieldset>
             </div>
