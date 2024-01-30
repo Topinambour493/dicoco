@@ -371,7 +371,7 @@ function App() {
 
     }
 
-    let div = <div className="App">
+    let diva = <div className="App">
         <form id="form-fiter_head" onSubmit={handleSubmit((data) => {filterHead(data)})}>
             <div className={"form-container"}>
                 <fieldset>
