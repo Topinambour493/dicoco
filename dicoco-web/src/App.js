@@ -20,14 +20,6 @@ function  get_genre(genre){
         return "Neutre"
 }
 
-function get_nombre(nombre){
-    if (nombre === "s")
-        return "Singulier"
-    else if (nombre === "p")
-        return "Pluriel"
-    else
-        return "Neutre"
-}
 
 const options = [
     { label: "Nom", value: "NOM" },
