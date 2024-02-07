@@ -140,7 +140,18 @@ let schema = yup.object().shape({
 function App() {
     const [displays, setDisplays] =  React.useState({
         displayName: true,
-        displayGender: true
+        displayGender: true,
+        displayNumber: true,
+        displayCgram: true,
+        displayLemme: true,
+        displayNumberLetter: true,
+        displayNumberSyl: true,
+        displayOrthosyll: true,
+        displayPhon:true,
+        displayPuorth: true,
+        displayNbhomoph: true,
+        displayOrthrenv: true
+
     })
     const [pending, setPending] = React.useState(false);
     const { register, handleSubmit, formState:{ errors }, control } = useForm({
@@ -248,6 +259,7 @@ function App() {
         },
         {
             name: 'Nombre',
+            omit: !displays.displayNumber,
             selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => get_nombre(row.nombre),
             sortable: true,
@@ -259,6 +271,7 @@ function App() {
         },
         {
             name: 'Catégorie grammaticale',
+            omit: !displays.displayCgram,
             selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell: row => get_grammatical_category(row.cgram),
             sortable: true,
@@ -270,6 +283,7 @@ function App() {
         },
         {
             name: 'Lemme',
+            omit: !displays.displayLemme,
             selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => <div>{row.lemme}</div>,
             sortable: true,
@@ -281,6 +295,7 @@ function App() {
         },
         {
             name: 'Nombre de lettres',
+            omit: !displays.displayNumberLetter,
             selector: row =>  parseInt(row.nbletters),
             cell:  row => <div>{row.nbletters}</div>,
             sortable: true,
@@ -292,6 +307,7 @@ function App() {
         },
         {
             name: 'Nombre de syllabes',
+            omit: !displays.displayNumberSyl,
             selector: row => parseInt(row.nbsyll),
             sortable: true,
             center : true,
@@ -302,6 +318,7 @@ function App() {
         },
         {
             name: 'Forme orthographique syllabée',
+            omit: !displays.displayOrthosyll,
             selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => <div>{row.orthosyll}</div>,
             sortable: true,
@@ -313,6 +330,7 @@ function App() {
         },
         {
             name: 'Phonétique',
+            omit: !displays.displayPhon,
             selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => <div>{row.phon}</div>,
             sortable: true,
@@ -324,6 +342,7 @@ function App() {
         },
         {
             name: 'Unicité orthographique',
+            omit: !displays.displayPuorth,
             selector: row => parseInt(row.puorth),
             sortable: true,
             center : true,
@@ -334,6 +353,7 @@ function App() {
         },
         {
             name: "Nombre d'homophones",
+            omit: !displays.displayNbhomoph,
             selector: row => parseInt(row.nbhomoph),
             sortable: true,
             center : true,
@@ -344,6 +364,7 @@ function App() {
         },
         {
             name: "Inverse",
+            omit: !displays.displayOrthrenv,
             selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             cell:  row => <div>{row.orthrenv}</div>,
             sortable: true,
@@ -354,7 +375,7 @@ function App() {
             }
         }
     ],
-    [displays.displayName, displays.displayGender],
+    [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram,displays.displayLemme, displays.displayNumberLetter,displays.displayNumberSyl, displays.displayNbhomoph,displays.displayOrthosyll,displays.displayPhon,displays.displayOrthrenv,displays.displayPuorth],
     );
 
     function filterHead(data){
@@ -491,7 +512,7 @@ function App() {
                 </div>
                 <fieldset className={"affichage"}>
                     <legend>Affichage</legend>
-                    <div className={"ckeckbox-display"}>
+                    <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
                             id="displayName"
@@ -501,7 +522,7 @@ function App() {
                         />
                         <label htmlFor="displayName">Nom</label>
                     </div>
-                    <div className={"ckeckbox-display"}>
+                    <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
                             id="displayGender"
@@ -510,6 +531,107 @@ function App() {
                             checked={displays.displayGender}
                         />
                         <label htmlFor="displayGender">Genre</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNumber"
+                            name="displayNumber"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNumber}
+                        />
+                        <label htmlFor="displayNumber">Nombre</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayCgram"
+                            name="displayCgram"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayCgram}
+                        />
+                        <label htmlFor="displayCgram">Catégorie grammaticale</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayLemme"
+                            name="displayLemme"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayLemme}
+                        />
+                        <label htmlFor="displayLemme">Lemme</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNumberLetter"
+                            name="displayNumberLetter"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNumberLetter}
+                        />
+                        <label htmlFor="displayNumberLetter">Nombre de lettres</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNumberSyl"
+                            name="displayNumberSyl"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNumberSyl}
+                        />
+                        <label htmlFor="displayNumberSyl">Unicité orthographique</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayNbhomoph"
+                            name="displayNbhomoph"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayNbhomoph}
+                        />
+                        <label htmlFor="displayNbhomoph">Nombre d'homophones</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayPuorth"
+                            name="displayPuorth"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayPuorth}
+                        />
+                        <label htmlFor="displayPuorth">Nombre de syllabes</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayOrthrenv"
+                            name="displayOrthrenv"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayOrthrenv}
+                        />
+                        <label htmlFor="displayOrthrenv">Inverse</label>
+                    </div>
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayOrthosyll"
+                            name="displayOrthosyll"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayOrthosyll}
+                        />
+                        <label htmlFor="displayOrthosyll">Forme orthographique syllabée</label>
+                    </div>
+                    
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayPhon"
+                            name="displayPhon"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayPhon}
+                        />
+                        <label htmlFor="displayPhon">Phonétique</label>
                     </div>
                 </fieldset>
                 <fieldset className={"Divers"}>
