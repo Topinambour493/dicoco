@@ -20,6 +20,7 @@ function  get_genre(genre){
         return "Neutre"
 }
 
+
 const options = [
     { label: "Nom", value: "NOM" },
     { label: "Auxiliaire", value: "AUX" },
@@ -384,7 +385,6 @@ function App() {
         console.log(baseURL)
         setPending(true);
         axios.get(baseURL, {params : data}).then((response) => {
-            console.log(response);
             setDico(JSON.parse(response.data.dict));
             setPending(false);
         });
@@ -444,9 +444,9 @@ function App() {
                     <div className={"form-child"}>
                         <label>Nombre de lettres maximum *</label>
                         <input
-                                type="number"
-                                required
-                                {...register('maximumNumberLetters', {min: 0})}
+                            type="number"
+                            required
+                            {...register('maximumNumberLetters', {min: 0})}
                         />
                         <p className={"message-error"}>{errors.maximumNumbeLetters?.message}</p>
                     </div>
@@ -506,13 +506,14 @@ function App() {
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
+                
                 <div className={"form-child"} id={"submit"}>
                     <button type="submit" className="button">Send</button>
                     <button onClick={() => downloadCSV()}>Export</button>
-                </div>
+                </div>    
                 <fieldset className={"affichage"}>
-                    <legend>Affichage</legend>
-                    <div className={"checkbox-display"}>
+                <legend>Affichage</legend>
+                <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
                             id="displayName"
@@ -522,6 +523,9 @@ function App() {
                         />
                         <label htmlFor="displayName">Nom</label>
                     </div>
+
+
+
                     <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
@@ -641,7 +645,7 @@ function App() {
                         <Controller
                             control={control}
                             name="grammatical_category"
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({field: {onChange, onBlur, value}}) => (
                                 <Select
                                     value={value}
                                     onChange={onChange}
