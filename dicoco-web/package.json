@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "kill-port 3000 && react-scripts start",
+    "css-build": "sass -w src/scss/source/index.scss src/scss/build/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

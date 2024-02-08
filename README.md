@@ -9,6 +9,7 @@ Ouvrir le fichier Lexique383.xlsb dans excel puis Cliquer sur Fichier -> Enregis
 
 Utiliser le format CSV
 
+
 ![image](https://github.com/Topinambour493/dicoco/assets/92278752/35d07111-1ef3-4451-90e5-7dd01e8895dd)
 
 Mettre les memes parametres qu'indiqués ci dessus puis sauvegarder
@@ -29,5 +30,10 @@ cd dicoco-web
 npm install
 npm run start
 ```
-
+## Developpement frontend
+Il faut lancer un nouveau terminal puis depuis la racine du projet:
+````
+cd dicoco-web
+npm run css-build
+````
 
