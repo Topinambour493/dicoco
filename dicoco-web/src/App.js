@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, {useEffect} from "react";
 import DataTable from 'react-data-table-component';
 import {Controller, useForm} from 'react-hook-form';
 import {GooeyCircleLoader} from "react-loaders-kit";
@@ -9,6 +9,7 @@ import Select from 'react-select';
 
 
 const baseURL = process.env.REACT_APP_BASE_URL;
+
 
 function get_genre(genre) {
     if (genre === "m")
@@ -156,6 +157,41 @@ function App() {
 
     // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
 
+    function hideAllTooltips(exception) {
+        let tooltips = document.getElementsByClassName("tooltip-content");
+        for (let j = 0; j < tooltips.length; j++) {
+            if (tooltips[j] === exception)
+                continue
+            tooltips[j].style.display = "none";
+        }
+
+    }
+
+    function changeStateTooltip(e) {
+        e.stopPropagation()
+        let tooltip = e.target.parentElement.lastChild
+         console.log(tooltip.style.display)
+        if (tooltip.style.display === "block")
+            tooltip.style.display = "none";
+        else
+            tooltip.style.display = "block"
+        hideAllTooltips(tooltip)
+
+    }
+
+    useEffect(() => {
+        let elements = document.getElementsByClassName("container-tooltip");
+
+        document.body.addEventListener("click", hideAllTooltips, false)
+
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', changeStateTooltip, false);
+        }
+
+
+    });
+
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -216,6 +252,7 @@ function App() {
 
         return result;
     }
+
 
     const columns = React.useMemo(
         () => [
@@ -388,19 +425,26 @@ function App() {
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient
-                            <img
-                                title={"Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés"}
-                                src={"information-icon.svg"} className={"info-button"} alt={"explication contient"}/>
+                        <label className={"tooltip"}>
+                            Contient
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication contient"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('contains')} />
                         <p className={"message-error"}>{errors.contains?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite
-                            <img title={"Renvoit les mots contenant à la suite les lettres donnés"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication contient à la suite"}/></label>
+                        <label className={"tooltip"}>
+                            Contient à la suite
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication contient à la suite"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                            </div>
+                        </label>
                         <input autoCapitalize="none" {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
@@ -410,21 +454,25 @@ function App() {
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>
+                        <label className={"tooltip"}>
                             Anagramme moins
-                            <img title={"Renvoit les mots contenant uniquement tout ou en partie les lettres données"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication anagramme plus"}/>
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme moins"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant uniquement tout ou en partie les lettres données</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>
+                        <label className={"tooltip"}>
                             Anagramme plus
-                            <img title={"Renvoit les mots contenant au minimum toutes les lettres données"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication anagramme plus"}/>
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme plus"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
@@ -478,19 +526,25 @@ function App() {
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient
-                            <img
-                                title={"Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés"}
-                                src={"information-icon.svg"} className={"info-button"} alt={"explication contient"}/>
+                        <label className={"tooltip"}>Contient
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication contient"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('containsPhoetically')}/>
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite
-                            <img title={"Renvoit les mots contenant à la suite les lettres donnés"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication contient à la suite"}/>
+                        <label className={"tooltip"}>Contient à la suite
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication contient à la suite"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('containsFollowingPhoetically')} />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
@@ -501,19 +555,24 @@ function App() {
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins
-                            <img title={"Renvoit les mots contenant au minimum toutes les lettres données"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication anagramme plus"}/>
+                        <label className={"tooltip"}>Anagramme moins
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication anagramme moins"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('anagramMinusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus
-                            <img title={"Renvoit les mots contenant au minimum toutes les lettres données"}
-                                 src={"information-icon.svg"} className={"info-button"}
-                                 alt={"explication anagramme plus"}/>
+                        <label className={"tooltip"}>Anagramme plus
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme plus"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
                         </label>
                         <input autoCapitalize="none" {...register('anagramPlusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>

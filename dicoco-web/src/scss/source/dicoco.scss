@@ -1,17 +1,19 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html, body {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 body {
+  margin: 25px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
 }
 
 code {
@@ -20,110 +22,115 @@ code {
 
 
 [data-column-id].rdt_TableCol {
-    min-width: 230px;
+  min-width: 230px;
 }
 
 #green-button {
-    background-color: rgb(7, 220, 7);
+  background-color: rgb(7, 220, 7);
 }
 
 .red-button {
-    background-color: red;
+  background-color: red;
 }
 
 form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 
 .form-container {
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-width: 850px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 850px;
 }
 
 .form-child {
-    display: flex;
-    flex-direction: column;
-    text-align: start;
-    align-content: center;
-    padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  align-content: center;
+  padding: 3px 6px;
 }
 
 input {
-    max-width: 200px;
+  max-width: 200px;
 }
 
 
 .message-error {
-    color: red;
+  color: red;
 }
 
-* {
-    box-sizing: border-box;
-}
+
 
 .send {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
-    position: relative;
-    display: block;
-    width: 100px;
-    height: 36px;
-    border-radius: 18px;
-    background-color: grey;
-    border: solid 1px transparent;
-    color: white;
-    margin: 14px;
-    font-size: 18px;
-    font-weight: 300;
-    cursor: pointer;
+  position: relative;
+  display: block;
+  width: 100px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: grey;
+  border: solid 1px transparent;
+  color: white;
+  margin: 14px;
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all .1s ease-in-out;
+
+  &:hover {
+    background-color: transparent;
+    border-color: grey;
     transition: all .1s ease-in-out;
+    color: black;
+  }
 
-    &:hover {
-        background-color: transparent;
-        border-color: grey;
-        transition: all .1s ease-in-out;
-        color: black;
-    }
-
-    &:active {
-        transform: scale(0.95);
-        box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px;
-    }
+  &:active {
+    transform: scale(0.95);
+    box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px;
+  }
 }
 
 #submit {
-    align-self: center;
+  align-self: center;
 }
 
 fieldset {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 3px 6px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px 6px;
 }
 
 .ckeckbox-display {
-    padding: 3px 6px;
+  padding: 3px 6px;
 }
 
-label{
-    position: relative;
+label.tooltip{
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .info-button {
-    margin: 0 .3em;
-    position: absolute;
-    top:0.25em;
-    left: auto;
-    width: 1em;
-    height: 1em;
+  display:block;
+  width: 1em;
+  height: 1em;
+  margin: 0 .5em;
+  vertical-align: bottom;
 }
+
+.container-tooltip{
+  position: relative;
+  cursor: pointer;
+}
+
