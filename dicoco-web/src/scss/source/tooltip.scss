@@ -1,0 +1,61 @@
+/* COLORS */
+$white: #ffffff;
+$gray-light: #cdd2d6;
+$black: #000000;
+$blue: #005CC8;
+$orange: #ff7033;
+$red: #f7404f;
+$green: #49c562;
+$shadow: rgba(205, 210, 214, .8);
+$active-tooltip: true;
+
+/* TOOLTIP */
+
+.tooltip-content {
+  background: $blue;
+  box-shadow: 0 5px 25px 5px $shadow;
+  box-sizing: border-box;
+  color: $white;
+  font-size: 0.8em;
+  max-width: 200px;
+  min-width: 145px;
+  padding: 1em;
+  position: absolute;
+  opacity: 1;
+  z-index: 2;
+  top: auto;
+  display: none;
+
+  &::after {
+    background: $blue;
+    content: "";
+    height: 10px;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 10px;
+  }
+
+  &.right {
+    left: calc(50% + 1.3em);
+    top: 50%;
+    transform: translateY(-50%);
+
+    &::after {
+      left: -5px;
+      margin-top: -5px;
+      top: 50%;
+    }
+  }
+
+  &.left {
+    right: calc(50% + 2.1em);
+    top: 50%;
+    transform: translateY(-50%);
+
+    &::after {
+      right: -5px;
+      margin-top: -5px;
+      top: 50%;
+    }
+  }
+}

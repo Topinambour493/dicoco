@@ -1,17 +1,17 @@
-import "./dicoco.css";
 import axios from "axios";
-import React from "react";
+import React, {useEffect} from "react";
 import DataTable from 'react-data-table-component';
-import { Controller, useForm } from 'react-hook-form';
-import { GooeyCircleLoader } from "react-loaders-kit";
-import { yupResolver } from '@hookform/resolvers/yup';
+import {Controller, useForm} from 'react-hook-form';
+import {GooeyCircleLoader} from "react-loaders-kit";
+import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import Select from 'react-select';
 
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
-function  get_genre(genre){
+
+function get_genre(genre) {
     if (genre === "m")
         return "Masculin"
     else if (genre === "f")
@@ -20,33 +20,32 @@ function  get_genre(genre){
         return "Neutre"
 }
 
-
 const options = [
-    { label: "Nom", value: "NOM" },
-    { label: "Auxiliaire", value: "AUX" },
-    { label: "Verbe", value: "VER"},
-    { label: "Autre", value: ""},
-    { label: "Préposition", value: "PRE" },
-    { label: "Adjectif", value: "ADJ" },
-    { label: "Interjection", value: "ONO"},
-    { label: "Conjonction", value: "CON"},
-    { label: "Article défini", value: "ART:def" },
-    { label: "Article indéfini", value: "ADJ:ind" },
-    { label: "Pronom indéfini", value: "PRO:ind"},
-    { label: "Pronom interrogatif", value: "PRO:int"},
-    { label: "Pronom relatif", value: "PRO:rel" },
-    { label: "Adjectif numérique", value: "ADJ:num" },
-    { label: "Pronom personnel", value: "PRO:per"},
-    { label: "Article indéfini", value: "ART:ind"},
-    { label: "Liaison", value: "LIA" },
-    { label: "Pronom possessif", value: "PRO:pos"},
-    { label: "Pronom démonstratif", value: "PRO:dem"},
-    { label: "Adjectif démonstratif", value: "ADJ:dem" },
-    { label: "Adjectif possessif", value: "ADJ:pos" },
-    { label: "Adjectif interrogatif", value: "ADJ:int"}
+    {label: "Nom", value: "NOM"},
+    {label: "Auxiliaire", value: "AUX"},
+    {label: "Verbe", value: "VER"},
+    {label: "Autre", value: ""},
+    {label: "Préposition", value: "PRE"},
+    {label: "Adjectif", value: "ADJ"},
+    {label: "Interjection", value: "ONO"},
+    {label: "Conjonction", value: "CON"},
+    {label: "Article défini", value: "ART:def"},
+    {label: "Article indéfini", value: "ADJ:ind"},
+    {label: "Pronom indéfini", value: "PRO:ind"},
+    {label: "Pronom interrogatif", value: "PRO:int"},
+    {label: "Pronom relatif", value: "PRO:rel"},
+    {label: "Adjectif numérique", value: "ADJ:num"},
+    {label: "Pronom personnel", value: "PRO:per"},
+    {label: "Article indéfini", value: "ART:ind"},
+    {label: "Liaison", value: "LIA"},
+    {label: "Pronom possessif", value: "PRO:pos"},
+    {label: "Pronom démonstratif", value: "PRO:dem"},
+    {label: "Adjectif démonstratif", value: "ADJ:dem"},
+    {label: "Adjectif possessif", value: "ADJ:pos"},
+    {label: "Adjectif interrogatif", value: "ADJ:int"}
 ];
 
-function  get_nombre(nombre){
+function get_nombre(nombre) {
     if (nombre === "s")
         return "Singulier"
     else if (nombre === "p")
@@ -55,7 +54,7 @@ function  get_nombre(nombre){
         return ""
 }
 
-function get_grammatical_category(grammatical_category){
+function get_grammatical_category(grammatical_category) {
     if (grammatical_category === "NOM")
         return "Nom"
     else if (grammatical_category === "AUX")
@@ -132,14 +131,14 @@ let schema = yup.object().shape({
     anagramPlus: yup.string(),
     anagramMinusPhoetically: yup.string(),
     anagramPlusPhoetically: yup.string(),
-    minimumNumberSyllables: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
-    maximumNumberSyllables: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberSyllables'),() => `doit être supérieur à la valeur minimum`),
-    minimumNumberLetters: yup.number().required().typeError().integer().positive().max( yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
-    maximumNumberLetters: yup.number().required().typeError().integer().positive().min( yup.ref('minimumNumberLetters'),() => `doit être supérieur à la valeur minimum`),
+    minimumNumberSyllables: yup.number().required().typeError().integer().positive().max(yup.ref('maximumNumberSyllables'), () => 'doit être inférieur à la valeur maximum'),
+    maximumNumberSyllables: yup.number().required().typeError().integer().positive().min(yup.ref('minimumNumberSyllables'), () => `doit être supérieur à la valeur minimum`),
+    minimumNumberLetters: yup.number().required().typeError().integer().positive().max(yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
+    maximumNumberLetters: yup.number().required().typeError().integer().positive().min(yup.ref('minimumNumberLetters'), () => `doit être supérieur à la valeur minimum`),
 })
 
 function App() {
-    const [displays, setDisplays] =  React.useState({
+    const [displays, setDisplays] = React.useState({
         displayName: true,
         displayGender: true,
         displayNumber: true,
@@ -148,7 +147,7 @@ function App() {
         displayNumberofLetters : true
     })
     const [pending, setPending] = React.useState(false);
-    const { register, handleSubmit, formState:{ errors }, control } = useForm({
+    const {register, handleSubmit, formState: {errors}, control} = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             minimumNumberSyllables: 1,
@@ -161,6 +160,41 @@ function App() {
     const [dico, setDico] = React.useState([]);
 
     // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+
+    function hideAllTooltips(exception) {
+        let tooltips = document.getElementsByClassName("tooltip-content");
+        for (let j = 0; j < tooltips.length; j++) {
+            if (tooltips[j] === exception)
+                continue
+            tooltips[j].style.display = "none";
+        }
+
+    }
+
+    function changeStateTooltip(e) {
+        e.stopPropagation()
+        let tooltip = e.target.parentElement.lastChild
+         console.log(tooltip.style.display)
+        if (tooltip.style.display === "block")
+            tooltip.style.display = "none";
+        else
+            tooltip.style.display = "block"
+        hideAllTooltips(tooltip)
+
+    }
+
+    useEffect(() => {
+        let elements = document.getElementsByClassName("container-tooltip");
+
+        document.body.addEventListener("click", hideAllTooltips, false)
+
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', changeStateTooltip, false);
+        }
+
+
+    });
 
     const handleInputChange = (event) => {
         const target = event.target;
@@ -366,7 +400,7 @@ function App() {
     [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram, displays.displayLemme, displays.displayNumberofLetters],
     );
 
-    function filterHead(data){
+    function filterHead(data) {
         if (data.grammatical_category)
             data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
         console.log(baseURL)
@@ -380,7 +414,9 @@ function App() {
     }
 
     let diva = <div className="App">
-        <form id="form-fiter_head" onSubmit={handleSubmit((data) => {filterHead(data)})}>
+        <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
+            filterHead(data)
+        })}>
             <div className={"form-container"}>
                 <fieldset>
                     <legend>Alphabétique</legend>
@@ -395,12 +431,26 @@ function App() {
                         <p className={"message-error"}>{errors.endedWith?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient </label>
+                        <label className={"tooltip"}>
+                            Contient
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication contient"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                            </div>
+                        </label>
                         <input autoCapitalize="none" {...register('contains')} />
                         <p className={"message-error"}>{errors.contains?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite </label>
+                        <label className={"tooltip"}>
+                            Contient à la suite
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication contient à la suite"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                            </div>
+                        </label>
                         <input autoCapitalize="none" {...register('containsFollowing')} />
                         <p className={"message-error"}>{errors.containsFollowing?.message}</p>
                     </div>
@@ -410,12 +460,26 @@ function App() {
                         <p className={"message-error"}>{errors.anagram?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins</label>
+                        <label className={"tooltip"}>
+                            Anagramme moins
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme moins"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant uniquement tout ou en partie les lettres données</span>
+                            </div>
+                        </label>
                         <input autoCapitalize="none" {...register('anagramMinus')} />
                         <p className={"message-error"}>{errors.anagramMinus?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus</label>
+                        <label className={"tooltip"}>
+                            Anagramme plus
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme plus"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
+                        </label>
                         <input autoCapitalize="none" {...register('anagramPlus')} />
                         <p className={"message-error"}>{errors.anagramPlus?.message}</p>
                     </div>
@@ -459,46 +523,69 @@ function App() {
                     <legend>Phonétique</legend>
                     <div className={"form-child"}>
                         <label>Commence par </label>
-                        <input {...register('startsWithPhoetically')} />
+                        <input autoCapitalize="none" {...register('startsWithPhoetically')} />
                         <p className={"message-error"}>{errors.startsWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Finit par </label>
-                        <input {...register('endedWithPhoetically')} />
+                        <input autoCapitalize="none" {...register('endedWithPhoetically')} />
                         <p className={"message-error"}>{errors.endedWithPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient </label>
-                        <input {...register('containsPhoetically')} />
+                        <label className={"tooltip"}>Contient
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication contient"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                            </div>
+                        </label>
+                        <input autoCapitalize="none" {...register('containsPhoetically')}/>
                         <p className={"message-error"}>{errors.containsPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Contient à la suite </label>
-                        <input {...register('containsFollowingPhoetically')} />
+                        <label className={"tooltip"}>Contient à la suite
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication contient à la suite"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                            </div>
+                        </label>
+                        <input autoCapitalize="none" {...register('containsFollowingPhoetically')} />
                         <p className={"message-error"}>{errors.containsFollowingPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
                         <label>Anagramme </label>
-                        <input {...register('anagramPhoetically')} />
+                        <input autoCapitalize="none" {...register('anagramPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme moins</label>
-                        <input {...register('anagramMinusPhoetically')} />
+                        <label className={"tooltip"}>Anagramme moins
+                            <div className={"container-tooltip"}>
+                                <img
+                                    src={"information-icon.svg"} className={"info-button"}
+                                    alt={"explication anagramme moins"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
+                        </label>
+                        <input autoCapitalize="none" {...register('anagramMinusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramMinusPhoetically?.message}</p>
                     </div>
                     <div className={"form-child"}>
-                        <label>Anagramme plus</label>
-                        <input {...register('anagramPlusPhoetically')} />
+                        <label className={"tooltip"}>Anagramme plus
+                            <div className={"container-tooltip"}>
+                                <img src={"information-icon.svg"} className={"info-button"}
+                                     alt={"explication anagramme plus"}/>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                            </div>
+                        </label>
+                        <input autoCapitalize="none" {...register('anagramPlusPhoetically')} />
                         <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
                     </div>
                 </fieldset>
-                <div className={"form-child"} id={"submit"}>
-                    <button type="submit" className="button">Send</button>
-                    <button onClick={() => downloadCSV()}>Export</button>
-                </div>
                 <fieldset className={"affichage"}>
-                    <legend>Affichage:</legend>
+                    <legend>Affichage</legend>
                     <div className={"ckeckbox-display"}>
                         <input
                             type="checkbox"
@@ -507,7 +594,7 @@ function App() {
                             onChange={e => handleInputChange(e)}
                             checked={displays.displayName}
                         />
-                        <label htmlFor="displayName"> Nom</label>
+                        <label htmlFor="displayName">Nom</label>
                     </div>
                     <div className={"ckeckbox-display"}>
                         <input
@@ -580,6 +667,9 @@ function App() {
                         />
                     </div>
                 </fieldset>
+                <div className={"form-child"} id={"submit"}>
+                    <button type="submit" className="button">Send</button>
+                </div>
             </div>
 
         </form>
