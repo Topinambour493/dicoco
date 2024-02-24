@@ -449,7 +449,7 @@ function App() {
                             <div className={"container-tooltip"}>
                                 <img src={"information-icon.svg"} className={"info-button"}
                                      alt={"explication contient"}/>
-                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres données</span>
                             </div>
                         </label>
                         <input autoCapitalize="none" {...register('contains')} />
@@ -461,7 +461,7 @@ function App() {
                             <div className={"container-tooltip"}>
                                 <img src={"information-icon.svg"} className={"info-button"}
                                      alt={"explication contient à la suite"}/>
-                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres données</span>
                             </div>
                         </label>
                         <input autoCapitalize="none" {...register('containsFollowing')} />
@@ -550,7 +550,7 @@ function App() {
                                 <img
                                     src={"information-icon.svg"} className={"info-button"}
                                     alt={"explication contient"}/>
-                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres donnés</span>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant dans l'ordre mais pas forcément à la suite les lettres données</span>
                             </div>
                         </label>
                         <input autoCapitalize="none" {...register('containsPhoetically')}/>
@@ -562,7 +562,7 @@ function App() {
                                 <img
                                     src={"information-icon.svg"} className={"info-button"}
                                     alt={"explication contient à la suite"}/>
-                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres donnés</span>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant à la suite les lettres données</span>
                             </div>
                         </label>
                         <input autoCapitalize="none" {...register('containsFollowingPhoetically')} />
@@ -579,7 +579,7 @@ function App() {
                                 <img
                                     src={"information-icon.svg"} className={"info-button"}
                                     alt={"explication anagramme moins"}/>
-                                <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                                <span className={"tooltip-content right"}>Renvoit les mots contenant uniquement tout ou en partie les lettres données</span>
                             </div>
                         </label>
                         <input autoCapitalize="none" {...register('anagramMinusPhoetically')} />
@@ -600,7 +600,6 @@ function App() {
                 <fieldset className={"affichage"}>
                     <legend>Affichage</legend>
                     <div className={"ckeckbox-display"}>
-                <legend>Affichage</legend>
                 <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
@@ -661,6 +660,40 @@ function App() {
                         />
                         <label htmlFor="displayNumberLetter">Nombre de lettres</label>
                     </div>
+                    
+                    
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayPuorth"
+                            name="displayPuorth"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayPuorth}
+                        />
+                        <label htmlFor="displayPuorth">Nombre de syllabes</label>
+                    </div>
+                    
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayOrthosyll"
+                            name="displayOrthosyll"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayOrthosyll}
+                        />
+                        <label htmlFor="displayOrthosyll">Forme orthographique syllabée</label>
+                    </div>
+
+                    <div className={"checkbox-display"}>
+                        <input
+                            type="checkbox"
+                            id="displayPhon"
+                            name="displayPhon"
+                            onChange={e => handleInputChange(e)}
+                            checked={displays.displayPhon}
+                        />
+                        <label htmlFor="displayPhon">Phonétique</label>
+                    </div>
                     <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
@@ -684,43 +717,12 @@ function App() {
                     <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
-                            id="displayPuorth"
-                            name="displayPuorth"
-                            onChange={e => handleInputChange(e)}
-                            checked={displays.displayPuorth}
-                        />
-                        <label htmlFor="displayPuorth">Nombre de syllabes</label>
-                    </div>
-                    <div className={"checkbox-display"}>
-                        <input
-                            type="checkbox"
                             id="displayOrthrenv"
                             name="displayOrthrenv"
                             onChange={e => handleInputChange(e)}
                             checked={displays.displayOrthrenv}
                         />
                         <label htmlFor="displayOrthrenv">Inverse</label>
-                    </div>
-                    <div className={"checkbox-display"}>
-                        <input
-                            type="checkbox"
-                            id="displayOrthosyll"
-                            name="displayOrthosyll"
-                            onChange={e => handleInputChange(e)}
-                            checked={displays.displayOrthosyll}
-                        />
-                        <label htmlFor="displayOrthosyll">Forme orthographique syllabée</label>
-                    </div>
-
-                    <div className={"checkbox-display"}>
-                        <input
-                            type="checkbox"
-                            id="displayPhon"
-                            name="displayPhon"
-                            onChange={e => handleInputChange(e)}
-                            checked={displays.displayPhon}
-                        />
-                        <label htmlFor="displayPhon">Phonétique</label>
                     </div>
                     </div>
                 </fieldset>
@@ -743,6 +745,7 @@ function App() {
                             )}
                         />
                     </div>
+                    
                 </fieldset>
                 <div className={"form-child"} id={"submit"}>
                     <button type="submit" className="button">Send</button>
