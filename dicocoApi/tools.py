@@ -1,5 +1,6 @@
 import csv
 import json
+from unidecode import unidecode
 
 dico=list(csv.reader(open("Dico.csv")))
 index_dico={'a': [1,12194], 'à': [1,12194], 'â': [1,12194], 'b': [12194,19327], 'c': [19327,35020], 'ç': [19327,35020], 'd': [35020,46955], 'e': [46955,59656], 'é': [46955,59656], 'è': [46955,59656], 'ê': [46955,59656], 'f': [59656,65543], 'g': [65543,70136], 'h': [70136,72770], 'i': [72770,78914], 'î': [72770,78914], 'j': [78914,80086], 'k': [80086,80419], 'l': [80419,83715], 'm': [83715,91425], 'n': [91425,93588], 'o': [93588,96169], 'ô': [93588,96169], 'p': [96169,108785], 'q': [108785,109367], 'r': [109367,122191], 's': [122191,131643], 't': [131643,138402], 'u': [138402,138891], 'ù': [138402,138891], 'v': [138891,142215], 'w': [142215,142315], 'x': [142315,142338], 'y': [142338,142430], 'z': [142430,142688]}
@@ -120,6 +121,21 @@ def anagram_minus(str,line):
         return True
     str = list(str)
     world = list(line[0])
+    if len(world)>len(str):
+        return False
+    for letter in world:
+        if letter in str:
+            str.remove(letter)
+        else:
+            return False
+    return True
+
+def anagram_minus_without_accent(str,line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    if str == "":
+        return True
+    str = unidecode(list(str))
+    world = unidecode(list(line[0]))
     if len(world)>len(str):
         return False
     for letter in world:
@@ -252,8 +268,6 @@ def transform_in_json(tab=dico[1:]):
 
 
 def filter_head_dico(args):
-
-
     print(json.loads(args.get("grammatical","[]")))
     dico_filter_head=[]
     for line in dico[1:] :
@@ -274,5 +288,17 @@ def filter_head_dico(args):
             and anagram_minus_phon(args.get("anagramMinusPhoetically",""),line) \
             and anagram_plus_phon(args.get("anagramPlusPhoetically",""),line) \
             and grammatical_category(args.get("grammatical","[]"),line):
+                dico_filter_head.append(line)
+    return transform_in_json(dico_filter_head)
+
+def anagrammer(args):
+    dico_filter_head = []
+    if args.accent:
+        for line in dico[1:]:
+            if annagram_minus(args.get("letters"), line):
+                dico_filter_head.append(line)
+    else:
+        for line in dico[1:]:
+            if anagram_minus_without_accent(args.get("letters"), line):
                 dico_filter_head.append(line)
     return transform_in_json(dico_filter_head)
