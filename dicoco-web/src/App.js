@@ -426,7 +426,7 @@ function App() {
 
     }
 
-    let diva = <div className="App">
+    let app = <div className="App">
         <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
             filterHead(data)
         })}>
@@ -599,8 +599,6 @@ function App() {
                 </fieldset>
                 <fieldset className={"affichage"}>
                     <legend>Affichage</legend>
-                    <div className={"ckeckbox-display"}>
-                <legend>Affichage</legend>
                 <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
@@ -722,7 +720,6 @@ function App() {
                         />
                         <label htmlFor="displayPhon">Phonétique</label>
                     </div>
-                    </div>
                 </fieldset>
                 <fieldset className={"Divers"}>
                     <legend>Autres</legend>
@@ -739,6 +736,7 @@ function App() {
                                     selected={value}
                                     options={options}
                                     isMulti
+                                    placeholder="Tous"
                                 />
                             )}
                         />
@@ -764,7 +762,7 @@ function App() {
         >
         </DataTable>
     </div>;
-    return diva;
+    return app;
 }
 
 export default App;
