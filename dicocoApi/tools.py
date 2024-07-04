@@ -1,5 +1,6 @@
 import csv
 import json
+from unidecode import unidecode
 
 dico=list(csv.reader(open("Dico.csv")))
 index_dico={'a': [1,12194], 'à': [1,12194], 'â': [1,12194], 'b': [12194,19327], 'c': [19327,35020], 'ç': [19327,35020], 'd': [35020,46955], 'e': [46955,59656], 'é': [46955,59656], 'è': [46955,59656], 'ê': [46955,59656], 'f': [59656,65543], 'g': [65543,70136], 'h': [70136,72770], 'i': [72770,78914], 'î': [72770,78914], 'j': [78914,80086], 'k': [80086,80419], 'l': [80419,83715], 'm': [83715,91425], 'n': [91425,93588], 'o': [93588,96169], 'ô': [93588,96169], 'p': [96169,108785], 'q': [108785,109367], 'r': [109367,122191], 's': [122191,131643], 't': [131643,138402], 'u': [138402,138891], 'ù': [138402,138891], 'v': [138891,142215], 'w': [142215,142315], 'x': [142315,142338], 'y': [142338,142430], 'z': [142430,142688]}
@@ -37,43 +38,59 @@ def nb_syllables(minimum,maximum,line):
     return minimum<=nb_syllables<=maximum
 
 
-def start(str,line):
+def start(str,  accent_considered, line):
     """renvoie tous les worlds qui startnt par la/les letters demandés par l'utilisateur"""
     if(str ==""):
         return True
-    world=line[0]
+    if accent_considered == True:
+        world=line[0]
+    else:
+        world = unidecode(line[0])
+        str = unidecode(str)
     if len(world)>=len(str):
         if str==world[:len(str)]:
             return True
     return False
 
-def end(str,line):
+def end(str, accent_considered, line):
     """revoie tous les worlds qui finnisent par la/les letters demandés par l'utilisateur"""
     if(str ==""):
         return True
-    world=line[0]
+    if accent_considered:
+        world=line[0]
+    else:
+        world = unidecode(line[0])
+        str = unidecode(str)
     if len(world)>=len(str):
         if str==world[-len(str):]:
             return True
     return False
 
-def include_sequence(str,line):
+def include_sequence(str, accent_considered, line):
     """cette fonction renvoie tous les worlds qui contiennes la suite de letters dans l'ordre et a la suite."""
     if str== "":
         return True
-    world=line[0]
+    if accent_considered:
+        world=line[0]
+    else:
+        world = unidecode(line[0])
+        str = unidecode(str)
     if len(world)<len(str):
         return False
     for i in range (len(world)-len(str)+1):
-            if str==world[i:i+len(str)]:
-                return True
+        if str==world[i:i+len(str)]:
+            return True
     return False
 
-def include(str,line):
+def include(str, accent_considered, line):
     """renvoie tous les worlds qui contiennent dans l'ordre mais pas forcément à la suite la/les letters demandés par l'utilisateur"""
     if str== "":
         return True
-    world=line[0]
+    if accent_considered:
+        world=line[0]
+    else:
+        world = unidecode(line[0])
+        str = unidecode(str)
     if len(world)<len(str):
         return False
     for i in range (len(str)):
@@ -86,11 +103,15 @@ def include(str,line):
 
 
 
-def anagram(str,line):
+def anagram(str, accent_considered, line):
     """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
     if str== "":
         return True
-    world = list(line[0])
+    if accent_considered :
+        world = list(line[0])
+    else:
+        world = list(unidecode(line[0]))
+        str = unidecode(str)
     if len(world)!=len(str):
         return False
     for letter in str:
@@ -98,13 +119,18 @@ def anagram(str,line):
             world.remove(letter)
         else:
             return False
+
     return True
 
-def anagram_plus(str, line):
+def anagram_plus(str, accent_considered, line):
     """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
     if str== "":
         return True
-    world = list(line[0])
+    if accent_considered:
+        world=list(line[0])
+    else:
+        world = list(unidecode(line[0]))
+        str = unidecode(str)
     if len(world)<len(str):
         return False
     for letter in str:
@@ -114,12 +140,16 @@ def anagram_plus(str, line):
             return False
     return True
 
-def anagram_minus(str,line):
-    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+def anagram_minus(str, accent_considered, line):
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot"""
     if str == "":
         return True
-    str = list(str)
-    world = list(line[0])
+    if accent_considered:
+        world = list(line[0])
+        str = list(str)
+    else:
+        world = list(unidecode(line[0]))
+        str = list(unidecode(str))
     if len(world)>len(str):
         return False
     for letter in world:
@@ -129,9 +159,8 @@ def anagram_minus(str,line):
             return False
     return True
 
-
-def start_phon(str,line):
-    """revoie tous les worlds qui startnt par le/les sons demandés par l'utilisateur"""
+def start_phon(str, line):
+    """renvoie tous les mots qui commencent par le/les sons demandés par l'utilisateur"""
     if(str ==""):
         return True
     world=line[1]
@@ -142,7 +171,7 @@ def start_phon(str,line):
 
 
 def end_phon(str,line):
-    """revoie tous les worlds qui finissent par le/les sons demandés par l'utilisateur"""
+    """renvoie tous les mots qui finissent par le/les sons demandés par l'utilisateur"""
     if(str ==""):
         return True
     world=line[1]
@@ -234,10 +263,12 @@ def anagram_minus_phon(str,line):
     return True
 
 def grammatical_category(arrayStringify, line):
+    """renvoie tous les mots appartenant à la/les catégories demandés"""
     array = json.loads(arrayStringify)
     if array == []:
         return True
     return line[3] in array
+
 
 
 def transform_in_json(tab=dico[1:]):
@@ -252,27 +283,37 @@ def transform_in_json(tab=dico[1:]):
 
 
 def filter_head_dico(args):
-
-
-    print(json.loads(args.get("grammatical","[]")))
+    accent_considered = json.loads(args.get("accentConsidered"))
     dico_filter_head=[]
     for line in dico[1:] :
-        if start(args.get("startsWith",""),line) \
-            and end(args.get("endedWith",""), line) \
-            and include_sequence(args.get("containsFollowing",""),line) \
-            and include(args.get("contains",""),line) \
-            and anagram(args.get("anagram",""),line) \
-            and anagram_minus(args.get("anagramMinus",""),line) \
-            and anagram_plus(args.get("anagramPlus",""),line) \
-            and start_phon(args.get("startsWithPhoetically",""),line) \
-            and end_phon(args.get("endedWithPhoetically",""),line) \
-            and nb_syllables(args.get("minimumNumberSyllables",0),args.get("maximumNumberSyllables", 10),line) \
-            and nb_letters(args.get("minimumNumberLetters",0),args.get("maximumNumberLetters", 25),line) \
-            and include_phon(args.get("containsPhoetically",""),line) \
-            and include_sequence_phon(args.get("containsFollowingPhoetically",""),line) \
-            and anagram_phon(args.get("anagramPhoetically",""),line) \
-            and anagram_minus_phon(args.get("anagramMinusPhoetically",""),line) \
-            and anagram_plus_phon(args.get("anagramPlusPhoetically",""),line) \
-            and grammatical_category(args.get("grammatical","[]"),line):
+        if start(args.get("startsWith",""), accent_considered, line) \
+            and end(args.get("endedWith",""), accent_considered, line) \
+            and include_sequence(args.get("containsFollowing",""), accent_considered, line) \
+            and include(args.get("contains",""), accent_considered, line) \
+            and anagram(args.get("anagram",""), accent_considered, line) \
+            and anagram_minus(args.get("anagramMinus",""), accent_considered, line) \
+            and anagram_plus(args.get("anagramPlus",""), accent_considered, line) \
+            and start_phon(args.get("startsWithPhoetically",""), line) \
+            and end_phon(args.get("endedWithPhoetically",""), line) \
+            and nb_syllables(args.get("minimumNumberSyllables",0),args.get("maximumNumberSyllables", 10), line) \
+            and nb_letters(args.get("minimumNumberLetters",0),args.get("maximumNumberLetters", 25), line) \
+            and include_phon(args.get("containsPhoetically",""), line) \
+            and include_sequence_phon(args.get("containsFollowingPhoetically",""), line) \
+            and anagram_phon(args.get("anagramPhoetically",""), line) \
+            and anagram_minus_phon(args.get("anagramMinusPhoetically",""), line) \
+            and anagram_plus_phon(args.get("anagramPlusPhoetically",""), line) \
+            and grammatical_category(args.get("grammatical","[]"), line) :
+                dico_filter_head.append(line)
+    return transform_in_json(dico_filter_head)
+
+def anagrammer(args):
+    dico_filter_head = []
+    if args.accent:
+        for line in dico[1:]:
+            if annagram_minus(args.get("letters"), line):
+                dico_filter_head.append(line)
+    else:
+        for line in dico[1:]:
+            if anagram_minus_without_accent(args.get("letters"), line):
                 dico_filter_head.append(line)
     return transform_in_json(dico_filter_head)
