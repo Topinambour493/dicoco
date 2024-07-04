@@ -135,7 +135,6 @@ let schema = yup.object().shape({
     maximumNumberSyllables: yup.number().required().typeError().integer().positive().min(yup.ref('minimumNumberSyllables'), () => `doit être supérieur à la valeur minimum`),
     minimumNumberLetters: yup.number().required().typeError().integer().positive().max(yup.ref('maximumNumberLetters'), () => 'doit être inférieur à la valeur maximum'),
     maximumNumberLetters: yup.number().required().typeError().integer().positive().min(yup.ref('minimumNumberLetters'), () => `doit être supérieur à la valeur minimum`),
-    accentConsidered: yup.boolean(),
 })
 
 function App() {
@@ -151,8 +150,7 @@ function App() {
         displayPhon:true,
         displayPuorth: true,
         displayNbhomoph: true,
-        displayOrthrenv: true,
-        accentConsidered: true
+        displayOrthrenv: true
 
     })
     const [pending, setPending] = React.useState(false);
@@ -183,6 +181,7 @@ function App() {
     function changeStateTooltip(e) {
         e.stopPropagation()
         let tooltip = e.target.parentElement.lastChild
+         console.log(tooltip.style.display)
         if (tooltip.style.display === "block")
             tooltip.style.display = "none";
         else
@@ -267,156 +266,157 @@ function App() {
 
     const columns = React.useMemo(
         () => [
-            {
-                name: 'Nom',
-                id: "Nom",
-                omit: !displays.displayName,
-                selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <h3>{row.ortho}</h3>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    wordWrap: 'break-word',
-                    minWidth: 'auto'
-                },
+        {
+            name: 'Nom',
+            id: "Nom",
+            omit: !displays.displayName,
+            selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <h3>{row.ortho}</h3>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                wordWrap: 'break-word',
+                minWidth: 'auto'
             },
-            {
-                name: 'Genre',
-                omit: !displays.displayGender,
-                selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => get_genre(row.genre),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Nombre',
-                omit: !displays.displayNumber,
-                selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => get_nombre(row.nombre),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Catégorie grammaticale',
-                omit: !displays.displayCgram,
-                selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell: row => get_grammatical_category(row.cgram),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Lemme',
-                omit: !displays.displayLemme,
-                selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.lemme}</div>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Nombre de lettres',
-                omit: !displays.displayNumberLetter,
-                selector: row =>  parseInt(row.nbletters),
-                cell:  row => <div>{row.nbletters}</div>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Nombre de syllabes',
-                omit: !displays.displayNumberSyl,
-                selector: row => parseInt(row.nbsyll),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Forme orthographique syllabée',
-                omit: !displays.displayOrthosyll,
-                selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.orthosyll}</div>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Phonétique',
-                omit: !displays.displayPhon,
-                selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.phon}</div>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: 'Unicité orthographique',
-                omit: !displays.displayPuorth,
-                selector: row => parseInt(row.puorth),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: "Nombre d'homophones",
-                omit: !displays.displayNbhomoph,
-                selector: row => parseInt(row.nbhomoph),
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
-            },
-            {
-                name: "Inverse",
-                omit: !displays.displayOrthrenv,
-                selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.orthrenv}</div>,
-                sortable: true,
-                center : true,
-                reorder: true,
-                style : {
-                    minWidth: 'auto'
-                }
+        },
+        {
+            name: 'Genre',
+            omit: !displays.displayGender,
+            selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => get_genre(row.genre),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
             }
-        ],
-        [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram,displays.displayLemme, displays.displayNumberLetter,displays.displayNumberSyl, displays.displayNbhomoph,displays.displayOrthosyll,displays.displayPhon,displays.displayOrthrenv,displays.displayPuorth],
+        },
+        {
+            name: 'Nombre',
+            omit: !displays.displayNumber,
+            selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => get_nombre(row.nombre),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Catégorie grammaticale',
+            omit: !displays.displayCgram,
+            selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell: row => get_grammatical_category(row.cgram),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Lemme',
+            omit: !displays.displayLemme,
+            selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.lemme}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Nombre de lettres',
+            omit: !displays.displayNumberLetter,
+            selector: row =>  parseInt(row.nbletters),
+            cell:  row => <div>{row.nbletters}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Nombre de syllabes',
+            omit: !displays.displayNumberSyl,
+            selector: row => parseInt(row.nbsyll),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Forme orthographique syllabée',
+            omit: !displays.displayOrthosyll,
+            selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.orthosyll}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Phonétique',
+            omit: !displays.displayPhon,
+            selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.phon}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: 'Unicité orthographique',
+            omit: !displays.displayPuorth,
+            selector: row => parseInt(row.puorth),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: "Nombre d'homophones",
+            omit: !displays.displayNbhomoph,
+            selector: row => parseInt(row.nbhomoph),
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        },
+        {
+            name: "Inverse",
+            omit: !displays.displayOrthrenv,
+            selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            cell:  row => <div>{row.orthrenv}</div>,
+            sortable: true,
+            center : true,
+            reorder: true,
+            style : {
+                minWidth: 'auto'
+            }
+        }
+    ],
+    [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram,displays.displayLemme, displays.displayNumberLetter,displays.displayNumberSyl, displays.displayNbhomoph,displays.displayOrthosyll,displays.displayPhon,displays.displayOrthrenv,displays.displayPuorth],
     );
 
     function filterHead(data) {
         if (data.grammatical_category)
             data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
+        console.log(baseURL)
         setPending(true);
         axios.get(baseURL, {params : data}).then((response) => {
             setDico(JSON.parse(response.data.dict));
@@ -531,15 +531,6 @@ function App() {
                         />
                         <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
                     </div>
-                    <div className={"checkbox-display"}>
-                        <input
-                            type="checkbox"
-                            {...register('accentConsidered')}
-                            onChange={e => handleInputChange(e)}
-                            checked={displays.accentConsidered}
-                        />
-                        <label htmlFor="accentConsidered">Prise en compte des accents</label>
-                    </div>
                 </fieldset>
                 <fieldset>
                     <legend>Phonétique</legend>
@@ -608,7 +599,7 @@ function App() {
                 </fieldset>
                 <fieldset className={"affichage"}>
                     <legend>Affichage</legend>
-                    <div className={"checkbox-display"}>
+                <div className={"checkbox-display"}>
                         <input
                             type="checkbox"
                             id="displayName"
