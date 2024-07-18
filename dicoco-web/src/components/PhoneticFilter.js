@@ -1,9 +1,8 @@
 import React from "react";
 
-function PhoneticFilter({register, errors}) {
+function PhoneticFilter({register, errors, tab}) {
 
-    let phoneticFilter = <fieldset>
-        <legend>Phonétique</legend>
+    let phoneticFilter = <main className={tab === "phonetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Commence par </label>
             <input autoCapitalize="none" {...register('startsWithPhoetically')} />
@@ -67,7 +66,7 @@ function PhoneticFilter({register, errors}) {
             <input autoCapitalize="none" {...register('anagramPlusPhoetically')} />
             <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
         </div>
-    </fieldset>
+    </main>
     return phoneticFilter;
 }
 

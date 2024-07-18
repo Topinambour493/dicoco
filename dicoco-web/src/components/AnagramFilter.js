@@ -3,8 +3,7 @@ import {handleInputChange} from "../utils/utils";
 
 function AnagramFilter({displays, setDisplays, register, errors}) {
 
-    let anagramFilter = <fieldset className={"direction-column"}>
-        <legend>Annagramme</legend>
+    let anagramFilter = <main className={"direction-column"}>
         <div className={"form-child"}>
             <label>Lettres</label>
             <input autoCapitalize="none" {...register('anagramMinus')} />
@@ -20,7 +19,7 @@ function AnagramFilter({displays, setDisplays, register, errors}) {
             />
             <label htmlFor="accentConsidered">Prise en compte des accents</label>
         </div>
-    </fieldset>
+    </main>
     return anagramFilter;
 }
 

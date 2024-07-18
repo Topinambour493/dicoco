@@ -1,10 +1,9 @@
 import React from "react";
 import {handleInputChange} from "../utils/utils";
 
-function FilterDisplay({displays, setDisplays}) {
+function FilterDisplay({displays, setDisplays, tab}) {
 
-    let filterDisplay = <fieldset className={"affichage"}>
-        <legend>Affichage</legend>
+    let filterDisplay = <main className={tab === "display" ? 'show' : 'hidden'}>
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
@@ -126,7 +125,7 @@ function FilterDisplay({displays, setDisplays}) {
             />
             <label htmlFor="displayPhon">Phonétique</label>
         </div>
-    </fieldset>
+    </main>
     return filterDisplay;
 }
 

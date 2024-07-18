@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import DataTable from 'react-data-table-component';
 import {Controller, useForm} from 'react-hook-form';
 import {GooeyCircleLoader} from "react-loaders-kit";
@@ -11,6 +11,7 @@ import FilterDisplay from "../components/FilterDisplay";
 import PhoneticFilter from "../components/PhoneticFilter";
 import OtherFilter from "../components/OtherFilter";
 import AlphabeticFilter from "../components/AlphabeticFilter";
+import TabsHeader from "../components/TabsHeader";
 
 const options = [
     {label: "Nom", value: "NOM"},
@@ -101,8 +102,7 @@ function Index() {
         }
     });
     const [dico, setDico] = React.useState([]);
-
-    // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+    const [tab, setTab] = useState("alphabetic")
 
     function hideAllTooltips(exception) {
         let tooltips = document.getElementsByClassName("tooltip-content");
@@ -332,26 +332,32 @@ function Index() {
         [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram,displays.displayLemme, displays.displayNumberLetter,displays.displayNumberSyl, displays.displayNbhomoph,displays.displayOrthosyll,displays.displayPhon,displays.displayOrthrenv,displays.displayPuorth],
     );
 
-    let index = <div className="App">
+
+    let index = <div className="app">
+        <TabsHeader tab={tab} setTab={setTab}/>
         <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
             filterHead(data, setPending, setDico)
         })}>
             <div className={"form-container"}>
                 <AlphabeticFilter
+                    tab={tab}
                     displays={displays}
                     setDisplays ={setDisplays}
                     register={register}
                     errors={errors}
                 />
                 <PhoneticFilter
+                    tab={tab}
                     register={register}
                     errors={errors}
                 />
                 <FilterDisplay
+                    tab={tab}
                     displays={displays}
                     setDisplays ={setDisplays}
                 />
                 <OtherFilter
+                    tab={tab}
                     control={control}
                     options={options}
                 />
@@ -372,6 +378,7 @@ function Index() {
             progressComponent={<div id="loader"><GooeyCircleLoader {...loaderProps} /></div>}
             noDataComponent={<div>Pas de données</div>}
             useSortBy
+            responsive
         >
         </DataTable>
     </div>;

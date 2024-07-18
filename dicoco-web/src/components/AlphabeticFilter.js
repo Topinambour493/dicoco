@@ -1,13 +1,12 @@
 import React from "react";
 import {handleInputChange} from "../utils/utils";
 
-function AlphabeticFilter({displays, setDisplays, register, errors}) {
+function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
 
-    let alphabeticFilter = <fieldset>
-        <legend>Alphabétique</legend>
+    let alphabeticFilter = <main className={tab === "alphabetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Commence par </label>
-            <input autoCapitalize="none" {...register('startsWith')} />
+            <input autoCapitalize="none" {...register('startsWith')}/>
             <p className={"message-error"}>{errors.startsWith?.message}</p>
         </div>
         <div className={"form-child"}>
@@ -114,7 +113,7 @@ function AlphabeticFilter({displays, setDisplays, register, errors}) {
             />
             <label htmlFor="accentConsidered">Prise en compte des accents</label>
         </div>
-    </fieldset>
+    </main>
     return alphabeticFilter;
 }
 

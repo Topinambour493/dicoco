@@ -32,11 +32,6 @@ code {
   background-color: red;
 }
 
-fieldset{
-  border-color: black;
-  margin: 5px;
-}
-
 legend {
   padding: 0 5px;
   font-size: 1.2em;
@@ -62,11 +57,19 @@ legend {
   }
 }
 
+.app{
+  margin: 10px;
+}
+
 
 form {
   display: flex;
   justify-content: center;
-  margin: 10px;
+  background-color:antiquewhite;
+  border: 2px black solid;
+  border-radius: 0 10px 10px 10px;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 
@@ -75,7 +78,6 @@ form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  max-width: 850px;
 }
 
 .blue {
@@ -144,7 +146,10 @@ fieldset {
   display: flex;
   flex-wrap: wrap;
   padding: 3px 6px;
+  border-color: black;
+  margin: 5px;
 }
+
 
 .checkbox-display {
   padding: 3px 6px;
@@ -174,3 +179,44 @@ label.tooltip{
 }
 
 
+.tabs{
+  max-width: 850px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+input[type="radio"]+label {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 10px 10px 0 0;
+  border: 2px black solid;
+  margin-bottom: 0;
+}
+
+input[type="radio"]:checked+label {
+  background-color: antiquewhite;
+  color: black;
+  font-size: 1.1em;
+  border-bottom: 2px antiquewhite solid;
+}
+
+input[type="radio"]{
+  display: none;
+}
+
+main{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px 6px;
+  margin: 5px;
+
+  &.hidden {
+    visibility:hidden;
+    position: absolute;
+  }
+}
+
+#datatable{
+  margin: 20px;
+}

@@ -2,10 +2,9 @@ import React from "react";
 import {Controller} from "react-hook-form";
 import Select from "react-select";
 
-function OtherFilter({control, options}) {
+function OtherFilter({control, options, tab}) {
 
-    let otherFilter = <fieldset className={"Divers"}>
-        <legend>Autres</legend>
+    let otherFilter = <main className={tab === "other" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Catégorie grammaticale</label>
             <Controller
@@ -24,7 +23,7 @@ function OtherFilter({control, options}) {
                 )}
             />
         </div>
-    </fieldset>
+    </main>
     return otherFilter;
 }
 
