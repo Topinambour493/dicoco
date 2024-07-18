@@ -10,7 +10,6 @@ html, body {
 }
 
 body {
-  margin: 25px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
@@ -33,9 +32,41 @@ code {
   background-color: red;
 }
 
+fieldset{
+  border-color: black;
+  margin: 5px;
+}
+
+legend {
+  padding: 0 5px;
+  font-size: 1.2em;
+  border-top: 2px solid black;
+  position: relative;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 50%;
+    background-color: black;
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+}
+
+
 form {
   display: flex;
   justify-content: center;
+  margin: 10px;
 }
 
 
@@ -45,6 +76,10 @@ form {
   flex-direction: column;
   flex-wrap: wrap;
   max-width: 850px;
+}
+
+.blue {
+  background: #99fffe;
 }
 
 .form-child {
