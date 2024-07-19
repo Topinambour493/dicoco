@@ -7,7 +7,7 @@ export function filterHead(data, setPending, setDico) {
     if (data.grammatical_category)
         data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
     setPending(true);
-    axios.get(baseURL, {params : data}).then((response) => {
+    axios.get(baseURL, {params: data}).then((response) => {
         setDico(JSON.parse(response.data.dict));
         setPending(false);
     });
@@ -101,3 +101,4 @@ export const handleInputChange = (event, displays, setDisplays) => {
         [name]: value
     });
 }
+

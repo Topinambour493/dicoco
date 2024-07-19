@@ -36,9 +36,10 @@ $active-tooltip: true;
   }
 
   &.right {
-    left: calc(50% + 1.3em);
+    left: calc(50% + 1.3em );
     top: 50%;
     transform: translateY(-50%);
+
 
     &::after {
       left: -5px;
@@ -58,4 +59,27 @@ $active-tooltip: true;
       top: 50%;
     }
   }
+}
+
+.checkbox-display {
+  padding: 3px 6px;
+}
+
+label.tooltip{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.info-button {
+  display:block;
+  width: 1em;
+  height: 1em;
+  margin: 0 .5em;
+  vertical-align: bottom;
+}
+
+.container-tooltip{
+  position: relative;
+  cursor: pointer;
 }

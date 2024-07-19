@@ -84,6 +84,10 @@ form {
   background: #99fffe;
 }
 
+.flex{
+  display: flex;
+}
+
 .form-child {
   display: flex;
   flex-direction: column;
@@ -116,7 +120,7 @@ input {
   width: 100px;
   height: 36px;
   border-radius: 18px;
-  background-color: grey;
+  background-color: black;
   border: solid 1px transparent;
   color: white;
   margin: 14px;
@@ -151,28 +155,7 @@ fieldset {
 }
 
 
-.checkbox-display {
-  padding: 3px 6px;
-}
 
-label.tooltip{
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.info-button {
-  display:block;
-  width: 1em;
-  height: 1em;
-  margin: 0 .5em;
-  vertical-align: bottom;
-}
-
-.container-tooltip{
-  position: relative;
-  cursor: pointer;
-}
 
 .direction-column{
   flex-direction: column;
@@ -220,3 +203,45 @@ main{
 #datatable{
   margin: 20px;
 }
+
+.table-wrapper {
+  position: relative;
+  overflow-x: auto;
+}
+
+.rdt_Table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.rdt_TableHead, .rdt_TableRow {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.rdt_TableCol, .rdt_TableCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.rdt_TableHead .rdt_TableCol:first-of-type {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+  border-right: 1px solid #c9c8c8;
+}
+
+.rdt_TableCell:first-of-type {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+  border-right: 1px solid #c9c8c8;
+}
+
+
+

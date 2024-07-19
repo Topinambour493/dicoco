@@ -6,7 +6,14 @@ import {GooeyCircleLoader} from "react-loaders-kit";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import Select from 'react-select';
-import {filterHead, get_genre, get_nombre, get_grammatical_category, loaderProps, handleInputChange} from "../utils/utils";
+import {
+    filterHead,
+    get_genre,
+    get_nombre,
+    get_grammatical_category,
+    loaderProps,
+    handleInputChange
+} from "../utils/utils";
 import FilterDisplay from "../components/FilterDisplay";
 import PhoneticFilter from "../components/PhoneticFilter";
 import OtherFilter from "../components/OtherFilter";
@@ -83,7 +90,7 @@ function Index() {
         displayNumberLetter: true,
         displayNumberSyl: true,
         displayOrthosyll: true,
-        displayPhon:true,
+        displayPhon: true,
         displayPuorth: true,
         displayNbhomoph: true,
         displayOrthrenv: true,
@@ -134,11 +141,7 @@ function Index() {
         for (let i = 0; i < elements.length; i++) {
             elements[i].addEventListener('click', changeStateTooltip, false);
         }
-
-
     });
-
-
 
 
     function downloadCSV() {
@@ -190,24 +193,24 @@ function Index() {
                 id: "Nom",
                 omit: !displays.displayName,
                 selector: row => row.ortho.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <h3>{row.ortho}</h3>,
+                cell: row => <h3>{row.ortho}</h3>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     wordWrap: 'break-word',
-                    minWidth: 'auto'
+                    minWidth: 'auto',
                 },
             },
             {
                 name: 'Genre',
                 omit: !displays.displayGender,
                 selector: row => row.genre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => get_genre(row.genre),
+                cell: row => get_genre(row.genre),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -215,11 +218,11 @@ function Index() {
                 name: 'Nombre',
                 omit: !displays.displayNumber,
                 selector: row => row.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => get_nombre(row.nombre),
+                cell: row => get_nombre(row.nombre),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -229,33 +232,33 @@ function Index() {
                 selector: row => row.cgram.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
                 cell: row => get_grammatical_category(row.cgram),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
             {
-                name: 'Lemme',
+                name: "Lemme",
                 omit: !displays.displayLemme,
                 selector: row => row.lemme.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.lemme}</div>,
+                cell: row => <div>{row.lemme}</div>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
             {
                 name: 'Nombre de lettres',
                 omit: !displays.displayNumberLetter,
-                selector: row =>  parseInt(row.nbletters),
-                cell:  row => <div>{row.nbletters}</div>,
+                selector: row => parseInt(row.nbletters),
+                cell: row => <div>{row.nbletters}</div>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -264,9 +267,9 @@ function Index() {
                 omit: !displays.displayNumberSyl,
                 selector: row => parseInt(row.nbsyll),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -274,11 +277,11 @@ function Index() {
                 name: 'Forme orthographique syllabée',
                 omit: !displays.displayOrthosyll,
                 selector: row => row.orthosyll.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.orthosyll}</div>,
+                cell: row => <div>{row.orthosyll}</div>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -286,11 +289,11 @@ function Index() {
                 name: 'Phonétique',
                 omit: !displays.displayPhon,
                 selector: row => row.phon.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.phon}</div>,
+                cell: row => <div>{row.phon}</div>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -299,9 +302,9 @@ function Index() {
                 omit: !displays.displayPuorth,
                 selector: row => parseInt(row.puorth),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -310,9 +313,9 @@ function Index() {
                 omit: !displays.displayNbhomoph,
                 selector: row => parseInt(row.nbhomoph),
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             },
@@ -320,68 +323,84 @@ function Index() {
                 name: "Inverse",
                 omit: !displays.displayOrthrenv,
                 selector: row => row.orthrenv.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                cell:  row => <div>{row.orthrenv}</div>,
+                cell: row => <div>{row.orthrenv}</div>,
                 sortable: true,
-                center : true,
+                center: true,
                 reorder: true,
-                style : {
+                style: {
                     minWidth: 'auto'
                 }
             }
         ],
-        [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram,displays.displayLemme, displays.displayNumberLetter,displays.displayNumberSyl, displays.displayNbhomoph,displays.displayOrthosyll,displays.displayPhon,displays.displayOrthrenv,displays.displayPuorth],
+        [displays.displayName, displays.displayGender, displays.displayNumber, displays.displayCgram, displays.displayLemme, displays.displayNumberLetter, displays.displayNumberSyl, displays.displayNbhomoph, displays.displayOrthosyll, displays.displayPhon, displays.displayOrthrenv, displays.displayPuorth],
+    );
+
+
+    const handleClick = () => {
+        alert('En-tête cliqué !');
+    };
+
+    const HeaderWithButton = () => (
+        <div className="header-container">
+            <span>ID</span>
+            <button className="header-button" onClick={handleClick}>
+                Action
+            </button>
+        </div>
     );
 
 
     let index = <div className="app">
-        <TabsHeader tab={tab} setTab={setTab}/>
-        <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
-            filterHead(data, setPending, setDico)
-        })}>
-            <div className={"form-container"}>
-                <AlphabeticFilter
-                    tab={tab}
-                    displays={displays}
-                    setDisplays ={setDisplays}
-                    register={register}
-                    errors={errors}
-                />
-                <PhoneticFilter
-                    tab={tab}
-                    register={register}
-                    errors={errors}
-                />
-                <FilterDisplay
-                    tab={tab}
-                    displays={displays}
-                    setDisplays ={setDisplays}
-                />
-                <OtherFilter
-                    tab={tab}
-                    control={control}
-                    options={options}
-                />
-                <div className={"form-child"} id={"submit"}>
-                    <button type="submit" className="button">Send</button>
+            <TabsHeader tab={tab} setTab={setTab}/>
+            <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
+                filterHead(data, setPending, setDico)
+            })}>
+                <div className={"form-container"}>
+                    <AlphabeticFilter
+                        tab={tab}
+                        displays={displays}
+                        setDisplays={setDisplays}
+                        register={register}
+                        errors={errors}
+                    />
+                    <PhoneticFilter
+                        tab={tab}
+                        register={register}
+                        errors={errors}
+                    />
+                    <FilterDisplay
+                        tab={tab}
+                        displays={displays}
+                        setDisplays={setDisplays}
+                    />
+                    <OtherFilter
+                        tab={tab}
+                        control={control}
+                        options={options}
+                    />
+                    <div className={"form-child"} id={"submit"}>
+                        <button type="submit" className="button">Send</button>
+                    </div>
                 </div>
+
+            </form>
+            <div className={"table-wrapper"}>
+                <DataTable
+                    columns={columns}
+                    data={dico}
+                    pagination
+                    striped
+                    highlightOnHover
+                    progressPending={pending}
+                    progressComponent={<div id="loader"><GooeyCircleLoader {...loaderProps} /></div>}
+                    noDataComponent={<div>Pas de données</div>}
+                    useSortBy
+                    responsive
+                >
+                </DataTable>
             </div>
-
-        </form>
-
-        <DataTable
-            columns={columns}
-            data={dico}
-            pagination
-            striped
-            highlightOnHover
-            progressPending={pending}
-            progressComponent={<div id="loader"><GooeyCircleLoader {...loaderProps} /></div>}
-            noDataComponent={<div>Pas de données</div>}
-            useSortBy
-            responsive
-        >
-        </DataTable>
-    </div>;
+        </div>
+    ;
     return index;
 }
 
