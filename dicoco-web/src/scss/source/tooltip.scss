@@ -63,9 +63,15 @@ $active-tooltip: true;
 
 .checkbox-display {
   padding: 3px 6px;
+  display: flex;
 }
 
-label.tooltip{
+.info-button.relative{
+  position: relative;
+  bottom: 1px;
+}
+
+.tooltip{
   position: relative;
   display: flex;
   align-items: center;
@@ -77,6 +83,8 @@ label.tooltip{
   height: 1em;
   margin: 0 .5em;
   vertical-align: bottom;
+  top: 1px;
+  position: relative;
 }
 
 .container-tooltip{

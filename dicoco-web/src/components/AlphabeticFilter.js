@@ -1,7 +1,10 @@
 import React from "react";
-import {handleInputChange} from "../utils/utils";
+import {apply_max_width_for_all_div, handleInputChange} from "../utils/utils";
 
 function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
+
+    apply_max_width_for_all_div(".form-child")
+
 
     let alphabeticFilter = <main className={tab === "alphabetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
@@ -103,7 +106,7 @@ function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
             />
             <p className={"message-error"}>{errors.maximumNumberSyllables?.message}</p>
         </div>
-        <div className={"checkbox-display"}>
+        <div className={"checkbox-display align-end"}>
             <input
                 type="checkbox"
                 {...register('accentConsidered')}

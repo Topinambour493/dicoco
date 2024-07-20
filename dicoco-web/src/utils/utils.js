@@ -102,3 +102,22 @@ export const handleInputChange = (event, displays, setDisplays) => {
     });
 }
 
+export function apply_max_width_for_all_div(selector){
+    window.addEventListener('load', function () {
+        const boxes = document.querySelectorAll(selector);
+        let maxWidth = 0;
+
+// Trouver la largeur maximale
+        boxes.forEach(box => {
+            const width = box.offsetWidth;
+            if (width > maxWidth) {
+                maxWidth = width;
+            }
+        });
+
+// Appliquer la largeur maximale à toutes les divs
+        boxes.forEach(box => {
+            box.style.width = `${maxWidth + 5}px`;
+        });
+    });
+}

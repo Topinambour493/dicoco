@@ -1,25 +1,9 @@
 import React from "react";
-import {handleInputChange} from "../utils/utils";
+import {apply_max_width_for_all_div, handleInputChange} from "../utils/utils";
 
 function FilterDisplay({displays, setDisplays, tab}) {
 
-    window.addEventListener('load', function () {
-        const boxes = document.querySelectorAll('.checkbox-display');
-        let maxWidth = 0;
-
-// Trouver la largeur maximale
-        boxes.forEach(box => {
-            const width = box.offsetWidth;
-            if (width > maxWidth) {
-                maxWidth = width;
-            }
-        });
-
-// Appliquer la largeur maximale à toutes les divs
-        boxes.forEach(box => {
-            box.style.width = `${maxWidth}px`;
-        });
-    });
+    apply_max_width_for_all_div('.checkbox-display')
 
     let filterDisplay = <main className={tab === "display" ? 'show' : 'hidden'}>
         <div className={"checkbox-display"}>
@@ -70,7 +54,17 @@ function FilterDisplay({displays, setDisplays, tab}) {
                 onChange={e => handleInputChange(e, displays, setDisplays)}
                 checked={displays.displayLemme}
             />
-            <label htmlFor="displayLemme">Lemme</label>
+            <label htmlFor="displayLemme" >Lemme</label>
+            <div className={"tooltip"}>
+                <div className={"container-tooltip"}>
+                    <img
+                        src={"information-icon.svg"} className={"info-button"}
+                        alt={"explication contient à la suite"}/>
+                    <span
+                        className={"tooltip-content right"}>Forme canonique d'un mot, c’est à dire l’infinitif pour un verbe, la masculin singulier pour un nom ou un adjectif</span>
+                </div>
+            </div>
+
         </div>
         <div className={"checkbox-display"}>
             <input
@@ -91,6 +85,15 @@ function FilterDisplay({displays, setDisplays, tab}) {
                 checked={displays.displayNumberSyl}
             />
             <label htmlFor="displayNumberSyl">Unicité orthographique</label>
+            <div className={"tooltip"}>
+                <div className={"container-tooltip"}>
+                    <img
+                        src={"information-icon.svg"} className={"info-button"}
+                        alt={"explication contient à la suite"}/>
+                    <span
+                        className={"tooltip-content right"}>Correspond au rang de la lettre en partant de la gauche à partir duquel le mot peut être identifié sans ambiguïté.</span>
+                </div>
+            </div>
         </div>
         <div className={"checkbox-display"}>
             <input

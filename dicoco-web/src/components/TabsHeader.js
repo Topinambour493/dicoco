@@ -4,7 +4,6 @@ function TabsHeader({tab, setTab}) {
 
 
     const onOptionChange = e => {
-        console.log(e.target.value)
         setTab(e.target.value)
     }
 

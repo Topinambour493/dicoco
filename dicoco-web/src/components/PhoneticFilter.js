@@ -1,6 +1,9 @@
 import React from "react";
+import {apply_max_width_for_all_div} from "../utils/utils";
 
 function PhoneticFilter({register, errors, tab}) {
+
+    apply_max_width_for_all_div('.form-child')
 
     let phoneticFilter = <main className={tab === "phonetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>

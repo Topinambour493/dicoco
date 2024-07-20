@@ -19,6 +19,7 @@ import PhoneticFilter from "../components/PhoneticFilter";
 import OtherFilter from "../components/OtherFilter";
 import AlphabeticFilter from "../components/AlphabeticFilter";
 import TabsHeader from "../components/TabsHeader";
+import ExplicationIndex from "../components/ExplicationIndex";
 
 const options = [
     {label: "Nom", value: "NOM"},
@@ -133,6 +134,7 @@ function Index() {
     }
 
     useEffect(() => {
+        document.title = "Dicoco : la recherche et le filtrage sur le dictionnaire français"
         let elements = document.getElementsByClassName("container-tooltip");
 
         document.body.addEventListener("click", hideAllTooltips, false)
@@ -351,6 +353,7 @@ function Index() {
 
 
     let index = <div className="app">
+            <ExplicationIndex/>
             <TabsHeader tab={tab} setTab={setTab}/>
             <form id="form-fiter_head" onSubmit={handleSubmit((data) => {
                 filterHead(data, setPending, setDico)

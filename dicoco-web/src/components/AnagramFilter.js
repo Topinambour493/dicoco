@@ -1,9 +1,9 @@
 import React from "react";
 import {handleInputChange} from "../utils/utils";
 
-function AnagramFilter({displays, setDisplays, register, errors}) {
+function AnagramFilter({displays, setDisplays, register, errors, tab}) {
 
-    let anagramFilter = <main className={"direction-column"}>
+    let anagramFilter = <main className={`direction-column ${tab === "anagram" ? 'show' : 'hidden'}`}>
         <div className={"form-child"}>
             <label>Lettres</label>
             <input autoCapitalize="none" {...register('anagramMinus')} />
