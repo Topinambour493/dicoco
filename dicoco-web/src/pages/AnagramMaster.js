@@ -1,13 +1,15 @@
 import DataTable from "react-data-table-component";
 import {GooeyCircleLoader} from "react-loaders-kit";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     filterHead,
     get_genre,
     get_nombre,
     get_grammatical_category,
     loaderProps,
-    handleInputChange
+    handleInputChange,
+    hideAllTooltips,
+    changeStateTooltip
 } from "../utils/utils";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
@@ -198,6 +200,18 @@ function AnagramMaster() {
     const onOptionChange = e => {
         setTab(e.target.value)
     }
+
+    useEffect(() => {
+        document.title = "Dicoco anagramme: la recherche d'anagrammes sur le dictionnaire français"
+        let elements = document.getElementsByClassName("container-tooltip");
+
+        document.body.addEventListener("click", hideAllTooltips);
+
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', changeStateTooltip);
+        }
+    }, []);
 
     let anagramMaster = <div className="anagramMaster">
             <ExplicationAnagram/>

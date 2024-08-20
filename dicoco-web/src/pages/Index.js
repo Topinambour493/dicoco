@@ -12,7 +12,9 @@ import {
     get_nombre,
     get_grammatical_category,
     loaderProps,
-    handleInputChange
+    handleInputChange,
+    hideAllTooltips,
+    changeStateTooltip
 } from "../utils/utils";
 import FilterDisplay from "../components/FilterDisplay";
 import PhoneticFilter from "../components/PhoneticFilter";
@@ -112,26 +114,6 @@ function Index() {
     const [dico, setDico] = React.useState([]);
     const [tab, setTab] = useState("alphabetic")
 
-    function hideAllTooltips(exception) {
-        let tooltips = document.getElementsByClassName("tooltip-content");
-        for (let j = 0; j < tooltips.length; j++) {
-            if (tooltips[j] === exception)
-                continue
-            tooltips[j].style.display = "none";
-        }
-
-    }
-
-    function changeStateTooltip(e) {
-        e.stopPropagation()
-        let tooltip = e.target.parentElement.lastChild
-        if (tooltip.style.display === "block")
-            tooltip.style.display = "none";
-        else
-            tooltip.style.display = "block"
-        hideAllTooltips(tooltip)
-
-    }
 
     useEffect(() => {
         document.title = "Dicoco : la recherche et le filtrage sur le dictionnaire français"

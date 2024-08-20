@@ -121,3 +121,23 @@ export function apply_max_width_for_all_div(selector){
         });
     });
 }
+
+export function hideAllTooltips(exception) {
+    let tooltips = document.getElementsByClassName("tooltip-content");
+    for (let j = 0; j < tooltips.length; j++) {
+        if (tooltips[j] === exception)
+            continue
+        tooltips[j].style.display = "none";
+    }
+
+}
+
+export function changeStateTooltip(e) {
+    e.stopPropagation()
+    let tooltip = e.target.parentElement.lastChild
+    if (tooltip.style.display === "block")
+        tooltip.style.display = "none";
+    else
+        tooltip.style.display = "block"
+    hideAllTooltips(tooltip)
+}
