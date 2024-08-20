@@ -3,7 +3,7 @@ import {handleInputChange} from "../utils/utils";
 
 function AnagramFilter({displays, setDisplays, register, errors, tab}) {
 
-    let anagramFilter = <main className={`direction-column ${tab === "anagram" ? 'show' : 'hidden'}`}>
+    let anagramFilter = <section className={`direction-column ${tab === "anagram" ? 'show' : 'hidden'}`}>
         <div className={"form-child"}>
             <label>Lettres</label>
             <input autoCapitalize="none" {...register('anagramMinus')} />
@@ -19,7 +19,7 @@ function AnagramFilter({displays, setDisplays, register, errors, tab}) {
             />
             <label htmlFor="accentConsidered">Prise en compte des accents</label>
         </div>
-    </main>
+    </section>
     return anagramFilter;
 }
 

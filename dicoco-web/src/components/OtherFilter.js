@@ -4,7 +4,7 @@ import Select from "react-select";
 
 function OtherFilter({control, options, tab}) {
 
-    let otherFilter = <main className={tab === "other" ? 'show' : 'hidden'}>
+    let otherFilter = <section className={tab === "other" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Catégorie grammaticale</label>
             <Controller
@@ -23,7 +23,7 @@ function OtherFilter({control, options, tab}) {
                 )}
             />
         </div>
-    </main>
+    </section>
     return otherFilter;
 }
 

@@ -105,7 +105,7 @@ def include(str, accent_considered, line):
 
 
 def anagram(str, accent_considered, line):
-    """renvoie tous les worlds qui contiennent intégralement toutes les letters demandés en se souciant de la position des letters dans le world"""
+    """renvoie tous les worlds qui contiennent intégralement toutes les lettres demandés en se souciant de la position des letters dans le world"""
     if str== "":
         return True
     if accent_considered :
@@ -124,7 +124,7 @@ def anagram(str, accent_considered, line):
     return True
 
 def anagram_plus(str, accent_considered, line):
-    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en ne se souciant pas de la position des lettres dans le mot, on peut définir un nombre de lettres suplémentaires autorisés en cheangeant l'argument sup"""
     if str== "":
         return True
     if accent_considered:
@@ -142,7 +142,7 @@ def anagram_plus(str, accent_considered, line):
     return True
 
 def anagram_minus(str, accent_considered, line):
-    """renvoie tous les mots qui contiennent toutes les lettres demandés en se souciant de la position des lettres dans le mot"""
+    """renvoie tous les mots qui contiennent toutes les lettres demandés en ne se souciant pas de la position des lettres dans le mot"""
     if str == "":
         return True
     if accent_considered:

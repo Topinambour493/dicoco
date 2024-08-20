@@ -6,7 +6,7 @@ function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
     apply_max_width_for_all_div(".form-child")
 
 
-    let alphabeticFilter = <main className={tab === "alphabetic" ? 'show' : 'hidden'}>
+    let alphabeticFilter = <section className={tab === "alphabetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Commence par </label>
             <input autoCapitalize="none" {...register('startsWith')}/>
@@ -116,7 +116,7 @@ function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
             />
             <label htmlFor="accentConsidered">Prise en compte des accents</label>
         </div>
-    </main>
+    </section>
     return alphabeticFilter;
 }
 

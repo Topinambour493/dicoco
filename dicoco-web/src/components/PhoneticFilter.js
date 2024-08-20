@@ -5,7 +5,7 @@ function PhoneticFilter({register, errors, tab}) {
 
     apply_max_width_for_all_div('.form-child')
 
-    let phoneticFilter = <main className={tab === "phonetic" ? 'show' : 'hidden'}>
+    let phoneticFilter = <section className={tab === "phonetic" ? 'show' : 'hidden'}>
         <div className={"form-child"}>
             <label>Commence par </label>
             <input autoCapitalize="none" {...register('startsWithPhoetically')} />
@@ -63,13 +63,13 @@ function PhoneticFilter({register, errors, tab}) {
                 <div className={"container-tooltip"}>
                     <img src={"information-icon.svg"} className={"info-button"}
                          alt={"explication anagramme plus"}/>
-                    <span className={"tooltip-content right"}>Renvoit les mots contenant au minimum toutes les lettres données</span>
+                    <span className={"tooltip-content right"}>Renvoit les mots contenant uniquement tout ou en partie les lettres données</span>
                 </div>
             </label>
             <input autoCapitalize="none" {...register('anagramPlusPhoetically')} />
             <p className={"message-error"}>{errors.anagramPlusPhoetically?.message}</p>
         </div>
-    </main>
+    </section>
     return phoneticFilter;
 }
 

@@ -5,27 +5,7 @@ function FilterDisplay({displays, setDisplays, tab}) {
 
     apply_max_width_for_all_div('.checkbox-display')
 
-    let filterDisplay = <main className={tab === "display" ? 'show' : 'hidden'}>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayGender"
-                name="displayGender"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayGender}
-            />
-            <label htmlFor="displayGender">Genre</label>
-        </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayNumber"
-                name="displayNumber"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayNumber}
-            />
-            <label htmlFor="displayNumber">Nombre</label>
-        </div>
+    let filterDisplay = <section className={tab === "display" ? 'show' : 'hidden'}>
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
@@ -39,12 +19,42 @@ function FilterDisplay({displays, setDisplays, tab}) {
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
+                id="displayOrthosyll"
+                name="displayOrthosyll"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayOrthosyll}
+            />
+            <label htmlFor="displayOrthosyll">Forme orthographique syllabée</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
+                id="displayGender"
+                name="displayGender"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayGender}
+            />
+            <label htmlFor="displayGender">Genre</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
+                id="displayOrthrenv"
+                name="displayOrthrenv"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayOrthrenv}
+            />
+            <label htmlFor="displayOrthrenv">Inverse</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
                 id="displayLemme"
                 name="displayLemme"
                 onChange={e => handleInputChange(e, displays, setDisplays)}
                 checked={displays.displayLemme}
             />
-            <label htmlFor="displayLemme" >Lemme</label>
+            <label htmlFor="displayLemme">Lemme</label>
             <div className={"tooltip"}>
                 <div className={"container-tooltip"}>
                     <img
@@ -59,6 +69,16 @@ function FilterDisplay({displays, setDisplays, tab}) {
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
+                id="displayNumber"
+                name="displayNumber"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayNumber}
+            />
+            <label htmlFor="displayNumber">Nombre</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
                 id="displayNumberLetter"
                 name="displayNumberLetter"
                 onChange={e => handleInputChange(e, displays, setDisplays)}
@@ -66,6 +86,37 @@ function FilterDisplay({displays, setDisplays, tab}) {
             />
             <label htmlFor="displayNumberLetter">Nombre de lettres</label>
         </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
+                id="displayPuorth"
+                name="displayPuorth"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayPuorth}
+            />
+            <label htmlFor="displayPuorth">Nombre de syllabes</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
+                id="displayNbhomoph"
+                name="displayNbhomoph"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayNbhomoph}
+            />
+            <label htmlFor="displayNbhomoph">Nombre d'homophones</label>
+        </div>
+        <div className={"checkbox-display"}>
+            <input
+                type="checkbox"
+                id="displayPhon"
+                name="displayPhon"
+                onChange={e => handleInputChange(e, displays, setDisplays)}
+                checked={displays.displayPhon}
+            />
+            <label htmlFor="displayPhon">Phonétique</label>
+        </div>
+
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
@@ -85,58 +136,7 @@ function FilterDisplay({displays, setDisplays, tab}) {
                 </div>
             </div>
         </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayNbhomoph"
-                name="displayNbhomoph"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayNbhomoph}
-            />
-            <label htmlFor="displayNbhomoph">Nombre d'homophones</label>
-        </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayPuorth"
-                name="displayPuorth"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayPuorth}
-            />
-            <label htmlFor="displayPuorth">Nombre de syllabes</label>
-        </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayOrthrenv"
-                name="displayOrthrenv"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayOrthrenv}
-            />
-            <label htmlFor="displayOrthrenv">Inverse</label>
-        </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayOrthosyll"
-                name="displayOrthosyll"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayOrthosyll}
-            />
-            <label htmlFor="displayOrthosyll">Forme orthographique syllabée</label>
-        </div>
-
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
-                id="displayPhon"
-                name="displayPhon"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayPhon}
-            />
-            <label htmlFor="displayPhon">Phonétique</label>
-        </div>
-    </main>
+    </section>
     return filterDisplay;
 }
 
