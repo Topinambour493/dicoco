@@ -137,13 +137,13 @@ function Index() {
         document.title = "Dicoco : la recherche et le filtrage sur le dictionnaire français"
         let elements = document.getElementsByClassName("container-tooltip");
 
-        document.body.addEventListener("click", hideAllTooltips, false)
+        document.body.addEventListener("click", hideAllTooltips);
 
 
         for (let i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', changeStateTooltip, false);
+            elements[i].addEventListener('click', changeStateTooltip);
         }
-    });
+    }, []);
 
 
     function downloadCSV() {

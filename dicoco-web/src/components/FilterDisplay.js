@@ -9,16 +9,6 @@ function FilterDisplay({displays, setDisplays, tab}) {
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
-                id="displayName"
-                name="displayName"
-                onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayName}
-            />
-            <label htmlFor="displayName">Nom</label>
-        </div>
-        <div className={"checkbox-display"}>
-            <input
-                type="checkbox"
                 id="displayGender"
                 name="displayGender"
                 onChange={e => handleInputChange(e, displays, setDisplays)}
@@ -61,7 +51,7 @@ function FilterDisplay({displays, setDisplays, tab}) {
                         src={"information-icon.svg"} className={"info-button"}
                         alt={"explication contient à la suite"}/>
                     <span
-                        className={"tooltip-content right"}>Forme canonique d'un mot, c’est à dire l’infinitif pour un verbe, la masculin singulier pour un nom ou un adjectif</span>
+                        className={"tooltip-content right"}>Forme canonique d'un mot, c’est à dire l’infinitif pour un verbe, le masculin singulier pour un nom ou un adjectif</span>
                 </div>
             </div>
 
