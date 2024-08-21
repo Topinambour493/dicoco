@@ -3,7 +3,14 @@ import React from "react";
 
 export function filterHead(data, setPending, setDico) {
     const baseURL = process.env.REACT_APP_BASE_URL;
-
+    for (let key in data) {
+        if ("string" === typeof data[key]){
+            data[key] = data[key].trim()
+            if (key.includes("Phoetically") === false){
+                data[key] = data[key].toLowerCase()
+            }
+        }
+    }
     if (data.grammatical_category)
         data.grammatical = JSON.stringify(data.grammatical_category.map((x) => x.value));
     setPending(true);
