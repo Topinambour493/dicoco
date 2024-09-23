@@ -89,12 +89,12 @@ function FilterDisplay({displays, setDisplays, tab}) {
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
-                id="displayPuorth"
-                name="displayPuorth"
+                id="displayNumberSyl"
+                name="displayNumberSyl"
                 onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayPuorth}
+                checked={displays.displayNumberSyl}
             />
-            <label htmlFor="displayPuorth">Nombre de syllabes</label>
+            <label htmlFor="displayNumberSyl">Nombre de syllabes</label>
         </div>
         <div className={"checkbox-display"}>
             <input
@@ -120,12 +120,12 @@ function FilterDisplay({displays, setDisplays, tab}) {
         <div className={"checkbox-display"}>
             <input
                 type="checkbox"
-                id="displayNumberSyl"
-                name="displayNumberSyl"
+                id="displayPuorth"
+                name="displayPuorth"
                 onChange={e => handleInputChange(e, displays, setDisplays)}
-                checked={displays.displayNumberSyl}
+                checked={displays.displayPuorth}
             />
-            <label htmlFor="displayNumberSyl">Unicité orthographique</label>
+            <label htmlFor="displayPuorth">Unicité orthographique</label>
             <div className={"tooltip"}>
                 <div className={"container-tooltip"}>
                     <img
