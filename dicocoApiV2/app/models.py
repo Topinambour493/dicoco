@@ -17,6 +17,7 @@ class Word(db.Model):
     number_of_homographs: int = db.Column(db.Integer, nullable=False)
     number_of_letters: int = db.Column(db.Integer, nullable=False)
     number_of_phonemes: int = db.Column(db.Integer, nullable=False)
+    number_of_syllables: int = db.Column(db.Integer, nullable=False)
     orthographic_uniqueness_point: int = db.Column(db.Integer, nullable=False)
     syllabic_orthographic_form: str = db.Column(db.String(35, collation='utf8mb4_bin'), nullable=True)
     spelling_in_alphabetical_order: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False)

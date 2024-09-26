@@ -1,0 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+
+[data-column-id].rdt_TableCol {
+  min-width: 230px;
+}
+
+#green-button {
+  background-color: rgb(7, 220, 7);
+}
+
+.red-button {
+  background-color: red;
+}
+
+legend {
+  padding: 0 5px;
+  font-size: 1.2em;
+  border-top: 2px solid black;
+  position: relative;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 50%;
+    background-color: black;
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+}
+
+.app{
+  margin: 10px;
+}
+
+
+form {
+  display: flex;
+  justify-content: center;
+  background-color:antiquewhite;
+  border: 2px black solid;
+  border-radius: 0 10px 10px 10px;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+#form-fiter_head{
+  margin-bottom: 10px;
+}
+
+.form-container {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.blue {
+  background: #99fffe;
+}
+
+.flex{
+  display: flex;
+}
+
+.form-child {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  align-content: center;
+  padding: 3px 6px;
+}
+
+input {
+  max-width: 200px;
+}
+
+
+.message-error {
+  color: red;
+}
+
+
+
+.send {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  position: relative;
+  display: block;
+  width: 100px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: black;
+  border: solid 1px transparent;
+  color: white;
+  margin: 14px;
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all .1s ease-in-out;
+
+  &:hover {
+    background-color: transparent;
+    border-color: grey;
+    transition: all .1s ease-in-out;
+    color: black;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px;
+  }
+}
+
+#submit {
+  align-self: center;
+}
+
+fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px 6px;
+  border-color: black;
+  margin: 5px;
+}
+
+
+
+
+.direction-column{
+  flex-direction: column;
+}
+
+
+.tabs{
+  max-width: 850px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+input[type="radio"]+label {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 10px 10px 0 0;
+  border: 2px black solid;
+  margin-bottom: 0;
+}
+
+input[type="radio"]:checked+label {
+  background-color: antiquewhite;
+  color: black;
+  font-size: 1.1em;
+  border-bottom: 2px antiquewhite solid;
+}
+
+input[type="radio"]{
+  display: none;
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+  position: relative;
+  bottom: -1px;
+}
+
+section{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px 6px;
+  margin: 5px;
+
+  &.hidden {
+    visibility:hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+#datatable{
+  margin: 20px;
+}
+
+.table-wrapper {
+  position: relative;
+  overflow-x: auto;
+}
+
+.rdt_Table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.rdt_TableHead, .rdt_TableRow {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.rdt_TableCol, .rdt_TableCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.rdt_TableHead .rdt_TableCol:first-of-type {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+  border-right: 1px solid #c9c8c8;
+}
+
+.rdt_TableCell:first-of-type {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
+  border-right: 1px solid #c9c8c8;
+}
+
+.align-end{
+  align-self: end;
+}
+
+#explication{
+  display: flex;
+  flex-direction: column;
+  max-width: 850px;
+  justify-content: center;
+  margin:0 auto;
+}
+
+ul{
+  padding-left: 1.8em;
+}
+
+a{
+  color: black;
+}
+
+#explication{
+  margin-bottom: 40px;
+}

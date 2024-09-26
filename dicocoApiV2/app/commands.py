@@ -29,6 +29,7 @@ def fill_db():
             number_of_homographs=int(w["nbhomogr"]),
             number_of_letters=int(w["nblettres"]),
             number_of_phonemes=int(w["nbphons"]),
+            number_of_syllables=int(w['nbsyll']),
             orthographic_uniqueness_point=int(w["puorth"]),
             syllabic_orthographic_form=None if pd.isna(w["orthosyll"]) else w['orthosyll'],
             spelling_in_alphabetical_order=sort_alphabetical_order(w["ortho"]),

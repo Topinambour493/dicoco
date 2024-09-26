@@ -1,10 +1,11 @@
-from flask import jsonify, current_app
-from sqlalchemy import select, or_, and_, func, collate
+import json
+
+from flask import jsonify, request, current_app
+from sqlalchemy import select, and_, collate
 from unidecode import unidecode
 
 from .models import Word
-from .utils import sort_alphabetical_order, insert_percent_between_letters, insert_percent_before_and_after_letters, \
-    anagram_minus
+from .utils import sort_alphabetical_order, insert_percent_between_letters, insert_percent_before_and_after_letters
 
 app = current_app
 
@@ -18,94 +19,203 @@ def shutdown_session(exception=None):
     app.session.remove()
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return jsonify({"message": "Bienvenue à AlphaIndex API!"})
-
-
-@app.route('/1')
-def test1():
-    """compare avec un mot complet"""
-    stmt = select(Word).where(Word.spelling == "concombre")
+    args = request.args
+    accent_considered = json.loads(args.get("accentConsidered", "true"))
+    print(accent_considered)
+    """return filtered words"""
+    stmt = select(Word).where(and_(
+        start(args.get("startsWith", ""), accent_considered),
+        end(args.get("endsWith", ""), accent_considered),
+        include_sequence(args.get("containsFollowing", ""), accent_considered),
+        include(args.get("contains", ""), accent_considered),
+        anagram(args.get("anagram", ""), accent_considered),
+        anagram_plus(args.get("anagramPlus", ""), accent_considered),
+        start_phonology(args.get("startsWithPhonology", "")),
+        end_phonology(args.get("endsWithPhonology", "")),
+        include_phonology(args.get("containsPhonology", "")),
+        include_sequence_phonology(args.get("containsFollowingPhonology", "")),
+        anagram_phonology(args.get("anagramPhonology", "")),
+        anagram_plus_phonology(args.get("anagramPlusPhonology", "")),
+        grammatical_category(args.get("grammatical", "[]")),
+        number_of_syllables(args.get("minimumNumberSyllables", 0), args.get("maximumNumberSyllables", 10)),
+        number_of_letters(args.get("minimumNumberLetters", 0), args.get("maximumNumberLetters", 25))
+    ))
     result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
-
-@app.route('/2')
-def test2():
-    """commence et finit par"""
-    stmt = select(Word).where(and_(Word.spelling.startswith('capri'), Word.spelling.endswith('')))
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
-
-
-@app.route('/3')
-def test3():
-    """contient à la suite"""
-    stmt = select(Word).where(Word.spelling.like(insert_percent_before_and_after_letters("coco")))
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
+    if args.get("anagramMinus"):
+        result = [word for word in result if
+                  anagram_minus(word.spelling_in_alphabetical_order, args.get("anagramMinus", ""), accent_considered)]
+    if args.get("anagramMinusPhonology"):
+        result = [word for word in result if
+                  anagram_minus_phonology(word.phonology_in_alphabetical_order, args.get("anagramMinusPhonology", ""))]
+    result_dict = [word.as_dict() for word in result]
+    return jsonify({"dict": json.dumps(result_dict)})
 
 
-@app.route('/4')
-def test4():
-    """contient pas forcéménet à la suite"""
-    stmt = select(Word).where(
-        Word.spelling.like(insert_percent_before_and_after_letters(insert_percent_between_letters("coco")))
+def start(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling.startswith(string)
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').startswith(string)
+
+
+def end(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling.endswith(string)
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').endswith(string)
+
+
+def include_sequence(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling.like(insert_percent_before_and_after_letters(string))
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').like(insert_percent_before_and_after_letters(string))
+
+
+def include(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling.like(
+            insert_percent_before_and_after_letters(
+                insert_percent_between_letters(string)
+            )
+        )
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').like(
+        insert_percent_before_and_after_letters(
+            insert_percent_between_letters(string)
+        )
     )
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
 
 
-@app.route('/5')
-def test5():
-    """anagramme"""
-    stmt = select(Word).where(Word.spelling_in_alphabetical_order.like(sort_alphabetical_order("e")))
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
+def anagram(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling_in_alphabetical_order.like(sort_alphabetical_order(string))
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').like(sort_alphabetical_order(string))
 
 
-@app.route('/6')
-def test6():
-    """anagramme plus"""
-    stmt = select(Word).where(Word.spelling_in_alphabetical_order.like(
-        insert_percent_before_and_after_letters(insert_percent_between_letters(sort_alphabetical_order("requin"))))
+def anagram_plus(string: str, accent_considered: bool):
+    if string == "":
+        return True
+    string = string.lower()
+    if accent_considered:
+        return Word.spelling_in_alphabetical_order.like(
+            insert_percent_before_and_after_letters(
+                insert_percent_between_letters(
+                    sort_alphabetical_order(string)
+                )
+            )
+        )
+    return collate(Word.spelling, collation='utf8mb4_unicode_ci').like(
+        insert_percent_before_and_after_letters(
+            insert_percent_between_letters(
+                sort_alphabetical_order(string)
+            )
+        )
     )
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
 
 
-@app.route('/7')
-def test7():
-    """anagramme moins"""
-    # Exemple de motif à rechercher
-    pattern = "ai"
-
-    # Requête pour récupérer tous les mots
-    stmt = select(Word)
-    result = app.session.execute(stmt).scalars().all()
-
-    # Filtrer les mots
-    filtered_words = [word for word in result if anagram_minus(word.spelling_in_alphabetical_order, pattern)]
-
-    return jsonify({"data": filtered_words})
-
-
-@app.route('/8')
-def test8():
-    """catégorie grammaticale"""
-    array = [""]
-    if array == [""]:
-        stmt = select(Word)
+def anagram_minus(word: str, string: str, accent_considered: bool):
+    if string == "":
+        return True
+    if accent_considered:
+        pattern = list(string)
     else:
-        stmt = select(Word).where(Word.grammatical_category.in_(array))
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
+        word = list(unidecode(word))
+        pattern = list(unidecode(string))
+    if len(word) > len(pattern):
+        return False
+    for letter in word:
+        if letter in pattern:
+            pattern.remove(letter)
+        else:
+            return False
+    return True
 
-@app.route('/9')
-def test9():
-    """anagramme sans la prise en compte des accents"""
-    stmt = (select(Word).where(
-        collate(Word.spelling_in_alphabetical_order, collation='utf8mb4_unicode_ci')
-        .like(sort_alphabetical_order("e"))))
-    result = app.session.execute(stmt).scalars().all()
-    return jsonify({"data": result})
+
+def start_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology.startswith(string)
+
+
+def end_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology.endswith(string)
+
+
+def include_sequence_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology.like(insert_percent_before_and_after_letters(string))
+
+
+def include_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology.like(
+        insert_percent_before_and_after_letters(
+            insert_percent_between_letters(string)
+        )
+    )
+
+
+def anagram_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology_in_alphabetical_order.like(sort_alphabetical_order(string))
+
+
+def anagram_plus_phonology(string: str):
+    if string == "":
+        return True
+    return Word.phonology_in_alphabetical_order.like(
+        insert_percent_before_and_after_letters(
+            insert_percent_between_letters(
+                sort_alphabetical_order(string)
+            )
+        )
+    )
+
+
+def grammatical_category(array_stringify: str):
+    if array_stringify == "[]":
+        return True
+    array = json.loads(array_stringify)
+    return Word.grammatical_category.in_(array)
+
+
+def number_of_syllables(minimum: str, maximum: str):
+    return and_(int(minimum) <= Word.number_of_syllables, Word.number_of_syllables <= int(maximum))
+
+
+def number_of_letters(minimum: str, maximum: str):
+    return and_(int(minimum) <= Word.number_of_letters, Word.number_of_letters <= int(maximum))
+
+
+def anagram_minus_phonology(word: str, string: str):
+    if string == "":
+        return True
+    pattern = list(string)
+    word = list(word)
+    if len(word) > len(pattern):
+        return False
+    for letter in word:
+        if letter in pattern:
+            pattern.remove(letter)
+        else:
+            return False
+    return True

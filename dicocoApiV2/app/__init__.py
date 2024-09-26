@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import create_engine, URL
 from sqlalchemy.orm import scoped_session, sessionmaker
+from flask_cors import CORS
 
 from .config import Config
 
@@ -11,6 +12,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     migrate = Migrate(app, db)
     app.config.from_object(Config)
     engine =create_engine(Config.SQLALCHEMY_DATABASE_URI)
