@@ -13,8 +13,8 @@ function PhoneticFilter({register, errors, tab}) {
         </div>
         <div className={"form-child"}>
             <label>Finit par </label>
-            <input autoCapitalize="none" {...register('endedWithPhonology')} />
-            <p className={"message-error"}>{errors.endedWithPhonology?.message}</p>
+            <input autoCapitalize="none" {...register('endsWithPhonology')} />
+            <p className={"message-error"}>{errors.endsWithPhonology?.message}</p>
         </div>
         <div className={"form-child"}>
             <label className={"tooltip"}>Contient

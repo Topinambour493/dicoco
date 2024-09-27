@@ -14,8 +14,8 @@ function AlphabeticFilter({displays, setDisplays, register, errors, tab}) {
         </div>
         <div className={"form-child"}>
             <label>Finit par </label>
-            <input autoCapitalize="none" {...register('endedWith')} />
-            <p className={"message-error"}>{errors.endedWith?.message}</p>
+            <input autoCapitalize="none" {...register('endsWith')} />
+            <p className={"message-error"}>{errors.endsWith?.message}</p>
         </div>
         <div className={"form-child"}>
             <label className={"tooltip"}>
