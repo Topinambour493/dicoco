@@ -130,20 +130,6 @@ function Index() {
     const columns = GetColumns(displays)
 
 
-    const handleClick = () => {
-        alert('En-tête cliqué !');
-    };
-
-    const HeaderWithButton = () => (
-        <div className="header-container">
-            <span>ID</span>
-            <button className="header-button" onClick={handleClick}>
-                Action
-            </button>
-        </div>
-    );
-
-
     let index = <div className="app">
             <ExplicationIndex/>
             <TabsHeader tab={tab} setTab={setTab}/>
@@ -174,7 +160,7 @@ function Index() {
                         options={options}
                     />
                     <div className={"form-child"} id={"submit"}>
-                        <button type="submit" className="button">Send</button>
+                        <button type="submit" className="button">Filtrer</button>
                     </div>
                 </div>
 
@@ -191,6 +177,7 @@ function Index() {
                     noDataComponent={<div>Pas de données</div>}
                     useSortBy
                     responsive
+                    fixedHeader
                 >
                 </DataTable>
             </div>

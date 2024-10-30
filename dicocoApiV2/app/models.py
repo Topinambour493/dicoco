@@ -6,8 +6,8 @@ from . import db
 @dataclass
 class Word(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
-    spelling: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False)
-    phonology: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False)
+    spelling: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False, index=True)
+    phonology: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False, index=True)
     lemma: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=False)
     is_lemma: int = db.Column(db.Integer, nullable=False)
     grammatical_category: str = db.Column(db.String(25, collation='utf8mb4_bin'), nullable=True)

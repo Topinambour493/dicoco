@@ -240,7 +240,7 @@ function AnagramMaster() {
                         tab={tab}
                     />
                     <div className={"form-child"} id={"submit"}>
-                        <button type="submit" className="button">Send</button>
+                        <button type="submit" className="button">Filtrer</button>
                     </div>
                 </div>
             </form>

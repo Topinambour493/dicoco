@@ -92,7 +92,7 @@ function AnagramMaster() {
                         tab={tab}
                     />
                     <div className={"form-child"} id={"submit"}>
-                        <button type="submit" className="button">Send</button>
+                        <button type="submit" className="button">Filtrer</button>
                     </div>
                 </div>
             </form>
@@ -108,7 +108,7 @@ function AnagramMaster() {
                 useSortBy
                 defaultSortFieldId={6}
                 defaultSortAsc={false}
-
+                fixedHeader
             >
             </DataTable>
 

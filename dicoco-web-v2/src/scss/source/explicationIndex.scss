@@ -6,7 +6,10 @@
   menu {
     margin: .25em 0
   }
+}
 
-
-
+#codes-phologiques{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center
 }

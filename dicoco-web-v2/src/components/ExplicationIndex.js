@@ -5,13 +5,18 @@ function ExplicationIndex() {
     let explication = <div id={"explication"}>
         <h1>Dicoco est un site permettant la recherche et le filtrage de mots sur le dictionnaire français</h1>
         <a href={"/anagram-master"}><h2>Page spéciale anagramme</h2></a>
-        <p>Il permet nottament la recherche d'anagrammes, de mots par rapport à la phonologie ou encore par la fin des mots.</p>
+        <p>Il permet nottament la recherche d'anagrammes, de mots par rapport à la phonologie ou encore par la fin des
+            mots.</p>
         <h3>La phonologie késaco ?</h3>
         <p>
-            La phonologie est la branche de la linguistique qui étudie les sons d'une langue et leurs fonctions pour distinguer les mots.
+            La phonologie est la branche de la linguistique qui étudie les sons d'une langue et leurs fonctions pour
+            distinguer les mots.
             Elle analyse comment les sons s'organisent en systèmes et influencent le sens des mots.
         </p>
-        <img src={"codes-phonologiques.png"}/>
+        <div id={"codes-phologiques"}>
+            <div><img src={"codes-phonologiques-consonnes.png"}/></div>
+            <div><img src={"codes-phonologiques-voyelles.png"}/></div>
+        </div>
         <h3>phonologie vs phonétique</h3>
         <p>
             La <b>phonétique</b> s'intéresse aux sons eux-mêmes, et la <b>phonologie</b> à leur rôle dans la langue.

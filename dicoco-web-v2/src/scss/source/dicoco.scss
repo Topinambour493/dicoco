@@ -237,21 +237,6 @@ section{
 }
 
 
-.rdt_TableHead .rdt_TableCol:first-of-type {
-  position: sticky;
-  left: 0;
-  background-color: inherit;
-  z-index: 1;
-  border-right: 1px solid #c9c8c8;
-}
-
-.rdt_TableCell:first-of-type {
-  position: sticky;
-  left: 0;
-  background-color: inherit;
-  z-index: 1;
-  border-right: 1px solid #c9c8c8;
-}
 
 .align-end{
   align-self: end;
