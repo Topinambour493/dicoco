@@ -11,5 +11,12 @@
 #codes-phologiques{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center
+  justify-content: center;
+  padding: 5px;
+}
+
+.img-codes{
+  max-width: 420px;
+  width: 100%;
+  height: auto;
 }

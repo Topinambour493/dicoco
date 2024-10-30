@@ -14,8 +14,8 @@ function ExplicationIndex() {
             Elle analyse comment les sons s'organisent en systèmes et influencent le sens des mots.
         </p>
         <div id={"codes-phologiques"}>
-            <div><img src={"codes-phonologiques-consonnes.png"}/></div>
-            <div><img src={"codes-phonologiques-voyelles.png"}/></div>
+            <img className={"img-codes"} src={"codes-phonologiques-consonnes.png"}/>
+            <img className={"img-codes"} src={"codes-phonologiques-voyelles.png"}/>
         </div>
         <h3>phonologie vs phonétique</h3>
         <p>
