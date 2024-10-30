@@ -177,7 +177,6 @@ function Index() {
                     noDataComponent={<div>Pas de données</div>}
                     useSortBy
                     responsive
-                    fixedHeader
                 >
                 </DataTable>
             </div>

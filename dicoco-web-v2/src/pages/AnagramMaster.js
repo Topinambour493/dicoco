@@ -108,7 +108,6 @@ function AnagramMaster() {
                 useSortBy
                 defaultSortFieldId={6}
                 defaultSortAsc={false}
-                fixedHeader
             >
             </DataTable>
 
